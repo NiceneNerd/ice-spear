@@ -17,6 +17,11 @@
     color: white;
 }
 
+.window .sidebar
+{
+    overflow-y: auto;
+}
+
 .window .list-group-item
 {
     opacity: 1;
