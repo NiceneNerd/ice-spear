@@ -1,0 +1,36 @@
+.loaded
+{
+    background-color: rgb(216, 216, 216);
+    __color: black;
+}
+
+.hidden
+{
+    display: none;
+}
+
+.list-group-item:hover
+{
+    __background-color: #e8f0ff;
+
+    background-color: #116cd6;
+    color: white;
+}
+
+.window .list-group-item
+{
+    opacity: 1;
+    transition: background-color .15s ease-in-out, color .15s ease-in-out;
+}
+
+.window .list-group-item .text-light
+{
+    opacity: 0.7;
+    margin-left: 2px;
+}
+
+.hex-editor td, .hex-editor th
+{
+    padding: 2px 6px;
+    text-align: center;
+}

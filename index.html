@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BFRES Editor</title>
+
+        <link rel="stylesheet" href="css/photon.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+
+        <div class="window">
+
+        <header class="toolbar toolbar-header">
+
+          <div class="toolbar-actions">
+            <div class="btn-group">
+              <button class="btn btn-default">
+                <span class="icon icon-folder"></span>
+              </button>
+              <button class="btn btn-default active">
+                <span class="icon icon-cloud"></span>
+              </button>
+              <button class="btn btn-default">
+                <span class="icon icon-popup"></span>
+              </button>
+              <button class="btn btn-default">
+                <span class="icon icon-shuffle"></span>
+              </button>
+            </div>
+
+          </div>
+        </header>
+
+
+        <div class="window-content" id="bfres_tab_1">
+            <div class="pane-group">
+
+                <div class="pane-sm sidebar" style="max-width: 400px;">
+
+                    <h5 class="nav-group-title">BFRES - Header</h5>
+
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td class="data-header-fileName">-</td>
+                            </tr>
+                            <tr>
+                                <td>Version</td>
+                                <td class="data-header-version">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <h5 class="nav-group-title">Files</h5>
+                    <ul id="tab_tabContainer" class="list-group">
+                        <li class="list-group-header">
+                            <input class="form-control" type="text" placeholder="Search files">
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pane">
+                    <div id="tab_contentContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <footer class="toolbar toolbar-footer">
+            <h1 class="title">
+                MOVE TO CREDITS
+                <div>Icons made by <a href="https://www.flaticon.com/authors/kirill-kazachek" title="Kirill Kazachek">Kirill Kazachek</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+                <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+            </h1>
+          </footer>
+
+        </div>
+
+<script>
+
+async function readFile(filePath)
+{
+    const BFRES_Parser   = require('./bfres/parser.js');
+    const BFRES_Renderer = require('./bfres/renderer.js');
+
+    let parser = new BFRES_Parser();
+    await parser.parse(filePath);
+
+    let renderer = new BFRES_Renderer();
+    renderer.render(bfres_tab_1, parser);
+}
+
+const Tab_Manager = require('./lib/tab_manager.js');
+let tabManager = new Tab_Manager(tab_tabContainer, tab_contentContainer);
+tabManager.init();
+
+let args = require('electron').remote.process.argv
+let fileName = "M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of the Wild [ALZP0101]/content/Pack/Dungeon000/Model/DgnMrgPrt_Dungeon000.bin";
+if(args[2] != null) {
+    fileName = args[2];
+}
+
+readFile(fileName);
+
+//readFile("M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of the Wild [ALZP0101]/content/Pack/Dungeon000/Model/DgnMrgPrt_Dungeon000.bin");
+//readFile("M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of the Wild [ALZP0101]/content/Pack/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.bin");
+//readFile("M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of the Wild [ALZP0101]/content/Pack/Dungeon001/Model/DgnMrgPrt_Dungeon001.bin");
+
+
+</script>
+
+    </body>
+</html>

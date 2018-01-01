@@ -1,0 +1,11 @@
+{
+  "name": "bfres-editor",
+  "version": "0.1.0",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "1.7.10"
+  },
+  "dependencies": {
+    "binary-file": "^0.2.1"
+  }
+}
