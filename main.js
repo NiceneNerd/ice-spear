@@ -18,7 +18,11 @@ let mainWindow;
 function createWindow () {
     console.log(process.argv);
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 1024, height: 768});
+    mainWindow = new BrowserWindow({
+        //frame: false,
+        width: 1024,
+        height: 768
+    });
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
@@ -63,3 +67,8 @@ app.on('activate', function () {
 app.on('browser-window-created',function(e,window) {
   //window.setMenu(null);
 });
+
+
+
+// biggest sbfres = ~75MB
+// index_entry use size to check for filesize?

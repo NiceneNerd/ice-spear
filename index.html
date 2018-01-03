@@ -87,7 +87,7 @@ async function readFile(filePath)
     const BFRES_Renderer = require('./bfres/renderer.js');
 
     let parser = new BFRES_Parser();
-    await parser.parse(filePath);
+    parser.parse(filePath);
 
     let renderer = new BFRES_Renderer();
     renderer.render(bfres_tab_1, parser);
@@ -102,6 +102,14 @@ let fileName = "M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of th
 if(args[2] != null) {
     fileName = args[2];
 }
+
+/*
+const {dialog} = require('electron').remote;
+let path = dialog.showOpenDialog({
+    properties: ['openDirectory']
+});
+console.log(path);
+*/
 
 readFile(fileName);
 
