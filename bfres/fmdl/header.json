@@ -1,0 +1,53 @@
+{
+    "magic"   : {"type" : "string", "length": 4},
+
+    "fileNameOffset" : {"type" : "s32", "addValue": "@offset"},
+    "filePathOffset" : {"type" : "s32", "addValue": "@offset"},
+
+    "fsklOffset"     : {"type" : "s32", "addValue": "@offset"},
+    "fvtxOffset"     : {"type" : "s32", "addValue": "@offset"},
+    "fshpOffset"     : {"type" : "s32", "addValue": "@offset"},
+    "fmatOffset"     : {"type" : "s32", "addValue": "@offset"},
+    "userDataOffset" : {"type" : "s32", "addValue": "@offset"},
+
+    "fvtxCount"     : {"type" : "u16"},
+    "fshpCount"     : {"type" : "u16"},
+    "fmatCount"     : {"type" : "u16"},
+    "userDataCount" : {"type" : "u16"},
+
+    "vertexCount"     : {"type" : "u32"},
+    "userPointer"     : {"type" : "u32", "addValue": "@offset"},
+
+    "fileNameLength" : {"type": "s32",    "offset": "fileNameOffset", "addOffset": -4},
+    "fileName"       : {"type": "string", "offset": "fileNameOffset", "length": "fileNameLength"},
+
+    "filePathLength" : {"type": "s32",    "offset": "filePathOffset", "addOffset": -4},
+    "filePath"       : {"type": "string", "offset": "filePathOffset", "length": "filePathLength"},
+
+    "fvtxData": { "type": "structure", "setOffset": "fvtxOffset", "_count": "fvtxCount", "count": 2,
+        "structure": {
+            "magic" : {"type" : "string", "length": 4},
+            "attributeCount"  : {"type": "u8"},
+            "bufferCount"     : {"type": "u8"},
+            "sectionIndex"    : {"type": "u16"},
+            "vertexCount"     : {"type": "u32"},
+            "vertexSkinCount" : {"type": "u8"},
+            "__PADDING__" : {"type": "u8", "count": 3},
+
+            "attributeArrayOffset"      : {"type": "s32", "addValue": "@offset"},
+            "attributeIndexGroupOffset" : {"type": "s32", "addValue": "@offset"},
+            "bufferOffset"              : {"type": "s32", "addValue": "@offset"},
+            "userPointer"               : {"type": "u32"},
+
+            "attributes": { "type": "structure", "setOffset": "attributeArrayOffset", "count": 1,
+                "structure": {
+                    "nameOffset"   : {"type" : "s32", "addValue": "@offset"},
+                    "bufferIndex"  : {"type" : "u8"},
+                    "__PADDING__"  : {"type" : "u8"},
+                    "bufferOffset" : {"type" : "u16", "a": "?? relative ??"},
+                    "format"       : {"type" : "u32"}
+                }
+            }
+        }
+    }
+}

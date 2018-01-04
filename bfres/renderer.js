@@ -10,40 +10,46 @@ const BFRES_FileTypes = require("./file_types.js");
 
 module.exports = class BFRES_Renderer
 {
-    render(tabNode, bfresFile)
+    render(tabNode, bfresParser)
     {
         this.reset(tabNode);
 
-        tabNode.querySelector(".data-header-fileName").innerHTML = bfresFile.header.fileName;
-        tabNode.querySelector(".data-header-version").innerHTML = bfresFile.header.version.join(".");
+        tabNode.querySelector(".data-header-fileName").innerHTML = bfresParser.header.fileName;
+        tabNode.querySelector(".data-header-version").innerHTML = bfresParser.header.version.join(".");
 
         let listGroup = tabNode.querySelector("#tab_tabContainer");
         let listEntryHtml = new HTML_Loader('./html/bfres_file_tab.html')
         let typeCounter = new Uint32Array(12);
 
-        for(let entry of bfresFile.files)
+        for(let type in bfresParser.files)
         {
-            let entryNode = listEntryHtml.create();
-            let localId = entry.type + "_" + typeCounter[entry.type];
-
-            entryNode.children[0].onclick = function()
+            for(let entry of bfresParser.files[type].entries)
             {
-                tabManager.open(this, entry.type, localId, entry);
-            };
+                if(entry.namePointer == 0)
+                    continue;
 
-            entryNode.querySelector(".data-fileEntry-type").innerHTML = BFRES_FileTypes.info[entry.type].name;
-            entryNode.querySelector(".data-fileType-num").innerHTML = " #" + typeCounter[entry.type];
-            entryNode.querySelector(".data-fileEntry-description").innerHTML = BFRES_FileTypes.info[entry.type].description;
+                let entryNode = listEntryHtml.create();
+                let localId = type + "_" + typeCounter[type];
 
-            try{
-                let imgFilePath = "./assets/img/icons/bfres/filetype_" + entry.type + ".png";
-                fs.accessSync(imgFilePath);
-                entryNode.querySelector("img").src = imgFilePath;
-            } catch(e){
+                entryNode.children[0].onclick = function()
+                {
+                    tabManager.open(this, type, localId, bfresParser.parser, entry);
+                };
+
+                entryNode.querySelector(".data-fileEntry-type").innerHTML = BFRES_FileTypes.info[type].name;
+                entryNode.querySelector(".data-fileType-num").innerHTML = " #" + typeCounter[type];
+                entryNode.querySelector(".data-fileEntry-description").innerHTML = BFRES_FileTypes.info[type].description;
+
+                try{
+                    let imgFilePath = "./assets/img/icons/bfres/filetype_" + type + ".png";
+                    fs.accessSync(imgFilePath);
+                    entryNode.querySelector("img").src = imgFilePath;
+                } catch(e){
+                }
+
+                ++typeCounter[type];
+                listGroup.append(entryNode);
             }
-
-            ++typeCounter[entry.type];
-            listGroup.append(entryNode);
         }
     }
 
