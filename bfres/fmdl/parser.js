@@ -11,6 +11,7 @@ module.exports = class FMDL_Parser
         this.parser = bfresFileParser;
         this.header = null;
         this.primitypeTypes = require("./primitive_types.json");
+        this.indexFormat    = require("./index_format.json");
 
         this.models = {};
     }
@@ -51,22 +52,31 @@ module.exports = class FMDL_Parser
                     if(fshpData.lodModel.length > 0)
                     {
                         let lodModel = fshpData.lodModel[0];
-                        let indexCount = lodModel.indexBuffer.buffer.length / 2;
+
+                        // get index type info
+                        let format = this.indexFormat[lodModel.indexFormat];
+                        format.size = this.parser.file.types[format.type].size;
+
+                        let indexCount = lodModel.indexBuffer.buffer.length / format.size;
                         let indexIndex = 0;
-                        let indexArray = new Uint16Array(indexCount);
+                        let indexArray = format.size == 2 ? (new Uint16Array(indexCount)) : (new Uint32Array(indexCount));
 
                         let primitypeInfo = this.primitypeTypes[lodModel.primitypeType];
                         let bufferReader  = new Binary_File(lodModel.indexBuffer.buffer);
-                        bufferReader.setEndian(this.parser.file.endian);
+
+                        bufferReader.setEndian(format.endian);
 
                         for(let i=0; i<indexCount; ++i)
-                            indexArray[i] = bufferReader.read("u16");
+                            indexArray[i] = bufferReader.read(format.type);
+
+                        //let modelNumber = fshpData.fvtxIndex;
+                        let modelNumber = fshpData.sectionIndex;
 
                         // add to model data
-                        if(this.models[fshpData.sectionIndex] == null) {
-                            this.models[fshpData.sectionIndex] = {};
+                        if(this.models[modelNumber] == null) {
+                            this.models[modelNumber] = {};
                         }
-                        this.models[fshpData.sectionIndex].indexArray = indexArray;
+                        this.models[modelNumber].indexArray = indexArray;
 
                     }
                 }
@@ -98,6 +108,8 @@ module.exports = class FMDL_Parser
                             {
                                 for(let i=0; i<3; ++i)
                                     vertexArray[vertexIndex++] = this.parser.file.read("float32");
+
+                                this.parser.file.read("float32");
 
                             }else if(attr.format == 2063) // float_16_16_16_16
                             {
