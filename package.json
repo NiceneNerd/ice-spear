@@ -5,5 +5,8 @@
   "devDependencies": {
     "electron": "1.7.10"
   },
-  "dependencies": {}
+  "dependencies": {
+    "three": "^0.89.0",
+    "three-orbit-controls": "^82.1.0"
+  }
 }

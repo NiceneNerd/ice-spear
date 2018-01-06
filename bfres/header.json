@@ -13,7 +13,7 @@
 
     "fileOffsets" : {"type": "s32", "count": 12, "addValue": "@offset" },
     "fileCounts"  : {"type": "u16", "count": 12},
-    "userPointer" : {"type" : "u32"},
+    "userPointer" : {"type" : "u32", "defult": 0},
 
     "fileNameLength" : {"type": "s32", "offset": "fileNameOffset", "addOffset": -4},
     "fileName"       : {"type": "string", "offset": "fileNameOffset", "length": "fileNameLength"}
