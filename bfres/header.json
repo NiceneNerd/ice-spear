@@ -1,5 +1,5 @@
 {
-    "magic"   : {"type" : "string", "length": 4},
+    "magic"   : {"type" : "string", "length": 4, "checkValue": "FRES"},
     "version" : {"type" : "u8", "count" : 4},
     "bom"     : {"type" : "bom"},
 

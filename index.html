@@ -87,10 +87,11 @@ async function readFile(filePath)
     const BFRES_Renderer = require('./bfres/renderer.js');
 
     let parser = new BFRES_Parser();
-    parser.parse(filePath);
-
-    let renderer = new BFRES_Renderer();
-    renderer.render(bfres_tab_1, parser);
+    if(parser.parse(filePath))
+    {
+        let renderer = new BFRES_Renderer();
+        renderer.render(bfres_tab_1, parser);
+    }
 }
 
 const Tab_Manager = require('./lib/tab_manager.js');

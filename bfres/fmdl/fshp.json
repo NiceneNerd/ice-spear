@@ -1,5 +1,5 @@
 {
-    "magic" : {"type" : "string", "length": 4},
+    "magic" : {"type" : "string", "length": 4, "checkValue": "FSHP"},
     "polyNameOffset" : {"type" : "s32", "addValue": "@offset"},
     "flags" : {"type" : "u32"},
 

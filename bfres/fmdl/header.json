@@ -1,5 +1,5 @@
 {
-    "magic"   : {"type" : "string", "length": 4},
+    "magic"   : {"type" : "string", "length": 4, "checkValue": "FMDL"},
 
     "fileNameOffset" : {"type" : "s32", "addValue": "@offset"},
     "filePathOffset" : {"type" : "s32", "addValue": "@offset"},
@@ -74,13 +74,7 @@
             "entryNum": {"type": "s32", "addValue": 1},
 
             "entries": { "type": "structure", "count": "entryNum",
-                "structure": {
-                    "searchValue": {"type": "u32"},
-            		"leftIndex"  : {"type": "u16"},
-            		"rightIndex" : {"type": "u16"},
-            		"namePointer": {"type": "s32"},
-            		"dataPointer": {"type": "s32", "addValue": "@offset"}
-                }
+                "structure": "./bfres/index_entry.json"
             }
         }
     }

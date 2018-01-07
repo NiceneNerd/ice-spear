@@ -3,6 +3,7 @@
 */
 
 const Binary_File_Parser = require.main.require('./lib/binary_file/structure_parser.js');
+const BFRES_FileTypes    = require.main.require('./bfres/file_types.js');
 
 module.exports = class BFRES_Parser
 {
@@ -23,6 +24,22 @@ module.exports = class BFRES_Parser
 
             this.parser.pos(tablePos);
             this.files[type] = this.parser.parse(require("./index_entries.json"));
+
+            let test = 0;
+            for(let entry of this.files[type].entries)
+            {
+                let fileInfo = BFRES_FileTypes.info[type];
+                entry.type = type;
+
+                if(fileInfo.preload === true && entry.namePointer != 0)
+                {
+                    const Parser_Class = require.main.require(fileInfo.parser);
+                    let parser = new Parser_Class(this, entry);
+                    parser.parse();
+
+                    if(++test > 2)return;
+                }
+            }
         }
 
         return true;
@@ -37,7 +54,10 @@ module.exports = class BFRES_Parser
             this.parseFileTable();
 
         } catch (err) {
-            console.log(`BFRES::parse Exception: ${err}`);
+            console.warn(`BFRES::parse Exception: ${err}`);
+            return false;
         }
+
+        return true;
     }
 };

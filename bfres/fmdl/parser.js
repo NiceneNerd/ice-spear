@@ -27,9 +27,11 @@ module.exports = class FMDL_Parser
             this.parsePolyShape();
 
         } catch (err) {
-            console.error(`FMDL::parse Exception:`);
-            console.log(err);
+            console.warn(`FMDL::parse Exception: ${err}`);
+            return false;
         }
+
+        return true;
     }
 
     parseHeader()
@@ -104,12 +106,12 @@ module.exports = class FMDL_Parser
                     {
                         case "_p0":
 
-                            if(attr.format == 2065) // float_32_32_32
+                            if(attr.format == 2065) // "float_32_32_32" or "float_32_32_32_32"?
                             {
                                 for(let i=0; i<3; ++i)
                                     vertexArray[vertexIndex++] = this.parser.file.read("float32");
 
-                                this.parser.file.read("float32");
+                                this.parser.file.read("float32"); // NOTE: this should be here according to the docs, maybe nin changed the format?
 
                             }else if(attr.format == 2063) // float_16_16_16_16
                             {
