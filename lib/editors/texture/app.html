@@ -1,4 +1,13 @@
-<div class="window texture-editor">
+<div class="window app-texture-editor">
+    <style>
+        .app-texture-editor canvas
+        {
+            border: solid 1px black;
+            width : 100%;
+            __height: 100%;
+        }
+    </style>
+
     <header class="toolbar toolbar-header">
         <h1 class="title">Texture Editor</h1>
     </header>
@@ -19,11 +28,33 @@
                             <td>Path</td>
                             <td class="data-header-filePath">-</td>
                         </tr>
+                        <tr>
+                            <td>Width</td>
+                            <td class="data-header-sizeX">-</td>
+                        </tr>
+                        <tr>
+                            <td>Height</td>
+                            <td class="data-header-sizeY">-</td>
+                        </tr>
+                        <tr>
+                            <td>Depth</td>
+                            <td class="data-header-sizeZ">-</td>
+                        </tr>
+                        <tr>
+                            <td>Mipmaps</td>
+                            <td class="data-header-mipmapCount">-</td>
+                        </tr>
+                        <tr>
+                            <td>Format</td>
+                            <td class="data-header-textureFormat">-</td>
+                        </tr>
                     </tbody>
                 </table>
 
             </div>
-            <div class="pane canvasWindow"></div>
+            <div class="pane canvasWindow">
+                <canvas>Oops... you shouldn't see that message</canvas>
+            </div>
         </div>
     </div>
 

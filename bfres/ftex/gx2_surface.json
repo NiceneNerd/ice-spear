@@ -8,7 +8,7 @@
     "sampleNum"     : {"type": "u32"},
     "usage"         : {"type": "u32"},
     "dataSize"      : {"type": "u32"},
-    "dataOffset"    : {"type": "u32", "addValue": "@offset"},
+    "dataOffset"    : {"type": "u32"},
 
     "mipmapSize"    : {"type": "u32"},
     "mipmapOffset"  : {"type": "u32", "addValue": "@offset"},

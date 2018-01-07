@@ -2,7 +2,7 @@
 * @author Max Bebök
 *
 * special thanks to:
-* http://mk8.tockdom.com/wiki/BFRES_(File_Format)
+* @see http://mk8.tockdom.com/wiki/BFRES_(File_Format)
 */
 module.exports = new (class BFRES_FileTypes
 {
@@ -33,7 +33,7 @@ module.exports = new (class BFRES_FileTypes
            name       : "FTEX",
            description: "Texture data",
            editor     : "texture",
-           preload    : true,
+           __preload    : true,
            parser     : "./bfres/ftex/parser.js"
         };
         this.info[this.types.FSKA]= {
