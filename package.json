@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "main": "main.js",
   "devDependencies": {
-    "electron": "1.7.10"
+    "electron": "1.7.10",
+    "electron-rebuild": "^1.6.0"
   },
   "dependencies": {
     "three": "^0.89.0",

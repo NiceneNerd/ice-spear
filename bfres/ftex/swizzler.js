@@ -136,8 +136,9 @@ module.exports = class FTEX_Swizzler
                 }else if(tileMode == 2 || tileMode == 3){
                     pos = this.AddrLib_computeSurfaceAddrFromCoordMicroTiled(x, y, bpp, pitch, tileMode);
                 }else{
-                    console.warn("Oh Oh....!");
-                    pos = computeSurfaceAddrFromCoordMacroTiled(x, y, bpp, pitch, height2, tileMode,pipeSwizzle, bankSwizzle);
+            
+                    pos = this.AddrLib_computeSurfaceAddrFromCoordMacroTiled(x, y, bpp, pitch, height2, tileMode,pipeSwizzle, bankSwizzle);
+                          //this.AddrLib_computeSurfaceAddrFromCoordMacroTiled(x, y, bpp, pitch, height, tileMode, pipeSwizzle,bankSwizzle);
                 }
 
                 let bpp2 = bpp;
