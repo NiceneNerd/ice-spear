@@ -53,65 +53,6 @@ module.exports = class FTEX_Swizzler
         );
     }
 
-    swizzle(width, height, format_, tileMode, swizzle_, pitch, data, toGFD=false)
-    {
-        let result = new Uint8Array(data.length);
-
-        if(this.BCn_formats.includes(format_))
-        {
-            width  = Math.floor((width + 3) / 4);
-            height = Math.floor((height + 3)  / 4);
-        }
-
-        for(let y=0; y<height; ++y)
-        {
-            for(let x=0; x<width; ++x)
-            {
-                let bpp = this.surfaceGetBitsPerPixel(format_);
-
-                let pipeSwizzle = (swizzle_ >> 8) & 1;
-                let bankSwizzle = (swizzle_ >> 9) & 3;
-                let pos;
-
-                if(tileMode == 0 || tileMode == 1)
-                    pos = this.AddrLib_computeSurfaceAddrFromCoordLinear(x, y, bpp, pitch);
-                else if(tileMode == 2 || tileMode == 3)
-                    pos = this.AddrLib_computeSurfaceAddrFromCoordMicroTiled(x, y, bpp, pitch, tileMode);
-                else
-                    pos = this.AddrLib_computeSurfaceAddrFromCoordMacroTiled(x, y, bpp, pitch, height, tileMode, pipeSwizzle,bankSwizzle);
-
-                bpp = Math.floor(bpp / 8);
-
-                let pos_ = (y * width + x) * bpp;
-
-                if(toGFD)
-                {
-                    if((pos < data.length) && (pos_ < data.length))
-                    {
-                        let p_ = pos_;
-                        for(let p=pos; p<pos+bpp; ++p)
-                        {
-                            result[p] = data[p_++];
-                        }
-                    }
-                        //result[pos:pos + bpp] = data[pos_:pos_ + bpp];
-                }else{
-                    if((pos_ < data.length) && (pos < data.length))
-                    {
-                        let p = pos;
-                        for(let p_=pos_; p_<pos_+bpp; ++p_)
-                        {
-                            result[p_] = data[p++];
-                        }
-                    }
-                        //result[pos_:pos_ + bpp] = data[pos:pos + bpp];
-                }
-            }
-        }
-
-        return result; /// result_
-    }
-
     deswizzle(width, height, height2, format_, tileMode, swizzle_, pitch, bpp, data)
     {
         let result = new Uint8Array(data.length);
@@ -136,7 +77,7 @@ module.exports = class FTEX_Swizzler
                 }else if(tileMode == 2 || tileMode == 3){
                     pos = this.AddrLib_computeSurfaceAddrFromCoordMicroTiled(x, y, bpp, pitch, tileMode);
                 }else{
-            
+
                     pos = this.AddrLib_computeSurfaceAddrFromCoordMacroTiled(x, y, bpp, pitch, height2, tileMode,pipeSwizzle, bankSwizzle);
                           //this.AddrLib_computeSurfaceAddrFromCoordMacroTiled(x, y, bpp, pitch, height, tileMode, pipeSwizzle,bankSwizzle);
                 }

@@ -81,7 +81,7 @@
 
 <script>
 
-async function readFile(filePath)
+function readFile(filePath)
 {
     const BFRES_Parser   = require('./bfres/parser.js');
     const BFRES_Renderer = require('./bfres/renderer.js');
@@ -99,7 +99,7 @@ let tabManager = new Tab_Manager(tab_tabContainer, tab_contentContainer);
 tabManager.init();
 
 let args = require('electron').remote.process.argv
-let fileName = "M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of the Wild [ALZP0101]/content/Pack/Dungeon000/Model/DgnMrgPrt_Dungeon000.bin";
+let fileName = "M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of the Wild [ALZP0101]/content/Pack/Dungeon001/Model/DgnMrgPrt_Dungeon001.bin";
 if(args[2] != null) {
     fileName = args[2];
 }
