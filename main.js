@@ -1,22 +1,24 @@
 /**
+* BFRES - Editor
 * @author Max Bebök
+* 2018
 */
 
 const electron = require('electron');
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
+const path     = require('path');
+const url      = require('url');
 
-const path = require('path');
-const url = require('url');
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-function createWindow () {
+function createWindow ()
+{
     console.log(process.argv);
+
     // Create the browser window.
     mainWindow = new BrowserWindow({
         //frame: false,
@@ -67,8 +69,3 @@ app.on('activate', function () {
 app.on('browser-window-created',function(e,window) {
   //window.setMenu(null);
 });
-
-
-
-// biggest sbfres = ~75MB
-// index_entry use size to check for filesize?

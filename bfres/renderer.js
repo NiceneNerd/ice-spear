@@ -10,14 +10,19 @@ const BFRES_FileTypes = require("./file_types.js");
 
 module.exports = class BFRES_Renderer
 {
-    render(tabNode, bfresParser)
+    constructor(tabNode)
     {
-        this.reset(tabNode);
+        this.tabNode = tabNode;
+    }
 
-        tabNode.querySelector(".data-header-fileName").innerHTML = bfresParser.header.fileName;
-        tabNode.querySelector(".data-header-version").innerHTML = bfresParser.header.version.join(".");
+    render(bfresParser)
+    {
+        this.clear();
 
-        let listGroup = tabNode.querySelector("#tab_tabContainer");
+        this.tabNode.querySelector(".data-header-fileName").innerHTML = bfresParser.header.fileName;
+        this.tabNode.querySelector(".data-header-version").innerHTML = bfresParser.header.version.join(".");
+
+        let listGroup = this.tabNode.querySelector("#tab_tabContainer_bfres");
         let listEntryHtml = new HTML_Loader('./html/bfres_file_tab.html')
         let typeCounter = new Uint32Array(12);
 
@@ -33,7 +38,7 @@ module.exports = class BFRES_Renderer
 
                 entryNode.children[0].onclick = function()
                 {
-                    tabManager.open(this, type, localId, bfresParser.parser, entry);
+                    app.tabManager.open(this, type, localId, bfresParser.parser, entry);
                 };
 
                 entryNode.querySelector(".data-fileEntry-type").innerHTML = BFRES_FileTypes.info[type].name;
@@ -53,14 +58,9 @@ module.exports = class BFRES_Renderer
         }
     }
 
-    reset(tabNode)
+    clear()
     {
-        tabNode.querySelector(".data-header-fileName").innerHTML = "?";
-        tabNode.querySelector(".data-header-version").innerHTML = "?";
-
-        let listGroup = tabNode.querySelector(".list-group");
-        let listItems = tab_tabContainer.querySelectorAll(".list-group-item");
-        for(let item of listItems)
-            listGroup.removeChild(item);
+        this.tabNode.querySelector(".data-header-fileName").innerHTML = "-";
+        this.tabNode.querySelector(".data-header-version" ).innerHTML = "-";
     }
 };
