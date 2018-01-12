@@ -20,7 +20,7 @@ module.exports = class FTEX_Parser
 
     parse()
     {
-        try{
+        //try{
             this.parser.pos(this.entry.dataPointer);
             this.header = this.parser.parse(require("./header.json"));
 
@@ -37,10 +37,10 @@ module.exports = class FTEX_Parser
 
             this.header.surface.imageBuffer = colorBuffer;
 
-        } catch (err) {
+        /*} catch (err) {
             console.warn(`FTEX::parse Exception: ${err}`);
             return false;
-        }
+        }*/
 
         return true;
     }

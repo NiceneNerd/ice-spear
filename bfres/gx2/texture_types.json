@@ -107,8 +107,8 @@
    },
    "49": {
          "name": "GX2_SURFACE_FORMAT_T_BC1_UNORM",
-         "bpp": 0,
-         "bpBlock": 0,
+         "bpp": 4,
+         "bpBlock": 64,
          "signed": false,
          "handler": "bc1"
    },
@@ -380,8 +380,8 @@
    },
    "1073": {
          "name": "GX2_SURFACE_FORMAT_T_BC1_SRGB",
-         "bpp": 0,
-         "bpBlock": 0,
+         "bpp": 4,
+         "bpBlock": 64,
          "signed": true,
          "handler": "bc1"
    },
