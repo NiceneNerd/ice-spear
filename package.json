@@ -2,6 +2,9 @@
   "name": "bfres-editor",
   "version": "0.1.0",
   "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
   "devDependencies": {
     "electron": "1.7.10",
     "electron-rebuild": "^1.6.0"
