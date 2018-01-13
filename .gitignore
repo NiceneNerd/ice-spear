@@ -1,1 +1,6 @@
+# Installed node packages
 node_modules/
+
+# Intellij project settings
+.idea/
+*.iml
