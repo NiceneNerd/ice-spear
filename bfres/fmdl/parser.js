@@ -26,6 +26,9 @@ module.exports = class FMDL_Parser
             this.parseVertexData();
             this.parsePolyShape();
 
+            console.log(this.models);
+            console.log(this.header);
+
         } catch (err) {
             console.warn(`FMDL::parse Exception: ${err}`);
             return false;
@@ -93,7 +96,9 @@ module.exports = class FMDL_Parser
         for(let fvtxData of this.header.fvtxData)
         {
             let vertexArray = new Float32Array(fvtxData.vertexCount * 3);
+            let colorArray  = new Uint8Array(fvtxData.vertexCount * 4);
             let vertexIndex = 0;
+            let colorIndex  = 0;
 
             for(let attr of fvtxData.attributes)
             {
@@ -123,8 +128,15 @@ module.exports = class FMDL_Parser
                                 console.log("FMDL.parseVertexData: unknown attribute format: " + attr.format);
                             }
 
-                        break;
+                            colorArray[colorIndex++] = 10;
+                            colorArray[colorIndex++] = 0;
+                            colorArray[colorIndex++] = 0;
+                            colorArray[colorIndex++] = 1;
 
+                        break;
+                        case "_u0":
+                            //console.log(attr);
+                        break;
                         default:
                         break;
                     }
@@ -136,6 +148,7 @@ module.exports = class FMDL_Parser
                 this.models[fvtxData.sectionIndex] = {};
             }
             this.models[fvtxData.sectionIndex].vertexArray = vertexArray;
+            this.models[fvtxData.sectionIndex].colorArray  = colorArray;
         }
     }
 };

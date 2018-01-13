@@ -1,0 +1,5 @@
+{
+    "magic" : {"type" : "string", "length": 4, "checkValue": "Yaz0"},
+    "size"  : {"type" : "u32"},
+    "flags" : {"type" : "u8", "count": 8}
+}

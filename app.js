@@ -2,6 +2,7 @@
 * @author Max Bebök
 */
 
+const Binary_File_Loader = require('./lib/binary_file/file_loader.js');
 const BFRES_Parser   = require('./bfres/parser.js');
 const BFRES_Renderer = require('./bfres/renderer.js');
 const Tab_Manager    = require('./lib/tab_manager.js');
@@ -11,8 +12,10 @@ module.exports = class App
 {
     constructor(args)
     {
-        this.args = args;
+        this.args       = args;
         this.tabManager = null;
+        this.filePath   = "";
+        this.fileLoader = new Binary_File_Loader();
 
         this.clear();
     }
@@ -52,9 +55,12 @@ module.exports = class App
 
         this.clear();
 
+        let buffer = this.fileLoader.buffer(filePath);
+
         this.bfresParser = new BFRES_Parser();
-        if(this.bfresParser.parse(filePath))
+        if(this.bfresParser.parse(buffer))
         {
+            this.filePath = filePath;
             this.bfresRenderer = new BFRES_Renderer(bfres_tab_1);
             this.bfresRenderer.render(this.bfresParser);
             return true;
@@ -68,16 +74,18 @@ module.exports = class App
         this.tabManager = new Tab_Manager(tab_tabContainer_bfres, tab_contentContainer_bfres);
         this.tabManager.init();
 
-        //let fileName = "M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of the Wild [ALZP0101]/content/Pack/Dungeon001/Model/DgnMrgPrt_Dungeon001.bin";
-        let fileName = "/home/max/Documents/TEST/Dungeon001/Model/DgnMrgPrt_Dungeon001.bin";
-
+        let filePath = "";
         if(this.args[2] != null) {
-            //fileName = args[2];
+            //filePath = args[2];
         }
 
-        //fileName = "/home/max/Documents/TEST/Dungeon001/Model/DgnMrgPrt_Dungeon001.bin";
-        fileName = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A.Tex1.bin.bfres"
-        //fileName = "/home/max/Documents/TEST/Obj_TreeGhost_A.Tex1.bin";
+        filePath = "/home/max/Documents/TEST/Dungeon001/Model/DgnMrgPrt_Dungeon001.bin";
+        //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A.Tex1.bin.bfres";
+        //filePath = "/home/max/Documents/TEST/Obj_TreeGhost_A.Tex1.bin";
+
+        filePath = "/home/max/Documents/TEST/compressed/Animal_Cow.sbfres";
+
+        this.openFile(filePath);
 
     }
 };
