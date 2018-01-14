@@ -5,8 +5,7 @@
       "typeOut": "float32",
       "count": 1,
       "min": 0,
-      "max": 1,
-      "description": "Represents one u8 that is converted to one float. "
+      "max": 1
    },
    "4": {
       "name": "unorm_8_8 ",
@@ -14,8 +13,7 @@
       "typeOut": "float32",
       "count": 2,
       "min": 0,
-      "max": 1,
-      "description": "Represents two u8 that is converted to two floats. "
+      "max": 1
    },
    "7": {
       "name": "unorm_16_16 ",
@@ -23,8 +21,7 @@
       "typeOut": "float32",
       "count": 2,
       "min": 0,
-      "max": 1,
-      "description": "Represents two u16 that is converted to two floats. "
+      "max": 1
    },
    "10": {
       "name": "unorm_8_8_8_8 ",
@@ -32,8 +29,7 @@
       "typeOut": "float32",
       "count": 4,
       "min": 0,
-      "max": 1,
-      "description": "Represents four u8 that is converted to four floats. "
+      "max": 1
    },
    "256": {
       "name": "uint_8 ",
@@ -41,8 +37,7 @@
       "typeOut": "u32",
       "count": 1,
       "min": 0,
-      "max": 255,
-      "description": "Represents one u8 that is converted to one u32. "
+      "max": 255
    },
    "260": {
       "name": "uint_8_8 ",
@@ -50,8 +45,7 @@
       "typeOut": "u32",
       "count": 2,
       "min": 0,
-      "max": 255,
-      "description": "Represents two u8 that is converted to two u32. "
+      "max": 255
    },
    "266": {
       "name": "uint_8_8_8_8 ",
@@ -59,8 +53,7 @@
       "typeOut": "u32",
       "count": 4,
       "min": 0,
-      "max": 255,
-      "description": "Represents four u8 that is converted to four u32. "
+      "max": 255
    },
    "512": {
       "name": "snorm_8 ",
@@ -68,8 +61,7 @@
       "typeOut": "float32",
       "count": 1,
       "min": -1,
-      "max": 1,
-      "description": "Represents one s8 that is converted to one float. "
+      "max": 1
    },
    "516": {
       "name": "snorm_8_8 ",
@@ -77,8 +69,7 @@
       "typeOut": "float32",
       "count": 2,
       "min": -1,
-      "max": 1,
-      "description": "Represents two s8 that is converted to two floats. "
+      "max": 1
    },
    "519": {
       "name": "snorm_16_16 ",
@@ -86,8 +77,7 @@
       "typeOut": "float32",
       "count": 2,
       "min": -1,
-      "max": 1,
-      "description": "Represents two s16 that is converted to two floats. "
+      "max": 1
    },
    "522": {
       "name": "snorm_8_8_8_8 ",
@@ -95,8 +85,7 @@
       "typeOut": "float32",
       "count": 4,
       "min": -1,
-      "max": 1,
-      "description": "Represents four s8 that is converted to four floats. "
+      "max": 1
    },
    "523": {
       "name": "snorm_10_10_10_2 ",
@@ -104,8 +93,7 @@
       "typeOut": "float32",
       "count": 3,
       "min": -1,
-      "max": 1,
-      "description": "Represents three s10 that is converted to three floats. The top two bits are always 0b01. "
+      "max": 1
    },
    "768": {
       "name": "sint_8 ",
@@ -113,8 +101,7 @@
       "typeOut": "s8",
       "count": 1,
       "min": null,
-      "max": null,
-      "description": "Represents one s8. "
+      "max": null
    },
    "772": {
       "name": "sint_8_8 ",
@@ -122,8 +109,7 @@
       "typeOut": "s8",
       "count": 2,
       "min": null,
-      "max": null,
-      "description": "Represents two s8. "
+      "max": null
    },
    "778": {
       "name": "sint_8_8_8_8 ",
@@ -131,53 +117,50 @@
       "typeOut": "s8",
       "count": 4,
       "min": null,
-      "max": null,
-      "description": "Represents four s8. "
+      "max": null
    },
    "2054": {
-      "name": "float_32 ",
+      "name": "float_32",
       "typeIn": "foat32",
       "typeOut": "float32",
       "count": 1,
       "min": null,
-      "max": null,
-      "description": "Represents one 32 bit floating point number. "
+      "max": null
    },
    "2056": {
-      "name": "float_16_16 ",
+      "name": "float_16_16",
       "typeIn": "float16",
       "typeOut": "float32",
       "count": 2,
       "min": null,
       "max": null,
-      "description": "Represents two 16 bit floating point numbers that is converted to two floats. "
+      "comment": "20 bytes long??"
    },
    "2061": {
-      "name": "float_32_32 ",
-      "typeIn": "float16",
+      "name": "uint_32_32",
+      "typeIn": "u32",
       "typeOut": "float32",
       "count": 2,
       "min": null,
       "max": null,
-      "description": "Represents two 32 bit floating point numbers. "
+      "comment": "wiki says this is float_32_32"
    },
    "2063": {
-      "name": "float_16_16_16_16 ",
+      "name": "float_16_16_16_16",
       "typeIn": "float16",
       "typeOut": "float32",
       "count": 4,
       "min": null,
-      "max": null,
-      "description": "Represents four 16 bit floating point numbers that is converted to four floats. "
+      "max": null
    },
    "2065": {
-      "name": "float_32_32_32",
+      "name": "float_32_32_32_32",
       "typeIn": "float32",
       "typeOut": "float32",
-      "count": 3,
+      "count": 4,
       "min": null,
       "max": null,
-      "description": "Represents three 32 bit floating point numbers"
+      "comment": "wiki says this is float_32_32_32"
    },
    "2067": {
       "name": "float_32_32_32_32",
@@ -185,7 +168,6 @@
       "typeOut": "float32",
       "count": 4,
       "min": null,
-      "max": null,
-      "description": "Represents four 32 bit floating point numbers. "
+      "max": null
    }
 }

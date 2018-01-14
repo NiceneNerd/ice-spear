@@ -11,11 +11,21 @@
    },
    "_t0": {
       "name": "tangent0",
-      "bufferName": "tangent",
+      "bufferName": null,
+      "size": 0
+   },
+   "_t1": {
+      "name": "tangent1",
+      "bufferName": null,
       "size": 0
    },
    "_b0": {
       "name": "binormal0",
+      "bufferName": null,
+      "size": 0
+   },
+   "_b1": {
+      "name": "binormal1",
       "bufferName": null,
       "size": 0
    },
@@ -32,22 +42,22 @@
    "_u0": {
       "name": "uv0",
       "bufferName": "uv0",
-      "size": 3
+      "size": 2
    },
    "_u1": {
       "name": "uv1",
       "bufferName": "uv1",
-      "size": 3
+      "size": 2
    },
    "_u2": {
       "name": "uv2",
       "bufferName": "uv2",
-      "size": 3
+      "size": 2
    },
    "_u3": {
       "name": "uv3",
       "bufferName": "uv3",
-      "size": 3
+      "size": 2
    },
    "_c0": {
       "name": "color0",

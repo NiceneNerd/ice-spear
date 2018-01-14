@@ -77,6 +77,17 @@
                 "structure": "./bfres/index_entry.json"
             }
         }
+    },
+
+    "fmatIndex": { "type": "structure", "setOffset": "fmatOffset", "count": 1, "comment": "fshp & fmat point to the same table, but on diff. offsets",
+        "structure": {
+            "length" : {"type": "u32"},
+            "entryNum": {"type": "s32", "addValue": 1},
+
+            "entries": { "type": "structure", "count": "entryNum",
+                "structure": "./bfres/index_entry.json"
+            }
+        }
     }
 
 }

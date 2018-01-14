@@ -57,6 +57,9 @@ module.exports = class App
 
         let buffer = this.fileLoader.buffer(filePath);
 
+        const fs = require("fs");
+        fs.writeFileSync(filePath + ".unpacked", buffer);
+
         this.bfresParser = new BFRES_Parser();
         if(this.bfresParser.parse(buffer))
         {
@@ -80,10 +83,11 @@ module.exports = class App
         }
 
         //filePath = "/home/max/Documents/TEST/Dungeon001/Model/DgnMrgPrt_Dungeon001.bin";
-        filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A.Tex1.bin.bfres";
+        //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A-00.bin";
+        //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A.Tex1.bin.bfres";
         //filePath = "/home/max/Documents/TEST/Obj_TreeGhost_A.Tex1.bin";
 
-        //filePath = "/home/max/Documents/TEST/compressed/Animal_Cow.sbfres";
+        filePath = "/home/max/Documents/TEST/compressed/Animal_Cow.sbfres";
 
         this.openFile(filePath);
 

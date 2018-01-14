@@ -16,12 +16,26 @@ module.exports = class FMDL_Parser
         this.indexTypes     = require("./index_types.json");
 
         this.models = {};
+        this.materials = [];
     }
 
     convertType(val, typeIn, typeOut)
     {
         if(typeIn == typeOut)
             return val;
+
+        if(typeOut == "float32")
+        {
+            switch(typeIn)
+            {
+                case "u8":
+                    return val / (0xFF);
+                case "u16":
+                    return val / (0xFFFF);
+                case "u32":
+                    return val / (0xFFFFFFFF);
+            }
+        }
 
         return val;
     }
@@ -31,16 +45,18 @@ module.exports = class FMDL_Parser
         try{
             this.parseHeader();
 
-            this.models = {};
+            this.models    = {};
+            this.materials = [];
 
             this.parseVertexData();
             this.parsePolyShape();
+            this.parseMaterials();
 
             console.log(this.models);
             console.log(this.header);
 
         } catch (err) {
-            console.warn(`FMDL::parse Exception: ${err}`);
+            console.warn(`FMDL::parse Exception: ${err} @ ${err.stack}`);
             return false;
         }
 
@@ -50,6 +66,29 @@ module.exports = class FMDL_Parser
     parseHeader()
     {
         this.header = this.parser.parse(require("./header.json"));
+    }
+
+    // @TODO extra parser for shape and material
+    // @TODO create model entries first
+
+    parseMaterials()
+    {
+        for(let index of this.header.fmatIndex)
+        {
+            for(let entry of index.entries)
+            {
+                if(entry.namePointer == 0)
+                    continue;
+
+                console.log(entry);
+                this.parser.pos(entry.dataPointer);
+                let fmatData = this.parser.parse(require("./fmat.json"));
+                console.log(fmatData);
+                console.log(fmatData.name);
+
+                this.materials.push(fmatData);
+            }
+        }
     }
 
     parsePolyShape()
@@ -110,11 +149,22 @@ module.exports = class FMDL_Parser
                 let bufferHeader = fvtxData.buffer[attr.bufferIndex];
                 this.parser.pos(bufferHeader.dataOffset + attr.bufferOffset);
 
+                let numElements = bufferHeader.size / bufferHeader.stride;
+
                 let formatInfo = this.bufferFormat[attr.format];
                 if(formatInfo == null)
-                    throw `FMDL: unknown buffer format: ${attr.format}`;
+                {
+                    console.warn(`FMDL: unknown buffer format: ${attr.format}`);
+                    continue;
+                }
 
                 let bufferType = this.bufferTypes[attr.name];
+
+                if(bufferType == null)
+                {
+                    console.warn(`FMDL: unknown buffer type: ${attr.name}`);
+                    continue;
+                }
 
                 if(bufferType.bufferName == null)
                     continue;
@@ -130,8 +180,10 @@ module.exports = class FMDL_Parser
                 model[nameIndex] = 0;
                 model[nameArray] = new Float32Array(fvtxData.vertexCount * bufferType.size);
 
-                for(let vertexNum=0; vertexNum<fvtxData.vertexCount; ++vertexNum)
+                for(let elementNum=0; elementNum<numElements; ++elementNum)
                 {
+                    let sizeRead = this.parser.file.pos();
+
                     for(let i=0; i<formatInfo.count; ++i)
                     {
                         let rawVal = this.parser.file.read(formatInfo.typeIn);
@@ -139,6 +191,10 @@ module.exports = class FMDL_Parser
                         if(i < bufferType.size)
                             model[nameArray][model[nameIndex]++] = this.convertType(rawVal, formatInfo.typeIn, formatInfo.typeOut);
                     }
+
+                    // read padding
+                    sizeRead = this.parser.file.pos() - sizeRead;
+                    this.parser.pos(this.parser.file.pos() + bufferHeader.stride - sizeRead);
                 }
             }
         }
