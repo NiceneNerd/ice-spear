@@ -10,6 +10,7 @@
     "electron-rebuild": "^1.6.0"
   },
   "dependencies": {
+    "lodepng": "^1.1.0",
     "three": "^0.89.0",
     "three-orbit-controls": "^82.1.0"
   }

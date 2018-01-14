@@ -115,7 +115,7 @@ module.exports = class FMDL_Parser
                     throw `FMDL: unknown buffer format: ${attr.format}`;
 
                 let bufferType = this.bufferTypes[attr.name];
-                
+
                 if(bufferType.bufferName == null)
                     continue;
 
