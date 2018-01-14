@@ -1,23 +1,62 @@
 {
-    "0"   : {"name": "unorm_8"},
-    "4"   : {"name": "unorm_8_8"},
-    "7"   : {"name": "unorm_16_16"},
-    "10"  : {"name": "unorm_8_8_8_8"},
-    "256" : {"name": "uint_8"},
-    "260" : {"name": "uint_8_8"},
-    "266" : {"name": "uint_8_8_8_8"},
-    "512" : {"name": "snorm_8"},
-    "516" : {"name": "snorm_8_8"},
-    "519" : {"name": "snorm_16_16"},
-    "522" : {"name": "snorm_8_8_8_8"},
-    "523" : {"name": "snorm_10_10_10_2"},
-    "768" : {"name": "sint_8"},
-    "772" : {"name": "sint_8_8"},
-    "778" : {"name": "sint_8_8_8_8"},
-    "2054": {"name": "float_32"},
-    "2056": {"name": "float_16_16"},
-    "2061": {"name": "float_32_32"},
-    "2063": {"name": "float_16_16_16_16"},
-    "2065": {"name": "float_32_32_32"},
-    "2067": {"name": "float_32_32_32_32"}
+   "_p0": {
+      "name": "position0",
+      "bufferName": "vertex",
+      "size": 3
+   },
+   "_n0": {
+      "name": "normal0",
+      "bufferName": "normal",
+      "size": 3
+   },
+   "_t0": {
+      "name": "tangent0",
+      "bufferName": "tangent",
+      "size": 0
+   },
+   "_b0": {
+      "name": "binormal0",
+      "bufferName": null,
+      "size": 0
+   },
+   "_w0": {
+      "name": "blendweight0",
+      "bufferName": null,
+      "size": 0
+   },
+   "_i0": {
+      "name": "blendindex0",
+      "bufferName": null,
+      "size": 0
+   },
+   "_u0": {
+      "name": "uv0",
+      "bufferName": "uv0",
+      "size": 3
+   },
+   "_u1": {
+      "name": "uv1",
+      "bufferName": "uv1",
+      "size": 3
+   },
+   "_u2": {
+      "name": "uv2",
+      "bufferName": "uv2",
+      "size": 3
+   },
+   "_u3": {
+      "name": "uv3",
+      "bufferName": "uv3",
+      "size": 3
+   },
+   "_c0": {
+      "name": "color0",
+      "bufferName": "color0",
+      "size": 3
+   },
+   "_c1": {
+      "name": "color1",
+      "bufferName": "color1",
+      "size": 3
+   }
 }

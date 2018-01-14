@@ -11,9 +11,19 @@ module.exports = class FMDL_Parser
         this.parser = bfresFileParser;
         this.header = null;
         this.primitypeTypes = require("./primitive_types.json");
-        this.indexFormat    = require("./index_format.json");
+        this.bufferTypes    = require("./buffer_types.json");
+        this.bufferFormat   = require("./buffer_format.json");
+        this.indexTypes     = require("./index_types.json");
 
         this.models = {};
+    }
+
+    convertType(val, typeIn, typeOut)
+    {
+        if(typeIn == typeOut)
+            return val;
+
+        return val;
     }
 
     parse()
@@ -59,7 +69,7 @@ module.exports = class FMDL_Parser
                         let lodModel = fshpData.lodModel[0];
 
                         // get index type info
-                        let format = this.indexFormat[lodModel.indexFormat];
+                        let format = this.indexTypes[lodModel.indexFormat];
                         format.size = this.parser.file.types[format.type].size;
 
                         let indexCount = lodModel.indexBuffer.buffer.length / format.size;
@@ -95,60 +105,42 @@ module.exports = class FMDL_Parser
     {
         for(let fvtxData of this.header.fvtxData)
         {
-            let vertexArray = new Float32Array(fvtxData.vertexCount * 3);
-            let colorArray  = new Uint8Array(fvtxData.vertexCount * 4);
-            let vertexIndex = 0;
-            let colorIndex  = 0;
-
             for(let attr of fvtxData.attributes)
             {
                 let bufferHeader = fvtxData.buffer[attr.bufferIndex];
                 this.parser.pos(bufferHeader.dataOffset + attr.bufferOffset);
 
+                let formatInfo = this.bufferFormat[attr.format];
+                if(formatInfo == null)
+                    throw `FMDL: unknown buffer format: ${attr.format}`;
+
+                let bufferType = this.bufferTypes[attr.name];
+                
+                if(bufferType.bufferName == null)
+                    continue;
+
+                let nameArray  = bufferType.bufferName + "Array";
+                let nameIndex  = bufferType.bufferName + "Index";
+
+                if(this.models[fvtxData.sectionIndex] == null) {
+                    this.models[fvtxData.sectionIndex] = {};
+                }
+
+                let model = this.models[fvtxData.sectionIndex];
+                model[nameIndex] = 0;
+                model[nameArray] = new Float32Array(fvtxData.vertexCount * bufferType.size);
+
                 for(let vertexNum=0; vertexNum<fvtxData.vertexCount; ++vertexNum)
                 {
-                    switch(attr.name)
+                    for(let i=0; i<formatInfo.count; ++i)
                     {
-                        case "_p0":
+                        let rawVal = this.parser.file.read(formatInfo.typeIn);
 
-                            if(attr.format == 2065) // "float_32_32_32" or "float_32_32_32_32"?
-                            {
-                                for(let i=0; i<3; ++i)
-                                    vertexArray[vertexIndex++] = this.parser.file.read("float32");
-
-                                this.parser.file.read("float32"); // NOTE: this should be here according to the docs, maybe nin changed the format?
-
-                            }else if(attr.format == 2063) // float_16_16_16_16
-                            {
-                                for(let i=0; i<3; ++i)
-                                    vertexArray[vertexIndex++] = this.parser.file.read("float16");
-
-                                this.parser.file.read("float16"); // unused W coordinate, always 1.0
-                            }else{
-                                console.log("FMDL.parseVertexData: unknown attribute format: " + attr.format);
-                            }
-
-                            colorArray[colorIndex++] = 10;
-                            colorArray[colorIndex++] = 0;
-                            colorArray[colorIndex++] = 0;
-                            colorArray[colorIndex++] = 1;
-
-                        break;
-                        case "_u0":
-                            //console.log(attr);
-                        break;
-                        default:
-                        break;
+                        if(i < bufferType.size)
+                            model[nameArray][model[nameIndex]++] = this.convertType(rawVal, formatInfo.typeIn, formatInfo.typeOut);
                     }
                 }
             }
-
-            // add to model data
-            if(this.models[fvtxData.sectionIndex] == null) {
-                this.models[fvtxData.sectionIndex] = {};
-            }
-            this.models[fvtxData.sectionIndex].vertexArray = vertexArray;
-            this.models[fvtxData.sectionIndex].colorArray  = colorArray;
         }
     }
 };
