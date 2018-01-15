@@ -116,6 +116,9 @@ module.exports = class App
 
     run()
     {
+        //let yaz0 = require("yaz0-js");
+        //console.log(yaz0);
+
         this.tabManager = new Tab_Manager(tab_tabContainer_bfres, tab_contentContainer_bfres);
         this.tabManager.init();
 

@@ -1,6 +1,9 @@
 # Installed node packages
 node_modules/
 
+# C/C++ build directories
+build/
+
 # Intellij project settings
 .idea/
 *.iml
