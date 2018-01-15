@@ -31,9 +31,9 @@ module.exports = class GX2_BC1
         for(let c=0; c<2; ++c)
         {
             colors[c] = [
-                ((colorRaw[c]      ) & 0b11111)  * (255.0 / 0b11111),  // R (5-bits)
-                ((colorRaw[c] >>  5) & 0b111111) * (255.0 / 0b111111), // G (6-bits)
                 ((colorRaw[c] >> 11) & 0b11111)  * (255.0 / 0b11111),  // B (5-bits)
+                ((colorRaw[c] >>  5) & 0b111111) * (255.0 / 0b111111), // G (6-bits)
+                ((colorRaw[c]      ) & 0b11111)  * (255.0 / 0b11111),  // R (5-bits)
                 255.0
             ];
         }
