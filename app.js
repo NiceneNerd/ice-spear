@@ -59,7 +59,13 @@ module.exports = class App
         fileParts[fileParts.length-1] =  `Tex${num}.` + fileParts[fileParts.length-1];
         let texPath = fileParts.join(".");
 
-        if (fs.existsSync(texPath)) {
+        // prevent loading texture if a texture file is already opened
+        if(fileParts.length > 2 && fileParts[fileParts.length-2].substr(0, 3) == "Tex")
+        {
+            return false;
+        }
+
+        if (this.filePath != texPath && fs.existsSync(texPath)) {
             this.openTextureFile(texPath);
             return true;
         }
@@ -118,12 +124,12 @@ module.exports = class App
             //filePath = args[2];
         }
 
-        //filePath = "/home/max/Documents/TEST/Dungeon001/Model/DgnMrgPrt_Dungeon001.bin";
+        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon001/Model/DgnMrgPrt_Dungeon001.sbfres";
         //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A-00.bin";
         //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A.Tex1.bin.bfres";
         //filePath = "/home/max/Documents/TEST/Obj_TreeGhost_A.Tex1.bin";
 
-        filePath = "/home/max/Documents/TEST/compressed/Animal_Cow.sbfres";
+        //filePath = "/home/max/Documents/TEST/compressed/Animal_Cow.sbfres";
 
         this.openFile(filePath);
 

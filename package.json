@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "postinstall": "electron-rebuild"
   },
   "devDependencies": {
     "electron": "1.7.10",

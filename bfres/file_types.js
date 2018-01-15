@@ -33,7 +33,7 @@ module.exports = new (class BFRES_FileTypes
            name       : "FTEX",
            description: "Texture data",
            editor     : "texture",
-           preload    : true,
+           preload    : false,
            parser     : "./bfres/ftex/parser.js"
         };
         this.info[this.types.FSKA]= {
