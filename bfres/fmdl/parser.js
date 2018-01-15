@@ -52,9 +52,6 @@ module.exports = class FMDL_Parser
             this.parsePolyShape();
             this.parseMaterials();
 
-            console.log(this.models);
-            console.log(this.header);
-
         } catch (err) {
             console.warn(`FMDL::parse Exception: ${err} @ ${err.stack}`);
             return false;
@@ -80,11 +77,24 @@ module.exports = class FMDL_Parser
                 if(entry.namePointer == 0)
                     continue;
 
-                console.log(entry);
                 this.parser.pos(entry.dataPointer);
                 let fmatData = this.parser.parse(require("./fmat.json"));
-                console.log(fmatData);
-                console.log(fmatData.name);
+                let modelNumber = fmatData.sectionIndex;
+
+                for(let texRef of fmatData.textureRef)
+                {
+                    if(texRef.headerOffset == 0)
+                        texRef.texture = app.bfresTexParser.getTextureByName(texRef.name);
+                    else
+                        console.error("FMAT: model has own texture!");
+
+                    switch(texRef.name.substr(-3))
+                    {
+                        case "Alb":
+                            this.models[modelNumber].textureColor = texRef.texture.surface;
+                        break;
+                    }
+                }
 
                 this.materials.push(fmatData);
             }

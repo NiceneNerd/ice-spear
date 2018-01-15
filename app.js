@@ -6,7 +6,9 @@ const Binary_File_Loader = require('./lib/binary_file/file_loader.js');
 const BFRES_Parser   = require('./bfres/parser.js');
 const BFRES_Renderer = require('./bfres/renderer.js');
 const Tab_Manager    = require('./lib/tab_manager.js');
-const {dialog}       = require('electron').remote;
+
+const {dialog} = require('electron').remote;
+const fs       = require('fs');
 
 module.exports = class App
 {
@@ -16,6 +18,8 @@ module.exports = class App
         this.tabManager = null;
         this.filePath   = "";
         this.fileLoader = new Binary_File_Loader();
+
+        this.footerNode = footer.querySelector(".data-fileName");
 
         this.clear();
     }
@@ -28,8 +32,9 @@ module.exports = class App
         if(this.tabManager != null)
             this.tabManager.clear();
 
-        this.bfresParser = null;
-        this.bfresRenderer = null;
+        this.bfresParser    = null;
+        this.bfresTexParser = null;
+        this.bfresRenderer  = null;
     }
 
     openFileDialog()
@@ -45,6 +50,34 @@ module.exports = class App
         return "";
     }
 
+    scanTextureFile(num = 1)
+    {
+        if(num > 3)
+            return false;
+
+        let fileParts = this.filePath.split(".");
+        fileParts[fileParts.length-1] =  `Tex${num}.` + fileParts[fileParts.length-1];
+        let texPath = fileParts.join(".");
+
+        if (fs.existsSync(texPath)) {
+            this.openTextureFile(texPath);
+            return true;
+        }
+
+        return this.scanTextureFile(num + 1);
+    }
+
+    openTextureFile(texPath)
+    {
+        console.log("Tex-File: " + texPath);
+
+        let buffer = this.fileLoader.buffer(texPath);
+        this.bfresTexParser = new BFRES_Parser(true);
+        if(this.bfresTexParser.parse(buffer))
+        {
+        }
+    }
+
     openFile(filePath)
     {
         if(filePath == "" || filePath == null)
@@ -57,13 +90,16 @@ module.exports = class App
 
         let buffer = this.fileLoader.buffer(filePath);
 
-        const fs = require("fs");
-        fs.writeFileSync(filePath + ".unpacked", buffer);
+        //fs.writeFileSync(filePath + ".unpacked", buffer); // @TODO move un-packer to extra function / also in UI
 
         this.bfresParser = new BFRES_Parser();
         if(this.bfresParser.parse(buffer))
         {
             this.filePath = filePath;
+            this.footerNode.innerHTML = "File loaded: " + this.filePath;
+
+            this.scanTextureFile();
+
             this.bfresRenderer = new BFRES_Renderer(bfres_tab_1);
             this.bfresRenderer.render(this.bfresParser);
             return true;

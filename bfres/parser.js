@@ -7,11 +7,31 @@ const BFRES_FileTypes    = require.main.require('./bfres/file_types.js');
 
 module.exports = class BFRES_Parser
 {
-    constructor()
+    constructor(autoLoad = false)
     {
         this.parser = null;
         this.header = null;
         this.files  = {};
+        this.autoLoad = !!autoLoad;
+    }
+
+    getTextureByName(name)
+    {
+        let ftexFiles = this.files[BFRES_FileTypes.types.FTEX];
+        if(ftexFiles)
+        {
+            for(let entry of ftexFiles.entries)
+            {
+                if(entry.parser != null)
+                {
+                    if(entry.parser.header.fileName == name)
+                    {
+                        return entry.parser.header;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     parseFileTable()
@@ -31,13 +51,11 @@ module.exports = class BFRES_Parser
                 let fileInfo = BFRES_FileTypes.info[type];
                 entry.type = type;
 
-                if(fileInfo.preload === true && entry.namePointer != 0)
+                if(this.autoLoad && fileInfo.preload === true && entry.namePointer != 0)
                 {
                     const Parser_Class = require.main.require(fileInfo.parser);
-                    let parser = new Parser_Class(this, entry);
-                    parser.parse();
-
-                    if(++test > 2)return;
+                    entry.parser = new Parser_Class(this.parser, entry);
+                    entry.parser.parse();
                 }
             }
         }
