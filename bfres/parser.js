@@ -5,6 +5,8 @@
 const Binary_File_Parser = require.main.require('./lib/binary_file/structure_parser.js');
 const BFRES_FileTypes    = require.main.require('./bfres/file_types.js');
 
+const Content_Types = require("./content_types.json");
+
 module.exports = class BFRES_Parser
 {
     constructor(autoLoad = false)
@@ -12,7 +14,9 @@ module.exports = class BFRES_Parser
         this.parser = null;
         this.header = null;
         this.files  = {};
-        this.autoLoad = !!autoLoad;
+
+        this.contentType = Content_Types.MODEL;
+        this.autoLoad    = (autoLoad === true);
     }
 
     getTextureByName(name)
@@ -34,6 +38,15 @@ module.exports = class BFRES_Parser
         return null;
     }
 
+    getFileParser(type, index)
+    {
+        if(this.files[type] != null && this.files[type].entries[index] != null && this.files[type].entries[index].parser != null)
+        {
+            return this.files[type].entries[index].parser;
+        }
+        return null;
+    }
+
     parseFileTable()
     {
         for(let type=0; type<this.header.fileOffsets.length; ++type)
@@ -45,22 +58,41 @@ module.exports = class BFRES_Parser
             this.parser.pos(tablePos);
             this.files[type] = this.parser.parse(require("./index_entries.json"));
 
-            let test = 0;
+            let i=0;
             for(let entry of this.files[type].entries)
             {
                 let fileInfo = BFRES_FileTypes.info[type];
                 entry.type = type;
+                entry.fileIndex = i;
 
                 if(this.autoLoad && fileInfo.preload === true && entry.namePointer != 0)
                 {
                     const Parser_Class = require.main.require(fileInfo.parser);
-                    entry.parser = new Parser_Class(this.parser, entry);
+                    entry.parser = new Parser_Class(this.parser, entry, this.contentType);
                     entry.parser.parse();
                 }
+
+                ++i;
             }
         }
 
         return true;
+    }
+
+    /**
+     * BFRES may contain models, textures or texture-mipmaps
+     * depending on what is the content, certain parser may behave differently
+     * @author Max Bebök
+     */
+    detectContentType()
+    {
+        let name = this.header.fileName;
+        this.contentType = Content_Types.MODEL;
+
+        if(name.endsWith("Tex1"))
+            this.contentType = Content_Types.TEXTURE;
+        else if(name.endsWith("Tex2"))
+            this.contentType = Content_Types.MIPMAP;
     }
 
     parse(filePath)
@@ -69,7 +101,9 @@ module.exports = class BFRES_Parser
             this.parser = new Binary_File_Parser(filePath);
             this.header = this.parser.parse(require("./header.json"));
 
+            this.detectContentType();
             this.parseFileTable();
+
 
         } catch (err) {
             console.warn(`BFRES::parse Exception: ${err}`);

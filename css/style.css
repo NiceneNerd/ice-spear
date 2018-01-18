@@ -17,8 +17,14 @@
     color: white;
 }
 
+.window td, .window th
+{
+    user-select: initial;
+}
+
 .window .sidebar
 {
+    overflow-x: auto;
     overflow-y: auto;
 }
 

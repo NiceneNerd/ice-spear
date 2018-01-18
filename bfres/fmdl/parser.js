@@ -79,7 +79,9 @@ module.exports = class FMDL_Parser
 
                 this.parser.pos(entry.dataPointer);
                 let fmatData = this.parser.parse(require("./fmat.json"));
-                let modelNumber = fmatData.sectionIndex;
+                let model = this.models[fmatData.sectionIndex];
+
+                model.name = fmatData.name;
 
                 for(let texRef of fmatData.textureRef)
                 {
@@ -94,7 +96,13 @@ module.exports = class FMDL_Parser
                     switch(texRef.name.substr(-3))
                     {
                         case "Alb":
-                            this.models[modelNumber].textureColor = texRef.texture.surface;
+                            model.textureColor = texRef.texture.surface;
+                        break;
+                        case "Emm":
+                            model.textureEmission = texRef.texture.surface;
+                        break;
+                        case "Nrm":
+                            model.textureNormal = texRef.texture.surface;
                         break;
                     }
                 }
@@ -119,6 +127,7 @@ module.exports = class FMDL_Parser
                     if(fshpData.lodModel.length > 0)
                     {
                         let lodModel = fshpData.lodModel[0];
+                        let modelNumber = fshpData.sectionIndex;
 
                         // get index type info
                         let format = this.indexTypes[lodModel.indexFormat];
@@ -135,9 +144,6 @@ module.exports = class FMDL_Parser
 
                         for(let i=0; i<indexCount; ++i)
                             indexArray[i] = bufferReader.read(format.type);
-
-                        //let modelNumber = fshpData.fvtxIndex;
-                        let modelNumber = fshpData.sectionIndex;
 
                         // add to model data
                         if(this.models[modelNumber] == null) {
@@ -208,6 +214,16 @@ module.exports = class FMDL_Parser
                     // read padding
                     sizeRead = this.parser.file.pos() - sizeRead;
                     this.parser.pos(this.parser.file.pos() + bufferHeader.stride - sizeRead);
+                }
+
+                if(bufferType.bufferName == "uv0")
+                {
+                    if(fvtxData.sectionIndex == 3 || fvtxData.sectionIndex == 9){ // 3=wrong, 9=working
+                        console.warn("INDEX: %d", fvtxData.sectionIndex);
+                        console.log(bufferType.bufferName);
+                        console.log(model[nameArray]);
+                        console.log(attr);
+                    }
                 }
             }
         }

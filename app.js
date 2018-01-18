@@ -98,7 +98,7 @@ module.exports = class App
 
         //fs.writeFileSync(filePath + ".unpacked", buffer); // @TODO move un-packer to extra function / also in UI
 
-        this.bfresParser = new BFRES_Parser();
+        this.bfresParser = new BFRES_Parser(true);
         if(this.bfresParser.parse(buffer))
         {
             this.filePath = filePath;
@@ -116,9 +116,6 @@ module.exports = class App
 
     run()
     {
-        //let yaz0 = require("yaz0-js");
-        //console.log(yaz0);
-
         this.tabManager = new Tab_Manager(tab_tabContainer_bfres, tab_contentContainer_bfres);
         this.tabManager.init();
 
@@ -127,7 +124,9 @@ module.exports = class App
             //filePath = args[2];
         }
 
-        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon001/Model/DgnMrgPrt_Dungeon001.sbfres";
+        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
+        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.sbfres";
+
         //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A-00.bin";
         //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A.Tex1.bin.bfres";
         //filePath = "/home/max/Documents/TEST/Obj_TreeGhost_A.Tex1.bin";

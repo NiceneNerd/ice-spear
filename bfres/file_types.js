@@ -84,7 +84,9 @@ module.exports = new (class BFRES_FileTypes
         this.info[this.types.EMBEDDED]= {
            name       : "EMBEDDED",
            description: "Embedded file",
-           editor     : "hex"
+           editor     : "hex",
+           preload    : true,
+            parser     : "./bfres/embeded/parser.js"
         };
     }
 });

@@ -38,7 +38,7 @@ module.exports = class BFRES_Renderer
 
                 entryNode.children[0].onclick = function()
                 {
-                    app.tabManager.open(this, type, localId, bfresParser.parser, entry);
+                    app.tabManager.open(this, type, localId, bfresParser, entry);
                 };
 
                 entryNode.querySelector(".data-fileEntry-type").innerHTML = BFRES_FileTypes.info[type].name;

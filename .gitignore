@@ -1,5 +1,6 @@
 # Installed node packages
 node_modules/
+/db/
 
 # C/C++ build directories
 build/

@@ -63,13 +63,13 @@ module.exports = class FTEX_Swizzler
             height = Math.floor((height + 3)  / 4);
         }
 
+        let pipeSwizzle = (swizzle_ >> 8) & 1;
+        let bankSwizzle = (swizzle_ >> 9) & 3;
+
         for(let y=0; y<height; ++y)
         {
             for(let x=0; x<width; ++x)
             {
-                let pipeSwizzle = (swizzle_ >> 8) & 1;
-                let bankSwizzle = (swizzle_ >> 9) & 3;
-
                 let pos;
                 if(tileMode == 0 || tileMode == 1)
                 {

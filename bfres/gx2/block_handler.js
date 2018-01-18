@@ -48,6 +48,9 @@ module.exports = class GX2_Block_Handler
             for(let x=0; x<this.numBlocks[0]; ++x)
             {
                 let bufferOffset = (y * this.size[0] / this.bytesPerPixel) + (x * this.bytesPerBlock);
+
+                //if(x == this.numBlocks[1] - 1)console.log(bufferOffset);
+
                 let blockColor = this.blockHandler.decode(this.buffer.slice(bufferOffset, bufferOffset + this.bytesPerBlock), [x,y], this.size);
 
                 this.insertBlock(output, blockColor, [x,y]);

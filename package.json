@@ -13,6 +13,7 @@
   "dependencies": {
     "lodepng": "^1.1.0",
     "three": "^0.89.0",
+    "three": "tstanev/three.js#webgl2",
     "three-orbit-controls": "^82.1.0",
     "yaz0-js": "file:./local_node_modules/yaz0"
   }

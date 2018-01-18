@@ -138,7 +138,7 @@
    },
    "2061": {
       "name": "uint_32_32",
-      "typeIn": "u32",
+      "typeIn": "float32",
       "typeOut": "float32",
       "count": 2,
       "min": null,
