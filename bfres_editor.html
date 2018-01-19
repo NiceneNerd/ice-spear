@@ -4,6 +4,7 @@
         <title>BFRES Editor</title>
 
         <link rel="stylesheet" href="css/photon.min.css">
+        <link rel="stylesheet" href="css/split.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
@@ -35,7 +36,7 @@
         <div class="window-content" id="bfres_tab_1">
             <div class="pane-group">
 
-                <div class="pane-sm sidebar" style="max-width: 400px;">
+                <div class="pane-sm sidebar" id="main-sidebar-left" style="max-width: 250px;">
 
                     <h5 class="nav-group-title">BFRES - Header</h5>
 
@@ -61,7 +62,7 @@
                     </ul>
                 </div>
 
-                <div class="pane">
+                <div class="pane" id="main-sidebar-right">
                     <div id="tab_contentContainer_bfres">
                     </div>
                 </div>
@@ -84,7 +85,7 @@
         <script>
             let args = require('electron').remote.process.argv;
 
-            const App = require("./app.js");
+            const App = require("./bfres_editor.js");
             var app = new App(args);
             app.run();
         </script>

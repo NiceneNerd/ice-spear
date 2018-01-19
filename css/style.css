@@ -26,6 +26,7 @@
 {
     overflow-x: auto;
     overflow-y: auto;
+    min-width: 0;
 }
 
 .window .list-group-item

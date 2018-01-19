@@ -9,6 +9,7 @@ const Tab_Manager    = require('./lib/tab_manager.js');
 
 const {dialog} = require('electron').remote;
 const fs       = require('fs');
+const Split    = require('split.js');
 
 module.exports = class App
 {
@@ -20,6 +21,13 @@ module.exports = class App
         this.fileLoader = new Binary_File_Loader();
 
         this.footerNode = footer.querySelector(".data-fileName");
+
+        Split(['#main-sidebar-left', '#main-sidebar-right'], {
+            sizes     : [50, 50],
+            minSize   : 0,
+            snapOffset: 60,
+            gutterSize: 12
+        });
 
         this.clear();
     }
