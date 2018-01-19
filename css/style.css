@@ -1,25 +1,11 @@
-.loaded
-{
-    background-color: rgb(216, 216, 216);
-    __color: black;
-}
-
 .hidden
 {
     display: none;
 }
 
-.list-group-item:hover
-{
-    __background-color: #e8f0ff;
-
-    background-color: #116cd6;
-    color: white;
-}
-
 .window td, .window th
 {
-    user-select: initial;
+    __user-select: initial;
 }
 
 .window .sidebar

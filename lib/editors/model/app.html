@@ -6,13 +6,6 @@
             height: 100%;
         }
 
-        .app-model-editor table .active
-        {
-            __font-weight: bold;
-            background-color: rgba(127, 226, 126, 0.28);
-            __background: linear-gradient(to bottom, #ecfce3 0%,#b2ed9e 100%);
-        }
-
         .app-model-editor .canvasWindow
         {
             padding: 0;
@@ -26,7 +19,7 @@
 
     <div class="window-content">
         <div class="pane-group">
-            <div class="pane-sm sidebar sidebar-1" style="max-width: none;">
+            <div class="pane-sm sidebar sidebar-1" style="max-width: none; width: 100px;">
 
                 <h5 class="nav-group-title">FMDL - Header</h5>
 
@@ -122,8 +115,23 @@
                 </ul>
 
             </div>
+
             <div class="pane canvasWindow sidebar-2">
                 <canvas>Oops... soething went wrong!</canvas>
+            </div>
+
+            <div class="pane-sm sidebar sidebar-3 pane-render-settings" style="max-width: none;">
+
+                <h5 class="nav-group-title">Render Settings</h5>
+
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Test</td>
+                            <td class="data-header-fileName">Test</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
