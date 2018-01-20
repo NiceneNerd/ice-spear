@@ -1,9 +1,12 @@
 /**
+* @copyright 2018 - Max Bebök
 * @author Max Bebök
+* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 *
 * special thanks to:
 * @see http://mk8.tockdom.com/wiki/BFRES_(File_Format)
 */
+
 module.exports = new (class BFRES_FileTypes
 {
     constructor()

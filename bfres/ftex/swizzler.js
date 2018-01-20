@@ -1,5 +1,7 @@
 /**
+* @copyright 2018 - Max Bebök
 * @author Max Bebök
+* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 *
 * convertet from python script:
 * @see http://mk8.tockdom.com/wiki/GTX#Swizzling

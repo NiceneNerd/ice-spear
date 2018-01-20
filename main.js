@@ -1,7 +1,7 @@
 /**
-* BFRES - Editor
+* @copyright 2018 - Max Bebök
 * @author Max Bebök
-* 2018
+* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
 const electron = require('electron');

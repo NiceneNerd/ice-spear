@@ -1,7 +1,8 @@
 /**
+* @copyright 2018 - Max Bebök
 * @author Max Bebök
+* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
-
 const BFRES_FileTypes = require.main.require('./bfres/file_types.js');
 
 module.exports = class GX2_Block_Handler
