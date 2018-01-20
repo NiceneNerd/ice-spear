@@ -23,7 +23,8 @@ function createWindow()
     mainWindow = new BrowserWindow({
         //frame: false,
         width: 1024,
-        height: 768
+        height: 768,
+        icon: "./assets/icons/icon_64.png"
     });
 
     mainWindow.name = "main-window";
