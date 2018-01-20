@@ -9,6 +9,8 @@ module.exports = class GX2_Block_Handler
 {
     constructor(buffer, size, format)
     {
+        this.OUT_COLOR_CHANNELS = 4;
+
         this.buffer = buffer;
         this.size   = size;
         this.format = format;
@@ -43,7 +45,7 @@ module.exports = class GX2_Block_Handler
 
     decode()
     {
-        let output = new Buffer.allocUnsafe(this.size[0] * this.size[1] * 4);
+        let output = new Buffer.allocUnsafe(this.size[0] * this.size[1] * this.OUT_COLOR_CHANNELS);
         for(let y=0; y<this.numBlocks[1]; ++y)
         {
             for(let x=0; x<this.numBlocks[0]; ++x)

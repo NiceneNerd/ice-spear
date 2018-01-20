@@ -140,8 +140,10 @@ module.exports = class App
         }
 
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.sbfres";
-        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/unpacked/Animal_Cow.sbfres";
+        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.sbfres";
+        //
+        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/unpacked/Animal_Cow.sbfres";
+        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/unpacked/Animal_Cow.Tex1.sbfres";
 
         //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A-00.bin";
         //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A.Tex1.bin.bfres";

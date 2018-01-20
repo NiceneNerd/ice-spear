@@ -135,8 +135,8 @@
    },
    "53": {
          "name": "GX2_SURFACE_FORMAT_T_BC5_UNORM",
-         "bpp": 0,
-         "bpBlock": 0,
+         "bpp": 2,
+         "bpBlock": 128,
          "signed": false,
          "handler": "bc5"
    },
@@ -289,15 +289,15 @@
    },
    "564": {
          "name": "GX2_SURFACE_FORMAT_T_BC4_SNORM",
-         "bpp": 0,
-         "bpBlock": 0,
+         "bpp": 4,
+         "bpBlock": 64,
          "signed": true,
          "handler": "bc4"
    },
    "565": {
          "name": "GX2_SURFACE_FORMAT_T_BC5_SNORM",
-         "bpp": 0,
-         "bpBlock": 0,
+         "bpp": 8,
+         "bpBlock": 128,
          "signed": true,
          "handler": "bc5"
    },
