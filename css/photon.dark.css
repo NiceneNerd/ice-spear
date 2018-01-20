@@ -347,7 +347,7 @@ h6 {
 }
 
 .btn-default {
-  color: #333;
+  color: #9da5b4;
   border-color: #181a1f;
   border-left-color: #181a1f;
   background-color: #101010;
@@ -747,9 +747,7 @@ img {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.nav-group-item:active, .nav-group-item.active {
-  background-color: #dcdfe1;
-}
+
 .nav-group-item .icon {
   width: 19px;
   height: 18px;
