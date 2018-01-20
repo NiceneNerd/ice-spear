@@ -13,9 +13,9 @@ const BrowserWindow = electron.BrowserWindow;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+var mainWindow;
 
-function createWindow ()
+function createWindow()
 {
     console.log(process.argv);
 
@@ -25,6 +25,8 @@ function createWindow ()
         width: 1024,
         height: 768
     });
+
+    mainWindow.name = "main-window";
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({

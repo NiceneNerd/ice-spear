@@ -16,17 +16,20 @@
 
           <div class="toolbar-actions">
             <div class="btn-group">
-              <button onclick="app.openFile();" class="btn btn-default">
+              <button onclick="mainApp.openFile();" class="btn btn-default" title="Open BFRES File">
                 <span class="icon icon-folder"></span>
               </button>
-              <button class="btn btn-default active">
-                <span class="icon icon-cloud"></span>
+              <button onclick="mainApp.clear();" class="btn btn-default" title="Close File">
+                <span class="icon icon-cancel"></span>
               </button>
-              <button class="btn btn-default">
+            </div>
+
+            <div class="btn-group" style="position: absolute; right: 0px;">
+              <button class="btn btn-default" onclick="mainApp.toggleFullscreen()" title="Fullscreen">
                 <span class="icon icon-popup"></span>
               </button>
-              <button class="btn btn-default">
-                <span class="icon icon-shuffle"></span>
+              <button class="btn btn-default" onclick="mainApp.exit()" title="Exit">
+                <span class="icon icon-cancel-squared"></span>
               </button>
             </div>
 
@@ -84,11 +87,25 @@
         </div>
 
         <script>
-            let args = require('electron').remote.process.argv;
+            const electron = require('electron');
+            let mainWindow = null;
+            var mainApp = null;
 
-            const App = require("./bfres_editor.js");
-            var app = new App(args);
-            app.run();
+            let windows = electron.remote.BrowserWindow.getAllWindows();
+            for(let win of windows)
+            {
+                if(win.name == "main-window")
+                    mainWindow = win;
+            }
+
+            {
+                let args = electron.remote.process.argv;
+
+                let App = require("./bfres_editor.js");
+                var mainApp = new App(mainWindow, args);
+
+                mainApp.run();
+            }
         </script>
     </body>
 </html>

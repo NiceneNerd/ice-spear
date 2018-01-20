@@ -85,8 +85,8 @@ module.exports = class FMDL_Parser
 
                 for(let texRef of fmatData.textureRef)
                 {
-                    if(texRef.headerOffset == 0 && app.bfresTexParser != null)
-                        texRef.texture = app.bfresTexParser.getTextureByName(texRef.name);
+                    if(texRef.headerOffset == 0 && mainApp.bfresTexParser != null)
+                        texRef.texture = mainApp.bfresTexParser.getTextureByName(texRef.name);
                     else
                         console.warn("FMAT: model has own texture!");
 
