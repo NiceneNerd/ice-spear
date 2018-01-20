@@ -1,4 +1,5 @@
-# Ice-Spear - a Breath of the Wild Editor
+#  Ice-Spear - a Breath of the Wild Editor
+![alt Ice-Spear](assets/img/logo_128.png)
 
 ### Installation
 ____
