@@ -91,21 +91,23 @@
             let mainWindow = null;
             var mainApp = null;
 
-            let windows = electron.remote.BrowserWindow.getAllWindows();
-            for(let win of windows)
+            document.addEventListener('DOMContentLoaded', ()=>
             {
-                if(win.name == "main-window")
-                    mainWindow = win;
-            }
+                let windows = electron.remote.BrowserWindow.getAllWindows();
+                for(let win of windows)
+                {
+                    if(win.name == "main-window")
+                        mainWindow = win;
+                }
 
-            {
                 let args = electron.remote.process.argv;
 
                 let App = require("./bfres_editor.js");
-                var mainApp = new App(mainWindow, args);
+                mainApp = new App(mainWindow, args);
 
                 mainApp.run();
-            }
+            },
+            false);
         </script>
     </body>
 </html>

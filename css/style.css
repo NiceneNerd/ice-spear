@@ -18,7 +18,7 @@
 .window .list-group-item
 {
     opacity: 1;
-    transition: background-color .15s ease-in-out, color .15s ease-in-out;
+    transition: background-color .15s ease-in-out, color .15s ease-in-out, filter 0.15s ease-in-out;
 }
 
 .window .list-group-item .text-light
@@ -37,4 +37,10 @@
 {
     padding: 2px 6px;
     text-align: center;
+}
+
+.window .form-control.dynamic-input
+{
+    margin: 6px;
+    width: calc(100% - 12px);
 }
