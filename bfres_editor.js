@@ -8,6 +8,7 @@ const Binary_File_Loader = require('./lib/binary_file/file_loader.js');
 const BFRES_Parser   = require('./bfres/parser.js');
 const BFRES_Renderer = require('./bfres/renderer.js');
 const Tab_Manager    = require('./lib/tab_manager.js');
+const Theme_Manager  = require('./lib/theme_manager.js');
 
 const electron = require('electron');
 const {dialog} = electron.remote;
@@ -21,11 +22,13 @@ module.exports = class App
         if(window == null)
             throw "BFRES-App: electron window is NULL!";
 
+        this.node = document;
         this.window     = window;
         this.args       = args;
         this.tabManager = null;
         this.filePath   = "";
         this.fileLoader = new Binary_File_Loader();
+        this.themeManager = new Theme_Manager(this.node, "dark");
 
         this.footerNode = footer.querySelector(".data-fileName");
 
@@ -50,6 +53,17 @@ module.exports = class App
         this.bfresParser    = null;
         this.bfresTexParser = null;
         this.bfresRenderer  = null;
+    }
+
+    setTheme(node, theme)
+    {
+        let themeButtons = this.node.querySelectorAll(".btn-theme");
+        for(let btn of themeButtons)
+            btn.classList.remove("active");
+
+        node.classList.add("active");
+
+        this.themeManager.setTheme(theme);
     }
 
     openFileDialog()
