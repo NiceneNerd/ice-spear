@@ -13,6 +13,27 @@
         <link rel="stylesheet" href="css/theme.dark.css">
         <link rel="stylesheet" href="css/split.css">
         <link rel="stylesheet" href="css/style.css">
+
+        <!-- THREE.JS stuff - some of these files are not compatible with require() thats why there included here -->
+        <script>
+            var THREE = require.main.require("./lib/threejs/three.min.js");
+        </script>
+
+        <script src="./lib/threejs/lib/shaders/CopyShader.js"></script>
+
+        <script src="./lib/threejs/lib/postprocessing/EffectComposer.js"></script>
+        <script src="./lib/threejs/lib/postprocessing/RenderPass.js"></script>
+        <script src="./lib/threejs/lib/postprocessing/ShaderPass.js"></script>
+        <script src="./lib/threejs/lib/postprocessing/MaskPass.js"></script>
+
+        <script src="./lib/threejs/lib/postprocessing/SAOPass.js"></script>
+        <script src="./lib/threejs/lib/shaders/SAOShader.js"></script>
+        <script src="./lib/threejs/lib/shaders/DepthLimitedBlurShader.js"></script>
+        <script src="./lib/threejs/lib/shaders/UnpackDepthRGBAShader.js"></script>
+
+        <!--script src="./lib/threejs/lib/libs/stats.min.js"></script-->
+        <!--script src='./lib/threejs/lib/libs/dat.gui.min.js'></script-->
+
     </head>
     <body>
 
