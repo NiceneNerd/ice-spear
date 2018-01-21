@@ -16,7 +16,7 @@ module.exports = class GX2_BC5
     decode(blockBuffer, blockPos, imgSize)
     {
         let bc4 = new GX2_BC4();
-        
+
         let colorsRed   = bc4.decode(blockBuffer.slice(0, 8), blockPos, imgSize);
         let colorsGreen = bc4.decode(blockBuffer.slice(8, 16), blockPos, imgSize);
 

@@ -46,6 +46,11 @@ module.exports = class FTEX_Parser
         return 0;
     }
 
+    adjustToBlockSize(val, blockSize)
+    {
+        return Math.ceil(val / blockSize) * blockSize;
+    }
+
     parse()
     {
         console.log("=========== TEX ===========");
@@ -57,10 +62,11 @@ module.exports = class FTEX_Parser
 
             this.parser.pos(this.entry.dataPointer);
             this.header = this.parser.parse(require("./header.json"));
+            this.entry.fileName = this.header.fileName;
 
             console.timeEnd("structure-parser");
             console.log(this.header);
-            //if(this.header.fileName != "CmnTex_Etc_BoxPartsTextDungeon_A_Alb")return false; // #22
+
             let img = this.header.surface;
             let texTypeInfo = this.textureTypes[img.textureFormat];
 
@@ -72,17 +78,17 @@ module.exports = class FTEX_Parser
                 let mipmapPitchMulti = this.isPow2(img.pitch) ? mipmapMulti : (mipmapMulti-1);
                 img.pitch = this.getNextPow2(Math.floor(img.pitch / mipmapPitchMulti)); // mm: 10
 
-/*
-                img.sizeX = this.getNextPow2(Math.floor(img.sizeX / mipmapMulti));
-                img.sizeY = this.getNextPow2(Math.floor(img.sizeY / mipmapMulti));
-*/
+                let blockSize = GX2_Block_Handler.getBlockSize(img.textureFormat);
 
-                img.sizeX >>= this.mipmapStartLevel;
-                img.sizeY >>= this.mipmapStartLevel;
+                img.sizeX = this.adjustToBlockSize(img.sizeX >> this.mipmapStartLevel, blockSize.x);
+                img.sizeY = this.adjustToBlockSize(img.sizeY >> this.mipmapStartLevel, blockSize.y);
 
-                if(img.sizeY * img.sizeX <= 4096)
+                // here are some weird mipmap rules i found out
+                // there must be a definition for this somewhere but i can't find it
+                // @TODO investigate more
+
+                if(img.swizzleValue < 0x20000) // got that number from testing a lot of textures
                     img.tileMode = 2;
-
             }
 
             let rawBuffer = this.parser.file.buffer.slice(this.header.dataOffset, this.header.dataOffset + this.header.surface.dataSize);

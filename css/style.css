@@ -50,3 +50,28 @@
     margin: 6px;
     width: calc(100% - 12px);
 }
+
+/** fluent transition between themes **/
+.window,
+.window table.table tbody,
+.window input.form-control,
+.window .sidebar,
+.window .toolbar-actions,
+.window header.toolbar,
+.window button.btn,
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb
+{
+    transition: background-image .5s cubic-bezier(0.5,0.5, 1,1),
+                background-color .5s cubic-bezier(0.5,0.5, 1,1),
+                border-color     .5s cubic-bezier(0.5,0.5, 1,1),
+                filter           .5s cubic-bezier(0.5,0.5, 1,1);
+}
+
+.window .list-group-item
+{
+    transition: border-color .5s cubic-bezier(0.5,0.5, 1,1);
+}

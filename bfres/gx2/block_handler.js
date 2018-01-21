@@ -66,4 +66,9 @@ module.exports = class GX2_Block_Handler
     {
         console.log("WIP");
     }
+
+    static getBlockSize(format)
+    {
+        return {x:4, y:4}; // same for all BCn formats
+    }
 };

@@ -39,6 +39,12 @@ table tr.active:last td
     border-width: 1px 0 0 0;
 }
 
+.window .bg-checkerboard
+{
+    background-image: url("./../assets/img/checkerboard.dark.png");
+    transition: background-image .5s ease-in-out;
+}
+
 .window .list-group-item.active img.media-object
 {
     filter: none;

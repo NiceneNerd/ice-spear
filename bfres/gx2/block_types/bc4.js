@@ -38,7 +38,7 @@ module.exports = class GX2_BC4
         return colors;
     }
 
-    decode(blockBuffer, blockPos, imgSize)
+    decode(blockBuffer, blockPos, imgSize, onlyOneChannel = false)
     {
         let colorBuffer = Buffer.allocUnsafe(this.blockSize[0] * this.blockSize[1] * 4);
         let colorBufferIndex = 0;
@@ -56,9 +56,12 @@ module.exports = class GX2_BC4
                 let col = (colByte >> (3 * ct)) & 0b111;
 
                 colorBuffer[colorBufferIndex++] = colors[col];
-                colorBuffer[colorBufferIndex++] = colors[col];
-                colorBuffer[colorBufferIndex++] = colors[col];
-                colorBuffer[colorBufferIndex++] = 255.0;
+                if(!onlyOneChannel)
+                {
+                    colorBuffer[colorBufferIndex++] = colors[col];
+                    colorBuffer[colorBufferIndex++] = colors[col];
+                    colorBuffer[colorBufferIndex++] = 255.0;
+                }
             }
         }
 

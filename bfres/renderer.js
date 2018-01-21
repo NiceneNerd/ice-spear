@@ -20,6 +20,7 @@ module.exports = class BFRES_Renderer
     {
         this.clear();
 
+        this.tabNode.querySelector(".list-group-header input").focus();
         this.tabNode.querySelector(".data-header-fileName").innerHTML = bfresParser.header.fileName;
         this.tabNode.querySelector(".data-header-version").innerHTML = bfresParser.header.version.join(".");
 
@@ -44,7 +45,7 @@ module.exports = class BFRES_Renderer
 
                 entryNode.querySelector(".data-fileEntry-type").innerHTML = BFRES_FileTypes.info[type].name;
                 entryNode.querySelector(".data-fileType-num").innerHTML = " #" + typeCounter[type];
-                entryNode.querySelector(".data-fileEntry-description").innerHTML = BFRES_FileTypes.info[type].description;
+                entryNode.querySelector(".data-fileEntry-description").innerHTML = entry.fileName != null ? entry.fileName : BFRES_FileTypes.info[type].description;
 
                 try{
                     let imgFilePath = "./assets/img/icons/bfres/filetype_" + type + ".png";

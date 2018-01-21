@@ -137,13 +137,12 @@
       "comment": "20 bytes long??"
    },
    "2061": {
-      "name": "uint_32_32",
+      "name": "float_32_32",
       "typeIn": "float32",
       "typeOut": "float32",
       "count": 2,
       "min": null,
-      "max": null,
-      "comment": "wiki says this is float_32_32"
+      "max": null
    },
    "2063": {
       "name": "float_16_16_16_16",
@@ -154,13 +153,12 @@
       "max": null
    },
    "2065": {
-      "name": "float_32_32_32_32",
+      "name": "float_32_32_32",
       "typeIn": "float32",
       "typeOut": "float32",
-      "count": 4,
+      "count": 3,
       "min": null,
-      "max": null,
-      "comment": "wiki says this is float_32_32_32"
+      "max": null
    },
    "2067": {
       "name": "float_32_32_32_32",
