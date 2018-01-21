@@ -39,8 +39,17 @@ module.exports = class GX2_BC1
             ];
         }
 
-        colors[2] = this.interpolateColor(colors[0], colors[1], 1/3);
-        colors[3] = this.interpolateColor(colors[0], colors[1], 2/3);
+        let hasAlpha = colors[0][0] == 0 && colors[0][1] == 0 && colors[0][2] == 0;
+
+        if(hasAlpha)
+        {
+            colors[2] = this.interpolateColor(colors[0], colors[1], 1/2);
+            colors[3] = [0,0,0,0];
+        }else{
+            colors[2] = this.interpolateColor(colors[0], colors[1], 1/3);
+            colors[3] = this.interpolateColor(colors[0], colors[1], 2/3);
+        }
+
 
         return colors;
     }
