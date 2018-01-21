@@ -51,5 +51,16 @@
             "nameLength" : {"type": "s32",    "offset": "nameOffset", "addOffset": -4},
             "name"       : {"type": "string", "offset": "nameOffset", "length": "nameLength"}
         }
+    },
+
+    "renderParamsIndex": { "type": "structure", "setOffset": "renderInfoParamOffset",
+        "structure": {
+            "length" : {"type": "u32"},
+            "entryNum": {"type": "s32", "addValue": 1},
+
+            "entries": { "type": "structure", "count": "entryNum",
+                "structure": "./bfres/index_entry.json"
+            }
+        }
     }
 }

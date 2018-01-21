@@ -156,7 +156,7 @@ module.exports = class App
         filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.sbfres";
 
-        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.sbfres"; // alpha
+        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.sbfres"; // alpha
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.Tex1.sbfres"; // alpha
 
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/unpacked/Animal_Cow.sbfres";

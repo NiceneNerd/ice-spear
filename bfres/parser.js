@@ -109,6 +109,7 @@ module.exports = class BFRES_Parser
 
         } catch (err) {
             console.warn(`BFRES::parse Exception: ${err}`);
+            console.log(err.stack)
             return false;
         }
 

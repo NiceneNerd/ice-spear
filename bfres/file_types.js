@@ -47,7 +47,9 @@ module.exports = new (class BFRES_FileTypes
         this.info[this.types.FSHU_SHADER]= {
            name       : "FSHU",
            description: "Shader parameters",
-           editor     : "hex"
+           preload    : true,
+           editor     : "shader_params",
+           parser     : "./bfres/fshu/parser.js"
         };
         this.info[this.types.FSHU_COLOR]= {
            name       : "FSHU",
@@ -89,7 +91,7 @@ module.exports = new (class BFRES_FileTypes
            description: "Embedded file",
            editor     : "hex",
            preload    : true,
-            parser     : "./bfres/embeded/parser.js"
+           parser     : "./bfres/embeded/parser.js"
         };
     }
 });

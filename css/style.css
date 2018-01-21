@@ -21,6 +21,11 @@
     min-width: 0;
 }
 
+.window .list-group-scroll
+{
+    overflow-x: auto;
+}
+
 .window .list-group-item
 {
     opacity: 1;

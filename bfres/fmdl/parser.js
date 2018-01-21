@@ -110,6 +110,51 @@ module.exports = class FMDL_Parser
                     }
                 }
 
+                fmatData.matRenderInfo = {};
+
+                for(let renderInfoEntry of fmatData.renderParamsIndex.entries)
+                {
+                    if(renderInfoEntry.namePointer != 0)
+                    {
+                        this.parser.pos(renderInfoEntry.dataPointer);
+                        let renderInfo = this.parser.parse(require("./render_info_params.json"));
+                        let file = this.parser.file;
+
+                        renderInfo.data = [];
+                        file.pos(renderInfo.arrayOffset);
+
+                        for(let i=0; i<renderInfo.arrayCount; ++i)
+                        {
+                            switch(renderInfo.type)
+                            {
+                                case 0: // vec2(s32, s32)
+                                    renderInfo.data.push(file.read("s32"));
+                                    renderInfo.data.push(file.read("s32"));
+                                break;
+                                case 1: // vec2(f32, f32)
+                                    renderInfo.data.push(file.read("float32"));
+                                    renderInfo.data.push(file.read("float32"));
+                                break;
+                                case 2: // string
+                                    let strOffset = file.pos() + file.read("u32");
+                                    let strLen = file.read("u32", strOffset - 4);
+
+                                    if(strLen > 1000)strLen = 100;
+
+                                    renderInfo.data.push(file.readString(strLen, strOffset));
+                                break;
+                                default:
+                                    console.log("FMAT: unknown render info array type: '%d'", renderInfo.type);
+                                break;
+                            }
+                        }
+
+                        renderInfoEntry.data = renderInfo;
+                        fmatData.matRenderInfo[renderInfo.name] = renderInfo.data;
+                    }
+                }
+
+                model.material = fmatData;
                 this.materials.push(fmatData);
             }
         }
