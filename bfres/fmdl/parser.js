@@ -83,7 +83,8 @@ module.exports = class FMDL_Parser
                 this.parser.pos(entry.dataPointer);
                 let fmatData = this.parser.parse(require("./fmat.json"));
                 let model = this.models[fmatData.sectionIndex];
-
+                //console.log(fmatData);
+                
                 model.name = fmatData.name;
 
                 for(let texRef of fmatData.textureRef)

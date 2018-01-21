@@ -23,7 +23,7 @@ module.exports = class FSHU_Parser
             this.parser.pos(this.entry.dataPointer);
             this.header = this.parser.parse(require("./header.json"));
 
-            //console.log(this.header);
+            console.log(this.header);
 
         } catch (err) {
             console.warn(`FSHU::parse Exception: ${err}`);

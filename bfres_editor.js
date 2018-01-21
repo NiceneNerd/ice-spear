@@ -12,7 +12,10 @@ const Theme_Manager  = require('./lib/theme_manager.js');
 
 const electron = require('electron');
 const {dialog} = electron.remote;
+const BrowserWindow = electron.remote.BrowserWindow;
 const fs       = require('fs');
+const path     = require('path');
+const url      = require('url');
 const Split    = require('split.js');
 
 module.exports = class App
@@ -39,6 +42,8 @@ module.exports = class App
             gutterSize: 12
         });
 
+        this.creditWindow = null;
+
         this.clear();
     }
 
@@ -53,6 +58,31 @@ module.exports = class App
         this.bfresParser    = null;
         this.bfresTexParser = null;
         this.bfresRenderer  = null;
+    }
+
+    openCredits()
+    {
+        if(this.creditWindow == null)
+        {
+            this.creditWindow = new BrowserWindow({
+                //frame: false,
+                width: 300,
+                height: 100,
+                icon: "./assets/icons/icon_64.png"
+            });
+
+            this.creditWindow.name = "main-window-credits";
+
+            // and load the index.html of the app.
+            this.creditWindow.loadURL(url.format({
+                pathname: path.join(__dirname, 'credits.html'),
+                protocol: 'file:',
+                slashes: true
+            }));
+
+            this.creditWindow.on('closed', () => this.creditWindow = null);
+            //this.creditWindow.setMenu(null);
+        }
     }
 
     setTheme(node, theme)
@@ -153,10 +183,10 @@ module.exports = class App
             //filePath = args[2];
         }
 
-        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
+        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.sbfres";
 
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.sbfres"; // alpha
+        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.sbfres"; // alpha
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.Tex1.sbfres"; // alpha
 
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/unpacked/Animal_Cow.sbfres";
