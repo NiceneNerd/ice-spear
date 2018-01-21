@@ -30,12 +30,13 @@ module.exports = class FMDL_Parser
         {
             switch(typeIn)
             {
-                case "u8":
-                    return val / (0xFF);
-                case "u16":
-                    return val / (0xFFFF);
-                case "u32":
-                    return val / (0xFFFFFFFF);
+                case "u8" : return val / (0xFF);
+                case "u16": return val / (0xFFFF);
+                case "u32": return val / (0xFFFFFFFF);
+
+                case "s8" : return val / (0xFF       >> 1);
+                case "s16": return val / (0xFFFF     >> 1);
+                case "s32": return val / (0xFFFFFFFF >> 1);
             }
         }
 
@@ -216,16 +217,6 @@ module.exports = class FMDL_Parser
                     // read padding
                     sizeRead = this.parser.file.pos() - sizeRead;
                     this.parser.pos(this.parser.file.pos() + bufferHeader.stride - sizeRead);
-                }
-
-                if(bufferType.bufferName == "uv0")
-                {
-                    if(fvtxData.sectionIndex == 3 || fvtxData.sectionIndex == 9){ // 3=wrong, 9=working
-                        console.warn("INDEX: %d", fvtxData.sectionIndex);
-                        console.log(bufferType.bufferName);
-                        console.log(model[nameArray]);
-                        console.log(attr);
-                    }
                 }
             }
         }

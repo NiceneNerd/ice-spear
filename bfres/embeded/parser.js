@@ -39,7 +39,6 @@ module.exports = class EMBEDDED_Parser
             this.header = this.parser.parse(require("./header.json"));
 
             this.data = this.parser.file.buffer.slice(this.header.offset, this.header.offset + this.header.length);
-            console.log(this.data);
 
         } catch (err) {
             console.warn(`EMBEDED::parse Exception: ${err}`);
