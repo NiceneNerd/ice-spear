@@ -23,6 +23,6 @@ table tr.active
 
 .window .bg-checkerboard
 {
-    background-image: url("./../assets/img/checkerboard.light.png");
+    background-image: url("file:///assets/img/checkerboard.light.png");
     transition: background-image .5s ease-in-out;
 }

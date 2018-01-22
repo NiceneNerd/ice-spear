@@ -4,19 +4,20 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const Binary_File_Loader = require('./lib/binary_file/file_loader.js');
-const BFRES_Parser   = require('./bfres/parser.js');
-const BFRES_Renderer = require('./bfres/renderer.js');
-const Tab_Manager    = require('./lib/tab_manager.js');
-const Theme_Manager  = require('./lib/theme_manager.js');
+const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
+const BFRES_Parser       = requireGlobal('./lib/bfres/parser.js');
+const BFRES_Renderer     = requireGlobal('./lib/bfres/renderer.js');
+const Tab_Manager        = requireGlobal('./lib/tab_manager.js');
+const Theme_Manager      = requireGlobal('./lib/theme_manager.js');
 
 const electron = require('electron');
-const {dialog} = electron.remote;
-const BrowserWindow = electron.remote.BrowserWindow;
 const fs       = require('fs');
 const path     = require('path');
 const url      = require('url');
 const Split    = require('split.js');
+
+const {dialog} = electron.remote;
+const BrowserWindow = electron.remote.BrowserWindow;
 
 module.exports = class App
 {
@@ -69,14 +70,14 @@ module.exports = class App
                 resizable: false,
                 width: 880,
                 height: 900,
-                icon: "./assets/icons/icon_64.png"
+                icon: "file:///assets/icons/icon_64.png"
             });
 
             this.creditWindow.name = "main-window-credits";
 
             // and load the index.html of the app.
             this.creditWindow.loadURL(url.format({
-                pathname: path.join(__dirname, 'credits.html'),
+                pathname: path.join(__BASE_PATH, 'credits.html'),
                 protocol: 'file:',
                 slashes: true
             }));

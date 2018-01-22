@@ -9,27 +9,39 @@
 
         <title>BFRES Editor</title>
 
-        <link rel="stylesheet" href="css/photon.dark.css" data-theme="href">
-        <link rel="stylesheet" href="css/theme.dark.css" data-theme="href">
-        <link rel="stylesheet" href="css/split.css">
-        <link rel="stylesheet" href="css/style.css">
+        <script>
+            // GLOBALS
+
+            const __BASE_PATH = require("electron").remote.app.getAppPath() + "/";
+
+            function requireGlobal(path)
+            {
+                return require.main.require(__BASE_PATH + path);
+            }
+        </script>
+
+        <link rel="stylesheet" href="file:///css/photon.dark.css" data-theme="href">
+        <link rel="stylesheet" href="file:///css/theme.dark.css" data-theme="href">
+        <link rel="stylesheet" href="file:///css/split.css">
+        <link rel="stylesheet" href="file:///css/style.css">
 
         <!-- THREE.JS stuff - some of these files are not compatible with require() thats why there included here -->
         <script>
-            var THREE = require.main.require("./lib/threejs/three.min.js");
+            //var THREE = require("./../../lib/threejs/three.min.js");
+            var THREE = requireGlobal("lib/threejs/three.min.js");
         </script>
 
-        <script src="./lib/threejs/lib/shaders/CopyShader.js"></script>
+        <script src="file:///lib/threejs/lib/shaders/CopyShader.js"></script>
 
-        <script src="./lib/threejs/lib/postprocessing/EffectComposer.js"></script>
-        <script src="./lib/threejs/lib/postprocessing/RenderPass.js"></script>
-        <script src="./lib/threejs/lib/postprocessing/ShaderPass.js"></script>
-        <script src="./lib/threejs/lib/postprocessing/MaskPass.js"></script>
+        <script src="file:///lib/threejs/lib/postprocessing/EffectComposer.js"></script>
+        <script src="file:///lib/threejs/lib/postprocessing/RenderPass.js"></script>
+        <script src="file:///lib/threejs/lib/postprocessing/ShaderPass.js"></script>
+        <script src="file:///lib/threejs/lib/postprocessing/MaskPass.js"></script>
 
-        <script src="./lib/threejs/lib/postprocessing/SAOPass.js"></script>
-        <script src="./lib/threejs/lib/shaders/SAOShader.js"></script>
-        <script src="./lib/threejs/lib/shaders/DepthLimitedBlurShader.js"></script>
-        <script src="./lib/threejs/lib/shaders/UnpackDepthRGBAShader.js"></script>
+        <script src="file:///lib/threejs/lib/postprocessing/SAOPass.js"></script>
+        <script src="file:///lib/threejs/lib/shaders/SAOShader.js"></script>
+        <script src="file:///lib/threejs/lib/shaders/DepthLimitedBlurShader.js"></script>
+        <script src="file:///lib/threejs/lib/shaders/UnpackDepthRGBAShader.js"></script>
 
         <!--script src="./lib/threejs/lib/libs/stats.min.js"></script-->
         <!--script src='./lib/threejs/lib/libs/dat.gui.min.js'></script-->
@@ -130,13 +142,13 @@
                 let windows = electron.remote.BrowserWindow.getAllWindows();
                 for(let win of windows)
                 {
-                    if(win.name == "main-window")
+                    if(win.name == "window-bfres_editor")
                         mainWindow = win;
                 }
 
                 let args = electron.remote.process.argv;
 
-                let App = require("./bfres_editor.js");
+                let App = require("./app.js");
                 mainApp = new App(mainWindow, args);
 
                 mainApp.run();

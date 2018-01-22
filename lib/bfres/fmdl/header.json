@@ -74,7 +74,7 @@
             "entryNum": {"type": "s32", "addValue": 1},
 
             "entries": { "type": "structure", "count": "entryNum",
-                "structure": "./bfres/index_entry.json"
+                "structure": "./lib/bfres/index_entry.json"
             }
         }
     },
@@ -85,7 +85,7 @@
             "entryNum": {"type": "s32", "addValue": 1},
 
             "entries": { "type": "structure", "count": "entryNum",
-                "structure": "./bfres/index_entry.json"
+                "structure": "./lib/bfres/index_entry.json"
             }
         }
     }

@@ -2,7 +2,7 @@
     "magic" : {"type" : "string", "length": 4, "checkValue": "FTEX"},
 
     "surface": { "type": "structure",
-        "structure": "./bfres/gx2/surface.json"
+        "structure": "./lib/bfres/gx2/surface.json"
     },
 
     "textureHandle" : {"type": "u32", "default": 0},
