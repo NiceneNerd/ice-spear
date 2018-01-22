@@ -66,8 +66,9 @@ module.exports = class App
         {
             this.creditWindow = new BrowserWindow({
                 //frame: false,
-                width: 300,
-                height: 100,
+                resizable: false,
+                width: 880,
+                height: 900,
                 icon: "./assets/icons/icon_64.png"
             });
 
@@ -81,7 +82,7 @@ module.exports = class App
             }));
 
             this.creditWindow.on('closed', () => this.creditWindow = null);
-            //this.creditWindow.setMenu(null);
+            this.creditWindow.setMenu(null);
         }
     }
 

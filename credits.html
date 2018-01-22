@@ -23,6 +23,11 @@
                 text-align: center;
             }
 
+            .window-credits h4
+            {
+                width: auto;
+            }
+
             .window-credits #main-sidebar-right
             {
                 width: 100%;
@@ -42,8 +47,8 @@
 
             .window-credits p
             {
-                width: 400px;
-                margin-left: calc(50% - 200px);
+                width: 600px;
+                margin-left: calc(50% - 300px);
             }
 
         </style>
@@ -58,8 +63,10 @@
                         <h2>Ice-Spear - Credits</h2>
 
                         <p>
-                            Ice-Spear is an editor for the game "Breath of the Wild&trade;". <br/>
-                            It's open source (GNU GPLv3), free, and doesn't pursue any financial goals, neither with fees nor with donations.
+                            Ice-Spear is an open source editor (GNU GPLv3). <br/>
+                            It's free, and doesn't pursue any financial goals, neither with fees nor with donations. <br/>
+                            This Project also does NOT contain any files from games that it may be compatible with. <br/>
+                            You need to have your own, legally owned games or copies, containing those files.
                         </p>
 
                         <h5 class="nav-group-title">Developer</h5>
@@ -68,10 +75,6 @@
                                 <tr>
                                     <td><a href="https://gitlab.com/users/mbeboek/projects/">Max Bebök</a></td>
                                     <td>Main Developer</td>
-                                </tr>
-                                <tr>
-                                    <td>Torben Binder</td>
-                                    <td>Helping with NPM stuff</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -132,7 +135,24 @@
                                 </tr>
                                 <tr>
                                     <td><a href="https://threejs.org/">THREE.js</a></td>
-                                    <td>WebGL 3D Library (NOTE: i'm using a custom version with WebGL2 support)</td>
+                                    <td>
+                                        WebGL 3D Library (NOTE: i'm using a custom version with WebGL2 support)<br/>
+                                        A GIT-Diff file can be found in "./lib/threejs/THREEJS_DIFF_DEVELOP.diff"
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+
+                        <h5 class="nav-group-title">Licenses</h5>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td><a href="https://www.gnu.org/licenses/gpl-3.0.de.html">GNU-GPLv3</a></td>
+                                    <td>Ice-Spear's License</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">(For all other Libraries, check out their license files, or look them up in the package.json file)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,6 +168,10 @@
                                 <tr>
                                     <td><a href="https://github.com/aboood40091/BFRES-Tool">BFRES-tool</a></td>
                                     <td>BFRES tool by aboood40091, ported the addrlib de-swizzle code over to JS</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://github.com/Torbilicious">Torben Binder</a></td>
+                                    <td>Helping out with NPM stuff</td>
                                 </tr>
                             </tbody>
                         </table>

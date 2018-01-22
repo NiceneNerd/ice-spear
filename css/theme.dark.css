@@ -10,6 +10,11 @@
     __color: black;
 }
 
+.title-colored
+{
+    color: #cab19e;
+}
+
 .list-group-item:hover
 {
     background-color: #181a1f;
