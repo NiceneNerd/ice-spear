@@ -17,8 +17,6 @@ var appWindow = {};
 
 function openApp(appName = DEFAULT_APP_NAME)
 {
-    console.log(process.argv);
-
     // Create the browser window.
     appWindow[appName] = new BrowserWindow({
         //frame: false,
@@ -45,7 +43,9 @@ function openApp(appName = DEFAULT_APP_NAME)
 
 app.on('ready', function()
 {
-    openApp();
+    let appName = (process.argv[2] != null) ? process.argv[2] : DEFAULT_APP_NAME;
+
+    openApp(appName);
 });
 
 app.on('window-all-closed', function()

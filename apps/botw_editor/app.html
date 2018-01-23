@@ -7,7 +7,7 @@
             @license GNU-GPLv3 - see the "LICENSE" file in the root directory
         -->
 
-        <title>Ice-Spear - BFRES Editor</title>
+        <title>Ice-Spear - Main Editor</title>
 
         <script>
             // GLOBALS
@@ -20,31 +20,14 @@
             }
         </script>
 
-        <link rel="stylesheet" href="file:///css/photon.dark.css" data-theme="href">
-        <link rel="stylesheet" href="file:///css/theme.dark.css" data-theme="href">
-        <link rel="stylesheet" href="file:///css/split.css">
-        <link rel="stylesheet" href="file:///css/style.css">
+        <link rel="stylesheet" href="file:///css/photon.dark.css" data-theme="href" />
+        <link rel="stylesheet" href="file:///css/theme.dark.css" data-theme="href" />
 
-        <!-- THREE.JS stuff - some of these files are not compatible with require() thats why there included here -->
-        <script>
-            //var THREE = require("./../../lib/threejs/three.min.js");
-            var THREE = requireGlobal("lib/threejs/three.min.js");
-        </script>
+        <link rel="stylesheet" href="file:///lib/external/aimara/css/aimara.css" />
+        <link rel="stylesheet" href="file:///css/treeview.dark.css" data-theme="href" />
 
-        <script src="file:///lib/threejs/lib/shaders/CopyShader.js"></script>
-
-        <script src="file:///lib/threejs/lib/postprocessing/EffectComposer.js"></script>
-        <script src="file:///lib/threejs/lib/postprocessing/RenderPass.js"></script>
-        <script src="file:///lib/threejs/lib/postprocessing/ShaderPass.js"></script>
-        <script src="file:///lib/threejs/lib/postprocessing/MaskPass.js"></script>
-
-        <script src="file:///lib/threejs/lib/postprocessing/SAOPass.js"></script>
-        <script src="file:///lib/threejs/lib/shaders/SAOShader.js"></script>
-        <script src="file:///lib/threejs/lib/shaders/DepthLimitedBlurShader.js"></script>
-        <script src="file:///lib/threejs/lib/shaders/UnpackDepthRGBAShader.js"></script>
-
-        <!--script src="./lib/threejs/lib/libs/stats.min.js"></script-->
-        <!--script src='./lib/threejs/lib/libs/dat.gui.min.js'></script-->
+        <link rel="stylesheet" href="file:///css/split.css" />
+        <link rel="stylesheet" href="file:///css/style.css" />
 
     </head>
     <body>
@@ -94,40 +77,16 @@
             <div class="pane-group">
 
                 <div class="pane-sm sidebar" id="main-sidebar-left" style="max-width: 250px;">
-
-                    <h5 class="nav-group-title">BFRES - Header</h5>
-
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td>Name</td>
-                                <td class="data-header-fileName">-</td>
-                            </tr>
-                            <tr>
-                                <td>Version</td>
-                                <td class="data-header-version">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-
-                    <h5 class="nav-group-title">Files</h5>
-                    <ul id="tab_tabContainer_bfres" class="list-group">
-                        <li class="list-group-header">
-                            <input class="form-control" type="text" placeholder="Search files">
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="pane" id="main-sidebar-right">
-                    <div id="tab_contentContainer_bfres">
+                    <div id="main-tree-files" class="treeview-container">
                     </div>
+                </div>
+                <div class="pane" id="main-sidebar-right">
                 </div>
             </div>
         </div>
 
         <footer id="footer" class="toolbar toolbar-footer">
-            <h1 class="title data-fileName"></h1>
+            <h1 class="title data-footer"></h1>
         </footer>
 
         </div>
@@ -142,7 +101,7 @@
                 let windows = electron.remote.BrowserWindow.getAllWindows();
                 for(let win of windows)
                 {
-                    if(win.name == "window-bfres_editor")
+                    if(win.name == "window-botw_editor")
                         mainWindow = win;
                 }
 

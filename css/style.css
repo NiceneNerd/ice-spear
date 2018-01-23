@@ -67,6 +67,12 @@
     width: calc(100% - 12px);
 }
 
+.window .treeview-container
+{
+    margin-left: 8px;
+    margin-top: 2px;
+}
+
 /** fluent transition between themes **/
 .window,
 .window table.table tbody,

@@ -8,32 +8,24 @@ const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
 const BFRES_Parser       = requireGlobal('./lib/bfres/parser.js');
 const BFRES_Renderer     = requireGlobal('./lib/bfres/renderer.js');
 const Tab_Manager        = requireGlobal('./lib/tab_manager.js');
-const Theme_Manager      = requireGlobal('./lib/theme_manager.js');
 
 const electron = require('electron');
 const fs       = require('fs');
-const path     = require('path');
-const url      = require('url');
 const Split    = require('split.js');
 
 const {dialog} = electron.remote;
-const BrowserWindow = electron.remote.BrowserWindow;
 
-module.exports = class App
+const App_Base = requireGlobal("./apps/base.js");
+
+module.exports = class App extends App_Base
 {
     constructor(window, args)
     {
-        if(window == null)
-            throw "BFRES-App: electron window is NULL!";
+        super(window, args);
 
-        this.node = document;
-        this.window     = window;
-        this.args       = args;
         this.tabManager = null;
         this.filePath   = "";
         this.fileLoader = new Binary_File_Loader();
-        this.themeManager = new Theme_Manager(this.node, "dark");
-
         this.footerNode = footer.querySelector(".data-fileName");
 
         Split(['#main-sidebar-left', '#main-sidebar-right'], {
@@ -42,8 +34,6 @@ module.exports = class App
             snapOffset: 60,
             gutterSize: 12
         });
-
-        this.creditWindow = null;
 
         this.clear();
     }
@@ -59,43 +49,6 @@ module.exports = class App
         this.bfresParser    = null;
         this.bfresTexParser = null;
         this.bfresRenderer  = null;
-    }
-
-    openCredits()
-    {
-        if(this.creditWindow == null)
-        {
-            this.creditWindow = new BrowserWindow({
-                //frame: false,
-                resizable: false,
-                width: 880,
-                height: 900,
-                icon: "file:///assets/icons/icon_64.png"
-            });
-
-            this.creditWindow.name = "main-window-credits";
-
-            // and load the index.html of the app.
-            this.creditWindow.loadURL(url.format({
-                pathname: path.join(__BASE_PATH, 'credits.html'),
-                protocol: 'file:',
-                slashes: true
-            }));
-
-            this.creditWindow.on('closed', () => this.creditWindow = null);
-            this.creditWindow.setMenu(null);
-        }
-    }
-
-    setTheme(node, theme)
-    {
-        let themeButtons = this.node.querySelectorAll(".btn-theme");
-        for(let btn of themeButtons)
-            btn.classList.remove("active");
-
-        node.classList.add("active");
-
-        this.themeManager.setTheme(theme);
     }
 
     openFileDialog()
@@ -204,35 +157,4 @@ module.exports = class App
 
     }
 
-    toggleFullscreen(newState = null)
-    {
-        if(newState === null)
-            newState = !this.window.isFullScreen();
-
-        this.window.setFullScreen(newState);
-    }
-
-    exit()
-    {
-        let answer = dialog.showMessageBox({
-            type: "question",
-            title: "Exit BFRES-Editor",
-            message: "Do you really want to exit?",
-            buttons: ["OK", "Cancel"]
-        });
-
-        if(answer == 0) // Cancel
-        {
-            electron.remote.app.exit();
-        }
-    }
 };
-
-
-/*
-const {dialog} = require('electron').remote;
-let path = dialog.showOpenDialog({
-    properties: ['openDirectory']
-});
-console.log(path);
-*/
