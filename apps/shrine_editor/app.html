@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--
+            @copyright 2018 - Max Bebök
+            @author Max Bebök
+            @license GNU-GPLv3 - see the "LICENSE" file in the root directory
+        -->
+
+        <title>Ice-Spear - Shrine Editor</title>
+
+        <script>
+            // GLOBALS
+
+            const __BASE_PATH = require("electron").remote.app.getAppPath() + "/";
+
+            function requireGlobal(path)
+            {
+                return require.main.require(__BASE_PATH + path);
+            }
+        </script>
+
+        <link rel="stylesheet" href="file:///css/photon.dark.css" data-theme="href" />
+        <link rel="stylesheet" href="file:///css/theme.dark.css" data-theme="href" />
+
+        <link rel="stylesheet" href="file:///lib/external/aimara/css/aimara.css" />
+        <link rel="stylesheet" href="file:///css/treeview.dark.css" data-theme="href" />
+
+        <link rel="stylesheet" href="file:///css/split.css" />
+        <link rel="stylesheet" href="file:///css/style.css" />
+
+    </head>
+    <body>
+
+        <div class="window">
+
+        <header class="toolbar toolbar-header">
+
+          <div class="toolbar-actions">
+            <div class="btn-group">
+              <button onclick="mainApp.openFile();" class="btn btn-default" title="Open BFRES File">
+                <span class="icon icon-folder"></span>
+              </button>
+              <button onclick="mainApp.clear();" class="btn btn-default" title="Close File">
+                <span class="icon icon-cancel"></span>
+              </button>
+            </div>
+
+            <div class="btn-group">
+              <button onclick="mainApp.setTheme(this, 'light');" class="btn btn-default btn-theme" title="Theme: Light">
+                <span class="icon icon-light-up"></span>
+              </button>
+              <button onclick="mainApp.setTheme(this, 'dark');" class="btn btn-default btn-theme active" title="Theme: Dark">
+                <span class="icon icon-moon"></span>
+              </button>
+            </div>
+
+            <div class="btn-group" style="position: absolute; right: 80px;">
+              <button onclick="mainApp.openCredits();" class="btn btn-default btn-theme active" title="Credits" style="width: 80px;">
+                <span class="icon icon-info-circled"> Credits</span>
+              </button>
+            </div>
+
+            <div class="btn-group" style="position: absolute; right: 0px;">
+              <button class="btn btn-default" onclick="mainApp.toggleFullscreen()" title="Fullscreen">
+                <span class="icon icon-popup"></span>
+              </button>
+              <button class="btn btn-default" onclick="mainApp.exit()" title="Exit">
+                <span class="icon icon-cancel-squared"></span>
+              </button>
+            </div>
+
+          </div>
+        </header>
+
+        <div class="window-content" id="bfres_tab_1">
+            <div class="pane-group">
+
+                <div class="pane-sm sidebar" id="main-sidebar-left" style="max-width: 250px;">
+                    <div id="main-tree-files" class="treeview-container">
+                    </div>
+                </div>
+                <div class="pane" id="main-sidebar-right">
+                </div>
+            </div>
+        </div>
+
+        <footer id="footer" class="toolbar toolbar-footer">
+            <h1 class="title data-footer"></h1>
+        </footer>
+
+        </div>
+
+        <script>
+            const electron = require('electron');
+            let mainWindow = null;
+            var mainApp = null;
+
+            document.addEventListener('DOMContentLoaded', ()=>
+            {
+                let windows = electron.remote.BrowserWindow.getAllWindows();
+                for(let win of windows)
+                {
+                    if(win.name == "window-shrine_editor")
+                        mainWindow = win;
+                }
+
+                let args = electron.remote.process.argv;
+
+                let App = require("./app.js");
+                mainApp = new App(mainWindow, args);
+
+                mainApp.run();
+            },
+            false);
+        </script>
+    </body>
+</html>
