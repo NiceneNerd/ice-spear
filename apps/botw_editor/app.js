@@ -44,7 +44,7 @@ module.exports = class App extends App_Base
     run()
     {
         let Aimara = requireGlobal("lib/external/aimara/aimara.js");
-        let tree = Aimara("main-tree-files", null, "file:///assets/img/treeview/");
+        let tree = Aimara("main-tree-files", null, "assets/img/treeview/");
 
         var node1 = tree.createNode('Node A',false);
        node1.createChildNode('Node A-1', false);

@@ -41,7 +41,7 @@ module.exports = class App_Base
                 //resizable: false,
                 width: 880,
                 height: 935,
-                icon: "file:///assets/icons/icon_64.png"
+                icon: "assets/icons/icon_64.png"
             });
 
             this.creditWindow.name = "main-window-credits";

@@ -46,7 +46,7 @@ table tr.active:last td
 
 .window .bg-checkerboard
 {
-    background-image: url("file:///assets/img/checkerboard.dark.png");
+    background-image: url("./../assets/img/checkerboard.dark.png");
     transition: background-image .5s ease-in-out;
 }
 

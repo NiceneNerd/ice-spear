@@ -22,7 +22,7 @@ function openApp(appName = DEFAULT_APP_NAME)
         //frame: false,
         width: 1024,
         height: 768,
-        icon: "file:///assets/icons/icon_64.png"
+        icon: "assets/icons/icon_64.png"
     });
 
     appWindow[appName].name = "window-" + appName;
