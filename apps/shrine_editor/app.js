@@ -4,7 +4,6 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
 const Tab_Manager        = requireGlobal('./lib/tab_manager.js');
 const Theme_Manager      = requireGlobal('./lib/theme_manager.js');
 
@@ -41,14 +40,19 @@ module.exports = class App extends App_Base
     {
     }
 
-    openShrine()
+    openShrine(shrineDir)
     {
 
     }
 
     run()
     {
-        
+        // SARC Test
+        let sarcFile = "M:/Documents/roms/wiiu/unpacked/TEST/sarc/Dungeon009.pack";
+
+        const SARC = requireGlobal("lib/sarc/sarc.js");
+        let sarc = new SARC();
+        sarc.parse(sarcFile);
     }
 
 };

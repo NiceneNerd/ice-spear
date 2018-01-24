@@ -23,6 +23,7 @@ module.exports = class App extends App_Base
     {
         super(window, args);
 
+        this.dragDropNode = document;
         this.tabManager = null;
         this.filePath   = "";
         this.fileLoader = new Binary_File_Loader();
@@ -35,7 +36,21 @@ module.exports = class App extends App_Base
             gutterSize: 12
         });
 
+        this.init();
         this.clear();
+    }
+
+    init()
+    {
+        this.dragDropNode.ondragover  = (ev) => ev.preventDefault();
+        this.dragDropNode.ondragend   = (ev) => {};
+        this.dragDropNode.body.ondrop = (ev) =>
+        {
+            if(ev.dataTransfer.files.length != 0)
+                this.openFile(ev.dataTransfer.files[0].path);
+
+            ev.preventDefault();
+        }
     }
 
     clear()
@@ -140,21 +155,11 @@ module.exports = class App extends App_Base
 
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.sbfres";
-
         filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.sbfres"; // alpha
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.Tex1.sbfres"; // alpha
 
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/unpacked/Animal_Cow.sbfres";
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/unpacked/Animal_Cow.Tex1.sbfres";
-
-        //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A-00.bin";
-        //filePath = "/home/max/Documents/TEST/DgnObj_AncientBallSwitch_A.Tex1.bin.bfres";
-        //filePath = "/home/max/Documents/TEST/Obj_TreeGhost_A.Tex1.bin";
-
-        //filePath = "/home/max/Documents/TEST/compressed/Animal_Cow.sbfres";
-
-        this.openFile(filePath);
-
+        if(filePath != "")
+            this.openFile(filePath);
     }
 
 };

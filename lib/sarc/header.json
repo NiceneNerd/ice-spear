@@ -1,0 +1,26 @@
+{
+    "magic"        : {"type" : "string", "length": 4, "checkValue": "SARC"},
+    "headerLength" : {"type" : "u16"},
+    "bom"          : {"type" : "bom"},
+    "fileSize"     : {"type" : "u32"},
+    "dataOffset"   : {"type" : "u32"},
+    "version"      : {"type" : "u16"},
+    "__PADDING__"  : {"type" : "u16"},
+
+    "sfat": { "type": "structure",
+        "structure": {
+            "magic"        : {"type" : "string", "length": 4, "checkValue": "SFAT"},
+            "headerLength" : {"type" : "u16", "default": 12},
+            "nodeCount"    : {"type": "u16"},
+            "hashMulti"    : {"type": "u32"},
+
+            "nodex": { "type": "structure",
+                "structure": {
+                    "fileNameHash": {"type": "s32"}
+                }
+            }
+
+        }
+    }
+
+}
