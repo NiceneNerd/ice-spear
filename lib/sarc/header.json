@@ -14,11 +14,19 @@
             "nodeCount"    : {"type": "u16"},
             "hashMulti"    : {"type": "u32"},
 
-            "nodex": { "type": "structure",
+            "nodes": { "type": "structure", "count": "nodeCount",
                 "structure": {
-                    "fileNameHash": {"type": "s32"}
+                    "fileNameHash"   : {"type": "s32"},
+                    "fileAttributes" : {"type": "u32"},
+                    "dataStart"      : {"type": "u32"},
+                    "dataEnd"        : {"type": "u32"}
                 }
-            }
+            },
+
+            "fileNameMagic": {"type": "string", "length": 4, "checkValue": "SFNT"},
+            "fileNameHeaderLen": {"type": "u16", "default": 8},
+            "__PADDING__": {"type": "u16"},
+            "fileNames": {"type": "string", "alignment": 4, "count": "nodeCount"}
 
         }
     }

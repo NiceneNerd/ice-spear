@@ -48,11 +48,15 @@ module.exports = class App extends App_Base
     run()
     {
         // SARC Test
-        let sarcFile = "M:/Documents/roms/wiiu/unpacked/TEST/sarc/Dungeon009.pack";
+        //let sarcFile = "M:/Documents/roms/wiiu/unpacked/TEST/sarc/Dungeon009.pack";
+        let sarcFile = "/home/max/Documents/TEST/compressed/Dungeon018.pack";
+
 
         const SARC = requireGlobal("lib/sarc/sarc.js");
         let sarc = new SARC();
-        sarc.parse(sarcFile);
+        let files = sarc.parse(sarcFile);
+        console.log(files);
+        sarc.extractFiles("/home/max/Documents/TEST/sarc_test", "dng08", true);
     }
 
 };
