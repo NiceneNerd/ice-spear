@@ -8,6 +8,7 @@
     "postinstall": "electron-rebuild"
   },
   "dependencies": {
+    "delete": "^1.1.0",
     "electron": "1.7.10",
     "electron-rebuild": "^1.6.0",
     "lodepng": "^1.1.0",

@@ -1,0 +1,12 @@
+{
+    "160": {"type": "value",  "hex": "A0", "dataType": "string", "comment": "string table index"},
+
+    "192": {"type": "object", "hex": "C0", "comment": "array"},
+    "193": {"type": "object", "hex": "C1", "comment": "dictionary"},
+    "194": {"type": "object", "hex": "C2", "comment": "string-table"},
+
+    "208": {"type": "value",  "hex": "D0", "dataType": "bool32"},
+    "209": {"type": "value",  "hex": "D1", "dataType": "s32"},
+    "210": {"type": "value",  "hex": "D2", "dataType": "float32"},
+    "211": {"type": "value",  "hex": "D3", "dataType": "u32", "comment": "CRC Hash"}
+}

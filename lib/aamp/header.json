@@ -1,0 +1,9 @@
+{
+    "magic" : {"type" : "string", "length": 2, "checkValue": "BY"},
+    "version": {"type": "u16", "default": "2"},
+
+    "nameTableOffset"  : {"type" : "s32", "_addValue": "@offset"},
+    "stringTableOffset" : {"type" : "s32", "_addValue": "@offset"},
+    "rootNodeOffset"   : {"type" : "s32", "_addValue": "@offset"}
+
+}
