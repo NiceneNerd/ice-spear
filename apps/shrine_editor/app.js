@@ -53,18 +53,19 @@ module.exports = class App extends App_Base
         //let sarcFile = "/home/max/Documents/TEST/compressed/Dungeon018.pack";
         let sarcFile = "/home/max/Documents/TEST/compressed/Dungeon000.pack";
         //let sarcFile = "/home/max/Documents/TEST/DgnObj_IvyBurn.sbactorpack";
-/*
+
         const SARC = requireGlobal("lib/sarc/sarc.js");
         let sarc = new SARC();
         let files = sarc.parse(sarcFile);
         console.log(files);
         sarc.extractFiles("/home/max/Documents/TEST/sarc_test", "dng000", true);
-*/
 
-        let aampFile = "/home/max/Documents/TEST/sarc_test/dng000/Map/CDungeon/Dungeon000/Dungeon000_Dynamic.smubin.unpacked.bin";
-        const AAMP = requireGlobal("lib/aamp/aamp.js");
-        let aamp = new AAMP();
-        let aampJson = aamp.parse(aampFile);
+
+        let byamlFile = "/home/max/Documents/TEST/sarc_test/dng000/Map/CDungeon/Dungeon000/Dungeon000_Dynamic.smubin.unpacked.bin";
+        const BYAML = requireGlobal("lib/byaml/byaml.js");
+        let byaml = new BYAML();
+        let byamlJson = byaml.parse(byamlFile);
+        console.log(byamlJson);
 
         //let fileOut = aampFile + ".aamp.json";
         //fs.writeFileSync(fileOut, JSON.stringify(aampJson, null, 4));
