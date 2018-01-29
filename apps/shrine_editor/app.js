@@ -10,9 +10,12 @@ const path     = require('path');
 const url      = require('url');
 const Split    = require('split.js');
 
+const Filter      = requireGlobal("lib/filter.js");
 const Tab_Manager   = requireGlobal('lib/tab_manager.js');
 const HTML_Loader   = requireGlobal("lib/html_loader.js");
+const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
 const BYAML         = requireGlobal("lib/byaml/byaml.js");
+const SARC          = requireGlobal("lib/sarc/sarc.js");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -27,10 +30,17 @@ module.exports = class App extends App_Base
 
         this.dataActorDyn = {};
 
+        this.projectDir = "M:/Documents/roms/wiiu/ice-spear-projects/";
+        this.shrineDir  = null;
+        this.shrineFiles = null;
+
         this.footerNode = footer.querySelector(".data-footer");
         this.actorDynList = this.node.querySelector(".data-actorDynList");
 
+        this.filterActorDyn = new Filter(this.actorDynList.querySelector(".list-group-header input"), this.actorDynList, ".list-group-item");
+
         this.htmlListEntry = new HTML_Loader('./html/bfres_file_tab.html');
+        this.fileLoader = new Binary_File_Loader();
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
             sizes     : [25, 25, 50],
@@ -48,10 +58,28 @@ module.exports = class App extends App_Base
 
     openShrine(shrineDirOrFile)
     {
-        // TEST
-        let byamlFile = "/home/max/Documents/TEST/sarc_test/dng000/Map/CDungeon/Dungeon000/Dungeon000_Dynamic.smubin.unpacked.bin";
-        let byaml = new BYAML();
-        this.dataActorDyn = byaml.parse(byamlFile);
+        let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
+        this.shrineDir = this.projectDir + "shrines/" + fileName + "/";
+
+        this.shrineName = fileName.match(/Dungeon[0-9]+/);
+        if(this.shrineName != null)
+            this.shrineName = this.shrineName[0];
+
+        // extract if it's not a directory
+        if(fs.lstatSync(shrineDirOrFile).isFile())
+        {
+            let sarc = new SARC();
+            this.shrineFiles = sarc.parse(shrineDirOrFile);
+            sarc.extractFiles(this.projectDir + "shrines", fileName, true);
+        }
+
+        // load dynamic actors
+        let fileActorsDyn = this.shrineDir + "Map/CDungeon/" + this.shrineName + "/" + this.shrineName + "_Dynamic.smubin";
+        if(fs.existsSync(fileActorsDyn))
+        {
+            let byaml = new BYAML();
+            this.dataActorDyn = byaml.parse(this.fileLoader.buffer(fileActorsDyn));
+        }
 
         this.render();
     }
@@ -71,7 +99,7 @@ module.exports = class App extends App_Base
                 let entryNode = this.htmlListEntry.create();
 
                 entryNode.querySelector(".data-fileEntry-type").innerHTML = name;
-                entryNode.querySelector(".data-fileType-num").innerHTML   = "";
+                entryNode.querySelector(".data-fileType-num").innerHTML = "";
                 entryNode.querySelector(".data-fileEntry-description").innerHTML = obj.HashId;
 
                 this.actorDynList.append(entryNode);
@@ -81,29 +109,14 @@ module.exports = class App extends App_Base
 
     run()
     {
-        this.openShrine("/home/max/Documents/TEST/compressed/Dungeon000.pack");
-
         // SARC Test
         //let sarcFile = "M:/Documents/roms/wiiu/unpacked/TEST/sarc/Dungeon009.pack";
+        let sarcFile = "M:/Documents/roms/wiiu/unpacked/TEST/sarc/Dungeon000.pack";
         //let sarcFile = "/home/max/Documents/TEST/compressed/Dungeon018.pack";
-        let sarcFile = "/home/max/Documents/TEST/compressed/Dungeon000.pack";
+        //let sarcFile = "/home/max/Documents/TEST/compressed/Dungeon000.pack";
         //let sarcFile = "/home/max/Documents/TEST/DgnObj_IvyBurn.sbactorpack";
 
-        let byamlFile = "/home/max/Documents/TEST/sarc_test/dng000/Map/CDungeon/Dungeon000/Dungeon000_Dynamic.smubin.unpacked.bin";
-
-/*
-        const SARC = requireGlobal("lib/sarc/sarc.js");
-        let sarc = new SARC();
-        let files = sarc.parse(sarcFile);
-        console.log(files);
-        sarc.extractFiles("/home/max/Documents/TEST/sarc_test", "dng000", true);
-*/
-/*
-        const BYAML = requireGlobal("lib/byaml/byaml.js");
-        let byaml = new BYAML();
-        let byamlJson = byaml.parse(byamlFile);
-        console.log(byamlJson);
-*/
+        this.openShrine(sarcFile);
     }
 
 };
