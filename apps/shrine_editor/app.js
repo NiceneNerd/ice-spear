@@ -14,8 +14,8 @@ const Filter      = requireGlobal("lib/filter.js");
 const Tab_Manager   = requireGlobal('lib/tab_manager.js');
 const HTML_Loader   = requireGlobal("lib/html_loader.js");
 const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
-const BYAML         = requireGlobal("lib/byaml/byaml.js");
 const SARC          = requireGlobal("lib/sarc/sarc.js");
+const Shrine_Editor = require("./lib/shrine_editor.js");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -35,12 +35,14 @@ module.exports = class App extends App_Base
         this.shrineFiles = null;
 
         this.footerNode = footer.querySelector(".data-footer");
-        this.actorDynList = this.node.querySelector(".data-actorDynList");
 
+        this.actorDynList = this.node.querySelector(".data-actorDynList");
         this.filterActorDyn = new Filter(this.actorDynList.querySelector(".list-group-header input"), this.actorDynList, ".list-group-item");
 
         this.htmlListEntry = new HTML_Loader('./html/bfres_file_tab.html');
         this.fileLoader = new Binary_File_Loader();
+
+        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"));
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
             sizes     : [25, 25, 50],
@@ -49,11 +51,19 @@ module.exports = class App extends App_Base
             gutterSize: 12
         });
 
+        this.observerCanvas = new MutationObserver(mutations => this.shrineEditor.renderer.updateDrawSize());
+        this.observerCanvas.observe(document.querySelector("#main-sidebar-3"), {attributes: true});
+/*
+        this.observerApp = new MutationObserver(mutations => this.threeJsRenderer.updateDrawSize());
+        this.observerApp.observe(this.node.querySelector(".sidebar-2"), {attributes: true});
+*/
+
         this.clear();
     }
 
     clear()
     {
+
     }
 
     openShrine(shrineDirOrFile)
@@ -73,25 +83,21 @@ module.exports = class App extends App_Base
             sarc.extractFiles(this.projectDir + "shrines", fileName, true);
         }
 
-        // load dynamic actors
-        let fileActorsDyn = this.shrineDir + "Map/CDungeon/" + this.shrineName + "/" + this.shrineName + "_Dynamic.smubin";
-        if(fs.existsSync(fileActorsDyn))
-        {
-            let byaml = new BYAML();
-            this.dataActorDyn = byaml.parse(this.fileLoader.buffer(fileActorsDyn));
-        }
+        this.shrineEditor.load(this.shrineDir, this.shrineName);
 
         this.render();
     }
 
     render()
     {
-        this.footerNode.innerHTML = "Shrine file: " + this.footerNode;
 
-        console.log(this.dataActorDyn);
-        if(this.dataActorDyn != null && this.dataActorDyn.Objs != null)
+        this.footerNode.innerHTML = "Loaded Shrine: " + this.shrineDir;
+
+        //console.log(this.shrineEditor.dataActorDyn);
+
+        if(this.shrineEditor.dataActorDyn != null && this.shrineEditor.dataActorDyn.Objs != null)
         {
-            for(let obj of this.dataActorDyn.Objs)
+            for(let obj of this.shrineEditor.dataActorDyn.Objs)
             {
                 let name = obj.UnitConfigName;
 
@@ -105,6 +111,8 @@ module.exports = class App extends App_Base
                 this.actorDynList.append(entryNode);
             }
         }
+
+        this.shrineEditor.start();
     }
 
     run()
