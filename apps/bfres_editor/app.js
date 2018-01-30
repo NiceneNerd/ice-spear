@@ -123,18 +123,19 @@ module.exports = class App extends App_Base
 
         this.clear();
 
+        this.filePath = filePath;
+        this.footerNode.innerHTML = "File loaded: " + this.filePath;
+
         let buffer = this.fileLoader.buffer(filePath);
-
-        //fs.writeFileSync(filePath + ".unpacked", buffer); // @TODO move un-packer to extra function / also in UI
-
         this.bfresParser = new BFRES_Parser(true);
+
+        this.scanTextureFile();
+        
+        if(this.bfresTexParser != null)
+            this.bfresParser.setTextureParser(this.bfresTexParser);
+
         if(this.bfresParser.parse(buffer))
         {
-            this.filePath = filePath;
-            this.footerNode.innerHTML = "File loaded: " + this.filePath;
-
-            this.scanTextureFile();
-
             this.bfresRenderer = new BFRES_Renderer(bfres_tab_1);
             this.bfresRenderer.render(this.bfresParser);
             return true;

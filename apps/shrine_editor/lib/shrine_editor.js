@@ -46,10 +46,22 @@ module.exports = class Shrine_Editor
             for(let obj of this.dataActorDyn.Objs)
             {
                 let name = obj.UnitConfigName;
+                let pos = new this.THREE.Vector3(0.0, 0.0, 0.0);
+                let rot = new this.THREE.Vector3(0.0, 0.0, 0.0);
+
                 if(obj.Translate != null)
+                    pos.fromArray(obj.Translate);
+
+                if(obj.Rotate != null)
                 {
-                    this.renderer.addActor({}, new this.THREE.Vector3(obj.Translate[0], obj.Translate[1], obj.Translate[2]));
+                    if(obj.Rotate.length == null)
+                        rot.x = obj.Rotate;
+                    else
+                        rot.fromArray(obj.Rotate);
                 }
+                    
+                let actorObj = this.renderer.addActor({}, pos, rot);
+                //console.log(actorObj);
             }
         }
     }
@@ -73,15 +85,41 @@ module.exports = class Shrine_Editor
             let modelBuffer = this.fileLoader.buffer(shrineModelPath);
 
             this.shrineBfresParser = new BFRES_Parser(true);
+
+            if(this._loadShrineTexture())
+                this.shrineBfresParser.setTextureParser(this.texBfresParser);
+
             if(this.shrineBfresParser.parse(modelBuffer))
             {
                 let shrineModels = this.shrineBfresParser.getModels();
+
                 if(shrineModels[0] != null)
                         this.renderer.setShrineModels(shrineModels[0]);
 
                 return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * tries to load the Tex2 texture file
+     */
+    _loadShrineTexture()
+    {
+        let shrineTexPath = this.shrineDir + "Model/DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres";
+        console.log(shrineTexPath);
+        if(fs.existsSync(shrineTexPath))
+        {
+            let texBuffer = this.fileLoader.buffer(shrineTexPath);
+
+            this.texBfresParser = new BFRES_Parser(true);
+            if(this.texBfresParser.parse(texBuffer))
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 

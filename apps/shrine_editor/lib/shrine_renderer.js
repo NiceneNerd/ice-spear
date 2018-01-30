@@ -31,13 +31,18 @@ module.exports = class Shrine_Renderer
         }
     }
 
-    addActor(modelData, pos)
+    addActor(modelData, pos, rot)
     {
         //let actorModel = this.threeJsRenderer.addModel(modelData);
         let actorModel = this.threeJsRenderer.addBox();
-        actorModel.position.x = pos.x;
-        actorModel.position.y = pos.y;
-        actorModel.position.z = pos.z;
+
+        actorModel.position.copy(pos);
+
+        actorModel.rotation.x = rot.x;
+        actorModel.rotation.y = rot.y;
+        actorModel.rotation.z = rot.z;
+
+        return actorModel;
     }
 
     updateDrawSize()
