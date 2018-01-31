@@ -13,9 +13,17 @@ module.exports = class Shrine_Renderer
      */
     constructor(canvasNode)
     {
-        this.threeJsRenderer = new Renderer(canvasNode);
-        this.updateDrawSize();
+        this.canvasNode = canvasNode;
+        this.clear();
+    }
+        
+    clear()
+    {
+        if(this.threeJsRenderer != null)
+            this.threeJsRenderer.clear();
 
+        this.threeJsRenderer = new Renderer(this.canvasNode);
+        this.updateDrawSize();
         this.shrineModels = [];
     }
 

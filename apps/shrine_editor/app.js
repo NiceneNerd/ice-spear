@@ -64,13 +64,24 @@ module.exports = class App extends App_Base
 
     clear()
     {
-
+        this.shrineEditor.clear();
     }
 
-    async openShrine(shrineDirOrFile)
+    async openShrine(shrineDirOrFile = null)
     {
+        if(shrineDirOrFile == "" || shrineDirOrFile == null)
+        {
+            let paths = dialog.showOpenDialog({properties: ['openDirectory']});
+            if(paths != null)
+                shrineDirOrFile = path[0];
+            else 
+                return false;
+        }
+
         await this.loader.show();
         await this.loader.setStatus("Loading Shrine");
+
+        this.clear();
 
         let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
         this.shrineDir = this.projectDir + "shrines/" + fileName + "/";

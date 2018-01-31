@@ -7,6 +7,7 @@
 const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
 const Tab_Manager        = requireGlobal('./lib/tab_manager.js');
 const Theme_Manager      = requireGlobal('./lib/theme_manager.js');
+const SARC               = requireGlobal("lib/sarc/sarc.js");
 
 const electron = require('electron');
 const fs       = require('fs');
@@ -39,6 +40,28 @@ module.exports = class App extends App_Base
 
     clear()
     {
+    }
+
+    extractSARC(filePath = null, outputPath = null)
+    {
+        let path = dialog.showOpenDialog({properties: ['openFile']});
+        if(path == null)return false;
+        filePath = path[0];
+
+        path = dialog.showOpenDialog({properties: ['openDirectory']});
+        if(path == null)return false;
+        outputPath = path[0];
+
+
+        let fileName = filePath.split(/[\\/]+/).pop();
+
+        let sarc = new SARC();
+        let files = sarc.parse(filePath);
+        console.log(files);
+
+        sarc.extractFiles(outputPath, fileName + ".unpacked", true);
+
+        return true;
     }
 
     run()

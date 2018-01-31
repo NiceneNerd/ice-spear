@@ -163,9 +163,9 @@ module.exports = class App extends App_Base
             //filePath = args[2];
         }
 
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
+        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.sbfres";
-        filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.sbfres"; // alpha
+        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.sbfres"; // alpha
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.Tex1.sbfres"; // alpha
 
         if(filePath != "")

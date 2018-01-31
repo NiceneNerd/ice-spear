@@ -7,9 +7,10 @@
 const fs    = require('fs');
 const BYAML = requireGlobal("lib/byaml/byaml.js");
 
-const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
-const BFRES_Parser       = requireGlobal('./lib/bfres/parser.js');
+const Binary_File_Loader = requireGlobal('lib/binary_file/file_loader.js');
+const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
 const Shrine_Renderer    = require("./shrine_renderer.js");
+const Actor_Handler      = requireGlobal("lib/actor/actor_handler.js");
 
 module.exports = class Shrine_Editor
 {
@@ -23,6 +24,8 @@ module.exports = class Shrine_Editor
         this.shrineName = "";
 
         this.dataActorDyn = {};
+
+        this.actorHandler = new Actor_Handler();
 
         this.fileLoader = new Binary_File_Loader();
         this.renderer   = new Shrine_Renderer(canvasNode);
@@ -39,6 +42,9 @@ module.exports = class Shrine_Editor
         this.shrineDir = directory;
         this.shrineName = name;
 
+        this.actorHandler.loader = this.loader;
+        await this.actorHandler.load();
+
         await this._loadShrineModel();
         await this._loadDynamicActors();
 
@@ -51,6 +57,11 @@ module.exports = class Shrine_Editor
     start()
     {
         this.renderer.start();
+    }
+
+    clear()
+    {
+        this.renderer.clear();
     }
 
     /**
