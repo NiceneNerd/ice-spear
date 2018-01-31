@@ -43,6 +43,7 @@ module.exports = class App extends App_Base
         this.fileLoader = new Binary_File_Loader();
 
         this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"));
+        this.shrineEditor.loader = this.loader;
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
             sizes     : [25, 25, 50],
@@ -66,8 +67,11 @@ module.exports = class App extends App_Base
 
     }
 
-    openShrine(shrineDirOrFile)
+    async openShrine(shrineDirOrFile)
     {
+        await this.loader.show();
+        await this.loader.setStatus("Loading Shrine");
+
         let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
         this.shrineDir = this.projectDir + "shrines/" + fileName + "/";
 
@@ -83,9 +87,11 @@ module.exports = class App extends App_Base
             sarc.extractFiles(this.projectDir + "shrines", fileName, true);
         }
 
-        this.shrineEditor.load(this.shrineDir, this.shrineName);
+        await this.shrineEditor.load(this.shrineDir, this.shrineName);
 
         this.render();
+
+        await this.loader.hide();
     }
 
     render()

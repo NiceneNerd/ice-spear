@@ -26,6 +26,7 @@ module.exports = class Shrine_Editor
 
         this.fileLoader = new Binary_File_Loader();
         this.renderer   = new Shrine_Renderer(canvasNode);
+        this.loader     = null;
     }
 
     /**
@@ -33,16 +34,102 @@ module.exports = class Shrine_Editor
      * @param {string} directory directory of the shrine
      * @param {string} name name of the shrine
      */
-    load(directory, name)
+    async load(directory, name)
     {
         this.shrineDir = directory;
         this.shrineName = name;
 
-        this._loadShrineModel();
-        this._loadDynamicActors();
+        await this._loadShrineModel();
+        await this._loadDynamicActors();
 
+        await this._addActorsToScene();
+    }
+
+    /**
+     * starts the editor and it's renderer
+     */
+    start()
+    {
+        this.renderer.start();
+    }
+
+    /**
+     * loads the shrine BFRES model, also tries to load the texture file
+     */
+    async _loadShrineModel()
+    {
+        let shrineModelPath = this.shrineDir + "Model/DgnMrgPrt_" + this.shrineName + ".sbfres";
+        if(fs.existsSync(shrineModelPath))
+        {
+            let modelBuffer = this.fileLoader.buffer(shrineModelPath);
+
+            this.shrineBfresParser = new BFRES_Parser(true);
+            this.shrineBfresParser.loader = this.loader;
+
+            if(await this._loadShrineTexture())
+                this.shrineBfresParser.setTextureParser(this.texBfresParser);
+
+            if(await this.shrineBfresParser.parse(modelBuffer))
+            {
+                let shrineModels = this.shrineBfresParser.getModels();
+
+                if(shrineModels[0] != null)
+                        this.renderer.setShrineModels(shrineModels[0]);
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * tries to load the Tex2 texture file
+     */
+    async _loadShrineTexture()
+    {
+        let shrineTexPath = this.shrineDir + "Model/DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres";
+        console.log(shrineTexPath);
+        if(fs.existsSync(shrineTexPath))
+        {
+            let texBuffer = this.fileLoader.buffer(shrineTexPath);
+
+            this.texBfresParser = new BFRES_Parser(true);
+            this.texBfresParser.loader = this.loader;
+            if(await this.texBfresParser.parse(texBuffer))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * loads dynamic actors from the BYAML file
+     */
+    async _loadDynamicActors()
+    {
+        if(this.loader)await this.loader.setStatus("Loading Actors (Dynamic)");
+
+        let fileActorsDyn = this.shrineDir + "Map/CDungeon/" + this.shrineName + "/" + this.shrineName + "_Dynamic.smubin";
+        if(fs.existsSync(fileActorsDyn))
+        {
+            let byaml = new BYAML();
+            this.dataActorDyn = byaml.parse(this.fileLoader.buffer(fileActorsDyn));
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * adds all actors to the scene
+     */
+    async _addActorsToScene()
+    {
         if(this.dataActorDyn != null && this.dataActorDyn.Objs != null)
         {
+            if(this.loader)await this.loader.setStatus("Adding Actors to Scene");
+
             for(let obj of this.dataActorDyn.Objs)
             {
                 let name = obj.UnitConfigName;
@@ -64,77 +151,5 @@ module.exports = class Shrine_Editor
                 //console.log(actorObj);
             }
         }
-    }
-
-    /**
-     * starts the editor and it's renderer
-     */
-    start()
-    {
-        this.renderer.start();
-    }
-
-    /**
-     * loads the shrine BFRES model, also tries to load the texture file
-     */
-    _loadShrineModel()
-    {
-        let shrineModelPath = this.shrineDir + "Model/DgnMrgPrt_" + this.shrineName + ".sbfres";
-        if(fs.existsSync(shrineModelPath))
-        {
-            let modelBuffer = this.fileLoader.buffer(shrineModelPath);
-
-            this.shrineBfresParser = new BFRES_Parser(true);
-
-            if(this._loadShrineTexture())
-                this.shrineBfresParser.setTextureParser(this.texBfresParser);
-
-            if(this.shrineBfresParser.parse(modelBuffer))
-            {
-                let shrineModels = this.shrineBfresParser.getModels();
-
-                if(shrineModels[0] != null)
-                        this.renderer.setShrineModels(shrineModels[0]);
-
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * tries to load the Tex2 texture file
-     */
-    _loadShrineTexture()
-    {
-        let shrineTexPath = this.shrineDir + "Model/DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres";
-        console.log(shrineTexPath);
-        if(fs.existsSync(shrineTexPath))
-        {
-            let texBuffer = this.fileLoader.buffer(shrineTexPath);
-
-            this.texBfresParser = new BFRES_Parser(true);
-            if(this.texBfresParser.parse(texBuffer))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * loads dynamic actors from the BYAML file
-     */
-    _loadDynamicActors()
-    {
-        let fileActorsDyn = this.shrineDir + "Map/CDungeon/" + this.shrineName + "/" + this.shrineName + "_Dynamic.smubin";
-        if(fs.existsSync(fileActorsDyn))
-        {
-            let byaml = new BYAML();
-            this.dataActorDyn = byaml.parse(this.fileLoader.buffer(fileActorsDyn));
-            return true;
-        }
-        return false;
     }
 }
