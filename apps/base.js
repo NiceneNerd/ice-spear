@@ -5,6 +5,7 @@
 */
 
 const Theme_Manager = requireGlobal('./lib/theme_manager.js');
+const Loader = requireGlobal("./lib/loader.js");
 
 const electron = require('electron');
 const path     = require('path');
@@ -26,12 +27,21 @@ module.exports = class App_Base
         this.filePath     = "";
         this.themeManager = new Theme_Manager(this.node, "dark");
         this.creditWindow = null;
+
+        this.loader = new Loader(
+            this.node.querySelector(".window"),
+            this.node.querySelector("#loader-container")
+        );
     }
 
     clear()
     {
     }
 
+    /**
+     * opens a new Window with the credits
+     * the file can be found in /credits.html
+     */
     openCredits()
     {
         if(this.creditWindow == null)
@@ -58,6 +68,11 @@ module.exports = class App_Base
         }
     }
 
+    /**
+     * changes the Theme of the whole application
+     * @param {Node} node current theme button pressed
+     * @param {String} theme name of the theme
+     */
     setTheme(node, theme)
     {
         let themeButtons = this.node.querySelectorAll(".btn-theme");
@@ -68,10 +83,17 @@ module.exports = class App_Base
         this.themeManager.setTheme(theme);
     }
 
+    /**
+     * called to start the app
+     */
     run()
     {
     }
 
+    /**
+     * enables or disables fullscreen
+     * @param {Bool} newState 
+     */
     toggleFullscreen(newState = null)
     {
         if(newState === null)
@@ -80,6 +102,9 @@ module.exports = class App_Base
         this.window.setFullScreen(newState);
     }
 
+    /**
+     * called when the user is trying to exit the app
+     */
     exit()
     {
         let answer = dialog.showMessageBox({

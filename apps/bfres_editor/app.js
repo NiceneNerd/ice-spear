@@ -79,7 +79,7 @@ module.exports = class App extends App_Base
         return "";
     }
 
-    scanTextureFile(num = 1)
+    async scanTextureFile(num = 1)
     {
         if(num > 3)
             return false;
@@ -95,31 +95,36 @@ module.exports = class App extends App_Base
         }
 
         if (this.filePath != texPath && fs.existsSync(texPath)) {
-            this.openTextureFile(texPath);
+            await this.openTextureFile(texPath);
             return true;
         }
 
-        return this.scanTextureFile(num + 1);
+        return await this.scanTextureFile(num + 1);
     }
 
-    openTextureFile(texPath)
+    async openTextureFile(texPath)
     {
         console.log("Tex-File: " + texPath);
 
         let buffer = this.fileLoader.buffer(texPath);
         this.bfresTexParser = new BFRES_Parser(true);
-        if(this.bfresTexParser.parse(buffer))
+        this.bfresTexParser.setLoader(this.loader);
+
+        if(await this.bfresTexParser.parse(buffer))
         {
         }
     }
 
-    openFile(filePath)
+    async openFile(filePath)
     {
         if(filePath == "" || filePath == null)
             filePath = this.openFileDialog();
 
         if(filePath == "")
             return false;
+            
+        await this.loader.show();
+        await this.loader.setStatus("Buffering File");
 
         this.clear();
 
@@ -128,23 +133,27 @@ module.exports = class App extends App_Base
 
         let buffer = this.fileLoader.buffer(filePath);
         this.bfresParser = new BFRES_Parser(true);
+        this.bfresParser.setLoader(this.loader);
 
-        this.scanTextureFile();
+        await this.scanTextureFile();
         
         if(this.bfresTexParser != null)
             this.bfresParser.setTextureParser(this.bfresTexParser);
 
-        if(this.bfresParser.parse(buffer))
+        if(await this.bfresParser.parse(buffer))
         {
             this.bfresRenderer = new BFRES_Renderer(bfres_tab_1);
             this.bfresRenderer.render(this.bfresParser);
+
+            await this.loader.hide();
             return true;
         }
 
+        await this.loader.hide();
         return false;
     }
 
-    run()
+    async run()
     {
         this.tabManager = new Tab_Manager(tab_tabContainer_bfres, tab_contentContainer_bfres);
         this.tabManager.init();
@@ -160,7 +169,7 @@ module.exports = class App extends App_Base
         //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.Tex1.sbfres"; // alpha
 
         if(filePath != "")
-            this.openFile(filePath);
+            await this.openFile(filePath);
     }
 
 };
