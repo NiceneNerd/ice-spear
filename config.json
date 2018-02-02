@@ -1,5 +1,11 @@
 {
     "game": {
         "path": "M:/Documents/roms/wiiu/unpacked/The Legend of Zelda Breath of the Wild [ALZP0101]"
+    },
+    "editor": {
+        
+    },
+    "cache": {
+        "path": "M:/Documents/roms/wiiu/unpacked/TEST/cache"
     }
 }

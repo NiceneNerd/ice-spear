@@ -6,6 +6,7 @@
 
 const Theme_Manager = requireGlobal('./lib/theme_manager.js');
 const Loader = requireGlobal("./lib/loader.js");
+const Config_Manager = requireGlobal("./lib/config_manager.js");
 
 const electron = require('electron');
 const path     = require('path');
@@ -27,6 +28,7 @@ module.exports = class App_Base
         this.filePath     = "";
         this.themeManager = new Theme_Manager(this.node, "dark");
         this.creditWindow = null;
+        this.config       = new Config_Manager();
 
         this.loader = new Loader(
             this.node.querySelector(".window"),

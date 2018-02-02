@@ -142,6 +142,29 @@ module.exports = class App extends App_Base
         //let sarcFile = "/home/max/Documents/TEST/DgnObj_IvyBurn.sbactorpack";
 
         this.openShrine(sarcFile);
+
+        /*
+        const BXML = requireGlobal("lib/bxml/bxml.js");
+        //let bxmlPath = "M:/Documents/roms/wiiu/ice-spear-projects/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/ActorLink/DgnMrgPrt_Dungeon000.bxml";
+        let bxmlPath = "M:/Documents/roms/wiiu/ice-spear-projects/shrines/Dungeon000.pack/Map/DungeonData/CDungeon/Dungeon000.bdgnenv";
+        let bxml = new BXML();
+        bxml.parse(bxmlPath);
+        */
+/*
+        // @TODO build global string table handler
+        const RPX = requireGlobal("lib/rpx/rpx.js");
+        let rpxFile = this.config.getValue("game.path") + "/code/U-King.rpx";
+        
+        console.time("RPX");
+        let rpx = new RPX();
+        rpx.parse(rpxFile);
+        let strTables = rpx.getSectionData(rpx.SHT_STRTAB);
+        console.timeEnd("RPX");
+
+        console.log(strTables);
+
+        //console.log( new TextDecoder("utf8").decode(section.data.slice(0, dataOutSize > 500 ? 500 : dataOutSize)) );
+        */
     }
 
 };

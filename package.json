@@ -13,6 +13,7 @@
     "electron-rebuild": "^1.6.0",
     "electron-remote": "^1.2.0",
     "lodepng": "^1.1.0",
+    "pako": "^1.0.6",
     "split.js": "^1.3.5",
     "three-orbit-controls": "^82.1.0",
     "yaz0-lib": "gitlab:ice-spear-tools/yaz0-lib#develop"

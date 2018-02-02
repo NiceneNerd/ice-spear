@@ -1,0 +1,13 @@
+{
+    "0" : {"type": "bool8"},
+    "1" : {"type": "float32"},
+    "2" : {"type": "u32"},
+    "3" : {"type": "float32", "count": "2"},
+    "4" : {"type": "float32", "count": "3"},
+    "6" : {"type": "float32", "count": "4"},
+    "7" : {"type": "string"},
+    "8" : {"type": "string", "name": "actor"},
+    "15": {"type": "string"},
+    "_12" : {"comment": "float array ?"},
+    "20" : {"type": "string", "name": "actor?"}
+}
