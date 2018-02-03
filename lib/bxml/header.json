@@ -19,10 +19,10 @@
 
     "formatName" : {"type": "string", "length": "formatNameLength"},
 
-    "node": {"type": "structure", 
+    "node": {"type": "structure", "count": "rootNodesCount",
         "structure": {
             "nodeOffset": {"value": "@offset"},
-            "id": {"type": "u32", "default": "2767637356", "comment": "hash of the name"},
+            "id": {"type": "u32", "function": "crc32", "comment": "hash of the name"},
             "__UNKNOWN_3_": {"type": "u32", "default": "3"},
             "dataOffset": {"type": "u16"},
             "childCount": {"type": "u16"}

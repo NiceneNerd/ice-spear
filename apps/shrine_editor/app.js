@@ -11,11 +11,11 @@ const url      = require('url');
 const Split    = require('split.js');
 
 const Filter      = requireGlobal("lib/filter.js");
-const Tab_Manager   = requireGlobal('lib/tab_manager.js');
 const HTML_Loader   = requireGlobal("lib/html_loader.js");
 const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
 const SARC          = requireGlobal("lib/sarc/sarc.js");
 const Shrine_Editor = require("./lib/shrine_editor.js");
+const String_Table  = requireGlobal("lib/string_table/string_table.js");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -42,7 +42,9 @@ module.exports = class App extends App_Base
         this.htmlListEntry = new HTML_Loader('./html/bfres_file_tab.html');
         this.fileLoader = new Binary_File_Loader();
 
-        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"));
+        this.stringTable = new String_Table();
+
+        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.stringTable);
         this.shrineEditor.loader = this.loader;
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
@@ -80,27 +82,39 @@ module.exports = class App extends App_Base
 
         await this.loader.show();
         await this.loader.setStatus("Loading Shrine");
+        try{
+            this.clear();
 
-        this.clear();
+            this.stringTable.loader = this.loader;
+            await this.stringTable.load();
 
-        let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
-        this.shrineDir = this.projectDir + "shrines/" + fileName + "/";
+            if(typeof(global.gc) == "function") // free some memory after maybe loading the stringtable
+                global.gc();
+                
+            let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
+            this.shrineDir = this.projectDir + "shrines/" + fileName + "/";
 
-        this.shrineName = fileName.match(/Dungeon[0-9]+/);
-        if(this.shrineName != null)
-            this.shrineName = this.shrineName[0];
+            this.shrineName = fileName.match(/Dungeon[0-9]+/);
 
-        // extract if it's not a directory
-        if(fs.lstatSync(shrineDirOrFile).isFile())
-        {
-            let sarc = new SARC();
-            this.shrineFiles = sarc.parse(shrineDirOrFile);
-            sarc.extractFiles(this.projectDir + "shrines", fileName, true);
+            if(this.shrineName != null)
+                this.shrineName = this.shrineName[0];
+
+            // extract if it's not a directory
+            if(fs.lstatSync(shrineDirOrFile).isFile())
+            {
+                let sarc = new SARC(this.stringTable);
+                this.shrineFiles = sarc.parse(shrineDirOrFile);
+                sarc.extractFiles(this.projectDir + "shrines", fileName, true);
+            }
+
+            await this.shrineEditor.load(this.shrineDir, this.shrineName);
+
+            this.render();
+
+        } catch(e) {
+            await this.loader.hide();    
+            throw e;
         }
-
-        await this.shrineEditor.load(this.shrineDir, this.shrineName);
-
-        this.render();
 
         await this.loader.hide();
     }
@@ -142,29 +156,6 @@ module.exports = class App extends App_Base
         //let sarcFile = "/home/max/Documents/TEST/DgnObj_IvyBurn.sbactorpack";
 
         this.openShrine(sarcFile);
-
-        /*
-        const BXML = requireGlobal("lib/bxml/bxml.js");
-        //let bxmlPath = "M:/Documents/roms/wiiu/ice-spear-projects/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/ActorLink/DgnMrgPrt_Dungeon000.bxml";
-        let bxmlPath = "M:/Documents/roms/wiiu/ice-spear-projects/shrines/Dungeon000.pack/Map/DungeonData/CDungeon/Dungeon000.bdgnenv";
-        let bxml = new BXML();
-        bxml.parse(bxmlPath);
-        */
-/*
-        // @TODO build global string table handler
-        const RPX = requireGlobal("lib/rpx/rpx.js");
-        let rpxFile = this.config.getValue("game.path") + "/code/U-King.rpx";
-        
-        console.time("RPX");
-        let rpx = new RPX();
-        rpx.parse(rpxFile);
-        let strTables = rpx.getSectionData(rpx.SHT_STRTAB);
-        console.timeEnd("RPX");
-
-        console.log(strTables);
-
-        //console.log( new TextDecoder("utf8").decode(section.data.slice(0, dataOutSize > 500 ? 500 : dataOutSize)) );
-        */
     }
-
+    
 };

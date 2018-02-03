@@ -44,7 +44,7 @@ function openApp(appName = DEFAULT_APP_NAME)
 app.on('ready', function()
 {
     let appName = (process.argv[2] != null) ? process.argv[2] : DEFAULT_APP_NAME;
-
+    appName = "shrine_editor";
     openApp(appName);
 });
 

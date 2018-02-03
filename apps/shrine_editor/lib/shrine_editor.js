@@ -17,7 +17,7 @@ module.exports = class Shrine_Editor
     /**
      * @param {Node} canvasNode 
      */
-    constructor(canvasNode)
+    constructor(canvasNode, stringTable = null)
     {
         this.THREE = THREE;
         this.shrineDir  = "";
@@ -26,7 +26,8 @@ module.exports = class Shrine_Editor
         this.dataActorDyn = {};
 
         this.actorHandler = new Actor_Handler();
-
+        this.stringTable  = stringTable;
+        
         this.fileLoader = new Binary_File_Loader();
         this.renderer   = new Shrine_Renderer(canvasNode);
         this.loader     = null;

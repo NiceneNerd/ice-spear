@@ -4,10 +4,11 @@
   "license": "GPL-3.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --js-flags=\"--expose-gc\"",
     "postinstall": "electron-rebuild"
   },
   "dependencies": {
+    "crc32": "^0.2.2",
     "delete": "^1.1.0",
     "electron": "1.7.10",
     "electron-rebuild": "^1.6.0",
