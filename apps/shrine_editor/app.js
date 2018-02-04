@@ -148,12 +148,7 @@ module.exports = class App extends App_Base
 
     run()
     {
-        // SARC Test
-        //let sarcFile = "M:/Documents/roms/wiiu/unpacked/TEST/sarc/Dungeon009.pack";
-        let sarcFile = "M:/Documents/roms/wiiu/unpacked/TEST/sarc/Dungeon000.pack";
-        //let sarcFile = "/home/max/Documents/TEST/compressed/Dungeon018.pack";
-        //let sarcFile = "/home/max/Documents/TEST/compressed/Dungeon000.pack";
-        //let sarcFile = "/home/max/Documents/TEST/DgnObj_IvyBurn.sbactorpack";
+        let sarcFile = this.config.getValue("game.path") + "/content/Pack/Dungeon042.pack";
 
         this.openShrine(sarcFile);
     }

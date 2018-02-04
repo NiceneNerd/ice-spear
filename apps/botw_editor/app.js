@@ -8,6 +8,7 @@ const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
 const Tab_Manager        = requireGlobal('./lib/tab_manager.js');
 const Theme_Manager      = requireGlobal('./lib/theme_manager.js');
 const SARC               = requireGlobal("lib/sarc/sarc.js");
+const String_Table       = requireGlobal("lib/string_table/string_table.js");
 
 const electron = require('electron');
 const fs       = require('fs');
@@ -25,6 +26,8 @@ module.exports = class App extends App_Base
     constructor(window, args)
     {
         super(window, args);
+
+        this.stringTable = new String_Table();
 
         this.footerNode = footer.querySelector(".data-footer");
 
@@ -55,7 +58,7 @@ module.exports = class App extends App_Base
 
         let fileName = filePath.split(/[\\/]+/).pop();
 
-        let sarc = new SARC();
+        let sarc = new SARC(this.stringTable);
         let files = sarc.parse(filePath);
         console.log(files);
 
@@ -64,8 +67,10 @@ module.exports = class App extends App_Base
         return true;
     }
 
-    run()
+    async run()
     {
+        await this.stringTable.load();
+
         let Aimara = requireGlobal("lib/external/aimara/aimara.js");
         let tree = Aimara("main-tree-files", null, "assets/img/treeview/");
 
