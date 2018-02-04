@@ -148,7 +148,7 @@ module.exports = class App extends App_Base
 
     run()
     {
-        let sarcFile = this.config.getValue("game.path") + "/content/Pack/Dungeon042.pack";
+        let sarcFile = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
 
         this.openShrine(sarcFile);
     }

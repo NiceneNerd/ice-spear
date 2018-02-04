@@ -12,7 +12,10 @@
     "debug-mode": true,
     "default-app": "shrine_editor",
     "app-icon": "assets/icons/icon_64.png",
-    "default-size": [1024, 768]
+    "default-size": [
+      1024,
+      768
+    ]
   },
   "dependencies": {
     "crc32": "^0.2.2",
