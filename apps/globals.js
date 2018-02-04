@@ -1,0 +1,30 @@
+/**
+* @copyright 2018 - Max Bebök
+* @author Max Bebök
+* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
+*/
+
+// This files contains super-globals
+
+const electron = require('electron');
+const __BASE_PATH = electron.remote.app.getAppPath() + "/";
+
+function requireGlobal(path)
+{
+    return require.main.require(__BASE_PATH + path);
+}
+
+// THREE.js is not compatible with the normal includes
+var THREE = requireGlobal("lib/threejs/three.min.js");
+var mainApp = null;
+
+document.addEventListener('DOMContentLoaded', ()=>
+{
+    let args = electron.remote.process.argv;
+    let window = electron.remote.getCurrentWindow();
+
+    let App = require("./app.js");
+    mainApp = new App(window, args);
+    mainApp.run();
+},
+false);

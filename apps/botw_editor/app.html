@@ -10,16 +10,7 @@
         <base href="./../../" >
         <title>Ice-Spear - Main Editor</title>
 
-        <script>
-            // GLOBALS
-
-            const __BASE_PATH = require("electron").remote.app.getAppPath() + "/";
-
-            function requireGlobal(path)
-            {
-                return require.main.require(__BASE_PATH + path);
-            }
-        </script>
+        <script src="apps/globals.js"></script>
 
         <link rel="stylesheet" href="css/photon.dark.css" data-theme="href" />
         <link rel="stylesheet" href="css/theme.dark.css" data-theme="href" />
@@ -100,29 +91,5 @@
         </footer>
 
         </div>
-
-        <script>
-            const electron = require('electron');
-            let mainWindow = null;
-            var mainApp = null;
-
-            document.addEventListener('DOMContentLoaded', ()=>
-            {
-                let windows = electron.remote.BrowserWindow.getAllWindows();
-                for(let win of windows)
-                {
-                    if(win.name == "window-botw_editor")
-                        mainWindow = win;
-                }
-
-                let args = electron.remote.process.argv;
-
-                let App = require("./app.js");
-                mainApp = new App(mainWindow, args);
-
-                mainApp.run();
-            },
-            false);
-        </script>
     </body>
 </html>

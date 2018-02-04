@@ -1,5 +1,5 @@
 {
-  "name": "bfres-editor",
+  "name": "ice-spear-editor",
   "version": "0.1.0",
   "license": "GPL-3.0",
   "main": "main.js",
@@ -7,6 +7,12 @@
     "start": "electron . --js-flags=\"--expose-gc\"",
     "postinstall": "electron-rebuild",
     "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv"
+  },
+  "ice-spear": {
+    "debug-mode": true,
+    "default-app": "shrine_editor",
+    "app-icon": "assets/icons/icon_64.png",
+    "default-size": [1024, 768]
   },
   "dependencies": {
     "crc32": "^0.2.2",

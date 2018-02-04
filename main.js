@@ -1,68 +1,42 @@
 /**
+*    ██╗ ██████╗███████╗    ███████╗██████╗ ███████╗ █████╗ ██████╗ 
+*    ██║██╔════╝██╔════╝    ██╔════╝██╔══██╗██╔════╝██╔══██╗██╔══██╗
+*    ██║██║     █████╗█████╗███████╗██████╔╝█████╗  ███████║██████╔╝
+*    ██║██║     ██╔══╝╚════╝╚════██║██╔═══╝ ██╔══╝  ██╔══██║██╔══██╗
+*    ██║╚██████╗███████╗    ███████║██║     ███████╗██║  ██║██║  ██║
+*    ╚═╝ ╚═════╝╚══════╝    ╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝                                                             
+*              ~~~~ Ice-Spear Tools - 2018 Max Bebök ~~~~
+*
 * @copyright 2018 - Max Bebök
 * @author Max Bebök
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
+* @see https://gitlab.com/ice-spear-tools/
 */
 
-const electron = require('electron');
-const path     = require('path');
-const url      = require('url');
+const app = require('electron').app;
+const packageJson    = require("./package.json");
+const Window_Handler = require("./lib/window_handler.js");
 
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-
-const DEFAULT_APP_NAME = "bfres_editor";
-
-var appWindow = {};
-
-function openApp(appName = DEFAULT_APP_NAME)
-{
-    // Create the browser window.
-    appWindow[appName] = new BrowserWindow({
-        //frame: false,
-        width: 1024,
-        height: 768,
-        icon: "assets/icons/icon_64.png"
-    });
-
-    appWindow[appName].name = "window-" + appName;
-
-    appWindow[appName].loadURL(url.format({
-        pathname: path.join(__dirname, `apps/${appName}/app.html`),
-        protocol: 'file:',
-        slashes: true
-    }));
-
-    appWindow[appName].webContents.openDevTools();
-
-    appWindow[appName].on('closed', function()
-    {
-        mainWindow = null;
-    });
-}
+var windowHandler = new Window_Handler();
 
 app.on('ready', function()
 {
-    let appName = (process.argv[2] != null) ? process.argv[2] : DEFAULT_APP_NAME;
-    appName = "shrine_editor";
-    openApp(appName);
+    windowHandler.open(packageJson["ice-spear"]["default-app"]);
 });
 
 app.on('window-all-closed', function()
 {
-    if(process.platform !== 'darwin') {
+    if(process.platform !== 'darwin')
         app.quit();
-    }
 });
 
 app.on('activate', function()
 {
-  // On OS X it's common to re-create a window in the app when the, dock icon is clicked and there are no other windows open.
-    //if(mainWindow === null)
-    //    openApp();
+    if(windowHandler.countWindows() == 0)
+        windowHandler.open(packageJson["ice-spear"]["default-app"]);
 });
 
-app.on('browser-window-created',function(e, window)
+app.on('browser-window-created', function(e, window)
 {
-    //window.setMenu(null);
+    windowHandler.onWindowCreated(e, window);
 });

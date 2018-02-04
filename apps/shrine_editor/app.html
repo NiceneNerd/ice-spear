@@ -7,19 +7,12 @@
             @license GNU-GPLv3 - see the "LICENSE" file in the root directory
         -->
 
+        <script src=""></script>
+
         <base href="./../../" >
         <title>Ice-Spear - Shrine Editor</title>
 
-        <script>
-            // GLOBALS
-
-            const __BASE_PATH = require("electron").remote.app.getAppPath() + "/";
-
-            function requireGlobal(path)
-            {
-                return require.main.require(__BASE_PATH + path);
-            }
-        </script>
+        <script src="apps/globals.js"></script>
 
         <link rel="stylesheet" href="css/photon.dark.css" data-theme="href" />
         <link rel="stylesheet" href="css/theme.dark.css" data-theme="href" />
@@ -29,12 +22,6 @@
         <link rel="stylesheet" href="css/loader.css">
         <link rel="stylesheet" href="css/split.css" />
         <link rel="stylesheet" href="css/style.css" />
-
-        <!-- THREE.JS stuff - some of these files are not compatible with require() thats why there included here -->
-        <script>
-            //var THREE = require("./../../lib/threejs/three.min.js");
-            var THREE = requireGlobal("lib/threejs/three.min.js");
-        </script>
 
         <script src="lib/threejs/lib/shaders/CopyShader.js"></script>
 
@@ -127,29 +114,5 @@
         </footer>
 
         </div>
-
-        <script>
-            const electron = require('electron');
-            let mainWindow = null;
-            var mainApp = null;
-
-            document.addEventListener('DOMContentLoaded', ()=>
-            {
-                let windows = electron.remote.BrowserWindow.getAllWindows();
-                for(let win of windows)
-                {
-                    if(win.name == "window-shrine_editor")
-                        mainWindow = win;
-                }
-
-                let args = electron.remote.process.argv;
-
-                let App = require("./app.js");
-                mainApp = new App(mainWindow, args);
-
-                mainApp.run();
-            },
-            false);
-        </script>
     </body>
 </html>
