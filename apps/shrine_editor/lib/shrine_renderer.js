@@ -39,16 +39,40 @@ module.exports = class Shrine_Renderer
         }
     }
 
-    addActor(modelData, pos, rot)
+    addActor(actorData, pos, rot)
     {
-        //let actorModel = this.threeJsRenderer.addModel(modelData);
-        let actorModel = this.threeJsRenderer.addBox();
+        let actorModel = null;
 
-        actorModel.position.copy(pos);
+        if(actorData && actorData.bfresParser)
+        {
+            // @TODO create an actor class which handles all of this better
+            let models = actorData.bfresParser.getModels();
+            for(let subModel of models)
+            {
+                for(let i in subModel)
+                {
+                    let actorModel_ = this.threeJsRenderer.addModel(subModel[i]); // @TODO CREATE MESH ONLY ONCE!
+                    actorModel_.rotation.order = "YXZ";
+                    actorModel_.position.copy(pos);
+            
+                    actorModel_.rotation.x = rot.x;
+                    actorModel_.rotation.y = rot.y;
+                    actorModel_.rotation.z = rot.z;
+                }
+            }
+        }else{
+            actorModel = this.threeJsRenderer.addBox();
+        }
 
-        actorModel.rotation.x = rot.x;
-        actorModel.rotation.y = rot.y;
-        actorModel.rotation.z = rot.z;
+        if(actorModel != null)
+        {
+            actorModel.rotation.order = "YXZ";
+            actorModel.position.copy(pos);
+
+            actorModel.rotation.x = rot.x;
+            actorModel.rotation.y = rot.y;
+            actorModel.rotation.z = rot.z;
+        }
 
         return actorModel;
     }

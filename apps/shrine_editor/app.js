@@ -148,6 +148,9 @@ module.exports = class App extends App_Base
 
     run()
     {
+        // 000 = ivy shrine
+        // 006 = physics + guardians
+        // 099 = blessing
         let sarcFile = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
 
         this.openShrine(sarcFile);

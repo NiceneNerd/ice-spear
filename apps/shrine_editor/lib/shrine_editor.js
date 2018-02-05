@@ -25,8 +25,8 @@ module.exports = class Shrine_Editor
 
         this.dataActorDyn = {};
 
-        this.actorHandler = new Actor_Handler();
         this.stringTable  = stringTable;
+        this.actorHandler = new Actor_Handler(this.stringTable);
         
         this.fileLoader = new Binary_File_Loader();
         this.renderer   = new Shrine_Renderer(canvasNode);
@@ -128,9 +128,39 @@ module.exports = class Shrine_Editor
         {
             let byaml = new BYAML();
             this.dataActorDyn = byaml.parse(this.fileLoader.buffer(fileActorsDyn));
+            //await this._getAllActorTypes();
             return true;
         }
         return false;
+    }
+
+    /**
+     * tries to get all actor types from the actor BYAML
+     */
+    async _getAllActorTypes()
+    {
+        let types = {};
+        if(this.dataActorDyn != null && this.dataActorDyn.Objs != null)
+        {
+            for(let obj of this.dataActorDyn.Objs)
+            {
+                let type = obj.UnitConfigName;
+                if(types[type] == null)
+                {
+                    types[type] = type;
+
+                    let actorData = await this.actorHandler.getActorData(type);
+                    if(actorData != null)
+                    {
+                        console.log(actorData.bfresParser.getModels());
+                    }
+                }
+                
+            }
+        }
+
+        console.log(types);
+        return types;
     }
 
     /**
@@ -145,8 +175,15 @@ module.exports = class Shrine_Editor
             for(let obj of this.dataActorDyn.Objs)
             {
                 let name = obj.UnitConfigName;
+
                 let pos = new this.THREE.Vector3(0.0, 0.0, 0.0);
                 let rot = new this.THREE.Vector3(0.0, 0.0, 0.0);
+
+                if(obj.Translate[0] == null) // leave it in until i know that that doesn't happen
+                {
+                    console.log(obj);
+                    throw "Translate is not an array";
+                }
 
                 if(obj.Translate != null)
                     pos.fromArray(obj.Translate);
@@ -154,13 +191,15 @@ module.exports = class Shrine_Editor
                 if(obj.Rotate != null)
                 {
                     if(obj.Rotate.length == null)
-                        rot.x = obj.Rotate;
-                    else
+                    {
+                        rot.y = obj.Rotate;
+                    }else{
                         rot.fromArray(obj.Rotate);
+                    }
                 }
-                    
-                let actorObj = this.renderer.addActor({}, pos, rot);
-                //console.log(actorObj);
+                
+                let actorData = await this.actorHandler.getActorData(name);
+                let actorObj = this.renderer.addActor(actorData, pos, rot);   
             }
         }
     }
