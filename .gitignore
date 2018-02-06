@@ -1,3 +1,6 @@
+# Local configs
+/config.json
+
 # Installed node packages
 node_modules/
 /db/

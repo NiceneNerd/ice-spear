@@ -4,9 +4,10 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const Theme_Manager = requireGlobal('./lib/theme_manager.js');
-const Loader = requireGlobal("./lib/loader.js");
-const Config_Manager = requireGlobal("./lib/config_manager.js");
+const Theme_Manager = requireGlobal('lib/theme_manager.js');
+const Loader = requireGlobal("lib/loader.js");
+const Config_Manager  = requireGlobal("lib/config_manager.js");
+const Project_Manager = requireGlobal("lib/project_manager.js");
 
 const electron = require('electron');
 const path     = require('path');
@@ -29,6 +30,7 @@ module.exports = class App_Base
         this.themeManager = new Theme_Manager(this.node, "dark");
         this.creditWindow = null;
         this.config       = new Config_Manager();
+        this.project      = new Project_Manager(this.config);
 
         this.loader = new Loader(
             this.node.querySelector(".window"),
