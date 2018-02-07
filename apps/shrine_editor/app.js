@@ -159,6 +159,24 @@ module.exports = class App extends App_Base
         }
 
         this.openShrine(filePath);
-    }
-    
+
+        // BXML Test
+        /*
+        this.stringTable.load();
+        const BXML  = requireGlobal("lib/bxml/bxml.js");
+
+        let bxmlInPath = this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.baiprog";
+        let bxmlIn = new BXML(this.stringTable);
+        let bxmlJson = bxmlIn.parse(bxmlInPath);
+        console.log(bxmlJson);
+
+        let bxmlOutPath = this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.test.baiprog";
+        let bxmlOut = new BXML(this.stringTable);
+        let bxmlBuffer = bxmlOut.create(bxmlJson);
+        console.log(bxmlBuffer);
+
+        if(bxmlBuffer != null)
+            fs.writeFileSync(bxmlBuffer);
+*/
+    }    
 };

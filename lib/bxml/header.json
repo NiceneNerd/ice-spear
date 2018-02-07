@@ -1,12 +1,12 @@
 {
-    "magic"  : {"type" : "string", "length": 4, "checkValue": "AAMP"},
-    "version": {"type": "u32", "default": "2"},
-    "__UNKNOWN_0_": {"type": "u32", "default": "3"},
+    "magic"  : {"type" : "string", "length": 4, "checkValue": "AAMP", "default": "AAMP"},
+    "version": {"type": "u32", "default": 2},
+    "__UNKNOWN_0_": {"type": "u32", "default": 3},
 
     "fileSize": {"type": "u32"},
-    "__UNKNOWN_1_": {"type": "u32", "default": "0"},
+    "__UNKNOWN_1_": {"type": "u32", "default": 0},
 
-    "formatNameLength": {"type": "u32", "default": "4"},
+    "formatNameLength": {"type": "u32", "default": 4},
 
     "rootNodesCount"     : {"type": "u32"},
     "rootChildNodesCount": {"type": "u32"},
@@ -15,7 +15,7 @@
     "dataBufferSize"   : {"type": "u32"},
     "stringBufferSize" : {"type": "u32"},
 
-    "__UNKNOWN_2_": {"type": "u32", "default": "0"},
+    "__UNKNOWN_2_": {"type": "u32", "default": 0},
 
     "formatName" : {"type": "string", "length": "formatNameLength"},
 
@@ -23,7 +23,7 @@
         "structure": {
             "nodeOffset": {"value": "@offset"},
             "id": {"type": "u32", "function": "crc32", "comment": "hash of the name"},
-            "__UNKNOWN_3_": {"type": "u32", "default": "3"},
+            "__UNKNOWN_3_": {"type": "u32", "default": 3},
             "dataOffset": {"type": "u16"},
             "childCount": {"type": "u16"}
         }
