@@ -151,9 +151,14 @@ module.exports = class App extends App_Base
         // 000 = ivy shrine
         // 006 = physics + guardians
         // 099 = blessing
-        let sarcFile = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
+        let filePath = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
+        //let filePath = "";
 
-        this.openShrine(sarcFile);
+        if(this.args.file != null) {
+            filePath = this.args.file;
+        }
+
+        this.openShrine(filePath);
     }
     
 };

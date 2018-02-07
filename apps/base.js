@@ -6,6 +6,7 @@
 
 const Theme_Manager = requireGlobal('lib/theme_manager.js');
 const Loader = requireGlobal("lib/loader.js");
+const Window_Handler_Remote = requireGlobal("lib/window_handler_remote.js");
 const Config_Manager  = requireGlobal("lib/config_manager.js");
 const Project_Manager = requireGlobal("lib/project_manager.js");
 
@@ -29,6 +30,7 @@ module.exports = class App_Base
         this.filePath     = "";
         this.themeManager = new Theme_Manager(this.node, "dark");
         this.creditWindow = null;
+        this.windowHandler = new Window_Handler_Remote();
         this.config       = new Config_Manager();
         this.project      = new Project_Manager(this.config);
 

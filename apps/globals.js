@@ -7,6 +7,8 @@
 // This files contains super-globals
 
 const electron = require('electron');
+const querystring = require("querystring");
+
 const __BASE_PATH = electron.remote.app.getAppPath() + "/";
 
 function requireGlobal(path)
@@ -18,9 +20,9 @@ function requireGlobal(path)
 var THREE = requireGlobal("lib/threejs/three.min.js");
 var mainApp = null;
 
-document.addEventListener('DOMContentLoaded', ()=>
+document.addEventListener('DOMContentLoaded', () =>
 {
-    let args = electron.remote.process.argv;
+    let args = querystring.parse(global.window.location.search.substr(1));
     let window = electron.remote.getCurrentWindow();
 
     let App = require("./app.js");
