@@ -38,6 +38,8 @@ module.exports = class App extends App_Base
 
         this.init();
         this.clear();
+
+        this.project.reopenLast(); // TEST
     }
 
     init()
@@ -163,10 +165,8 @@ module.exports = class App extends App_Base
             filePath = this.args.file;
         }
 
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.sbfres";
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/Dungeon000/Model/DgnMrgPrt_Dungeon000.Tex2.sbfres";
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.sbfres"; // alpha
-        //filePath = "M:/Documents/roms/wiiu/unpacked/TEST/TwnObj_FenceWood_A.Tex1.sbfres"; // alpha
+        filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.sbfres"; // TEST
+        filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.Tex1.sbfres"; // TEST
 
         if(filePath != "")
             await this.openFile(filePath);
