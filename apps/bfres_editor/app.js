@@ -166,7 +166,7 @@ module.exports = class App extends App_Base
         }
 
         filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.sbfres"; // TEST
-        filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.Tex1.sbfres"; // TEST
+        //filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.Tex1.sbfres"; // TEST
 
         if(filePath != "")
             await this.openFile(filePath);
