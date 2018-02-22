@@ -10,7 +10,7 @@
   },
   "ice-spear": {
     "debug-mode": true,
-    "default-app": "bfres_editor",
+    "default-app": "shrine_editor",
     "app-icon": "assets/icons/icon_64.png",
     "default-size": [
       1024,

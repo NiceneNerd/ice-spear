@@ -158,10 +158,10 @@ module.exports = class App extends App_Base
             filePath = this.args.file;
         }
 
-        this.openShrine(filePath);
+        //this.openShrine(filePath);
 
         // BXML Test
-        /*
+        
         this.stringTable.load();
         const BXML  = requireGlobal("lib/bxml/bxml.js");
 
@@ -169,14 +169,15 @@ module.exports = class App extends App_Base
         let bxmlIn = new BXML(this.stringTable);
         let bxmlJson = bxmlIn.parse(bxmlInPath);
         console.log(bxmlJson);
-
+        fs.writeFileSync("./test.json", JSON.stringify(bxmlJson, null, 4));
+/*
         let bxmlOutPath = this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.test.baiprog";
         let bxmlOut = new BXML(this.stringTable);
         let bxmlBuffer = bxmlOut.create(bxmlJson);
         console.log(bxmlBuffer);
 
         if(bxmlBuffer != null)
-            fs.writeFileSync(bxmlBuffer);
+            fs.writeFileSync(bxmlOutPath, bxmlBuffer);
 */
     }    
 };
