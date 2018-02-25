@@ -161,7 +161,6 @@ module.exports = class App extends App_Base
         //this.openShrine(filePath);
 
         // BXML Test
-        
         this.stringTable.load();
         const BXML         = requireGlobal("lib/bxml/bxml.js");
         const BXML_Creator = requireGlobal("lib/bxml/bxml_creator.js");
@@ -169,36 +168,6 @@ module.exports = class App extends App_Base
         let bxmlInPath = this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.baiprog";
         let bxmlIn = new BXML(this.stringTable);
         let bxmlJson = bxmlIn.parse(bxmlInPath);
-
-        
-        fs.writeFileSync(this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.baiprog.json", 
-            JSON.stringify(bxmlJson, null , 4));
-
-
-        /*
-// TEST: scan for string references
-let file = bxmlIn.file;
-let intNum = file.buffer.length - 1;
-
-//let targetAddr = 0x4DC; // "NullASPlay"
-let targetAddr = 0x4E8; // "Constant" -> Addr found @ 572 / 23c | Node @ 0x238
-
-for(let i=0; i<intNum; ++i)
-{
-    file.pos(i);
-    let val = file.read("u16");
-    
-    val = (val * 4) + (i - 4);
-
-    if(val == targetAddr)
-    {
-        console.warn("Addr found @ %d / %s", i, i.toString(16));
-    }
-}
-
-console.log(bxmlIn); 
-return;
-*/
 
         console.log(bxmlJson);
 
