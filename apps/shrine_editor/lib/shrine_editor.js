@@ -144,7 +144,7 @@ module.exports = class Shrine_Editor
         {
             for(let obj of this.dataActorDyn.Objs)
             {
-                let type = obj.UnitConfigName;
+                let type = obj.UnitConfigName.value;
                 if(types[type] == null)
                 {
                     types[type] = type;
@@ -174,7 +174,7 @@ module.exports = class Shrine_Editor
 
             for(let obj of this.dataActorDyn.Objs)
             {
-                let name = obj.UnitConfigName;
+                let name = obj.UnitConfigName.value;
 
                 let pos = new this.THREE.Vector3(0.0, 0.0, 0.0);
                 let rot = new this.THREE.Vector3(0.0, 0.0, 0.0);
@@ -186,15 +186,15 @@ module.exports = class Shrine_Editor
                 }
 
                 if(obj.Translate != null)
-                    pos.fromArray(obj.Translate);
+                    pos.fromArray(BYAML.toRawValues(obj.Translate));
 
                 if(obj.Rotate != null)
                 {
                     if(obj.Rotate.length == null)
                     {
-                        rot.y = obj.Rotate;
+                        rot.y = obj.Rotate.value;
                     }else{
-                        rot.fromArray(obj.Rotate);
+                        rot.fromArray(BYAML.toRawValues(obj.Rotate));
                     }
                 }
                 

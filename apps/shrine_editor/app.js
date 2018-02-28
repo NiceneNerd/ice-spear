@@ -124,20 +124,18 @@ module.exports = class App extends App_Base
 
         this.footerNode.innerHTML = "Loaded Shrine: " + this.shrineDir;
 
-        //console.log(this.shrineEditor.dataActorDyn);
-
         if(this.shrineEditor.dataActorDyn != null && this.shrineEditor.dataActorDyn.Objs != null)
         {
             for(let obj of this.shrineEditor.dataActorDyn.Objs)
             {
-                let name = obj.UnitConfigName;
+                let name = obj.UnitConfigName.value;
 
                 // render actor data
                 let entryNode = this.htmlListEntry.create();
 
                 entryNode.querySelector(".data-fileEntry-type").innerHTML = name;
                 entryNode.querySelector(".data-fileType-num").innerHTML = "";
-                entryNode.querySelector(".data-fileEntry-description").innerHTML = obj.HashId;
+                entryNode.querySelector(".data-fileEntry-description").innerHTML = obj.HashId.value;
 
                 this.actorDynList.append(entryNode);
             }
@@ -158,31 +156,6 @@ module.exports = class App extends App_Base
             filePath = this.args.file;
         }
 
-        //this.openShrine(filePath);
-
-        let byamlInPath = this.project.path + "/shrines/Dungeon000.pack/Map/CDungeon/Dungeon000/Dungeon000_Static.smubin";
-        let byamlOutPath = "/home/max/Documents/roms/tmp/Dungeon000_Static.out.smubin";
-
-        // BYAML Test
-        const fileLoader = new Binary_File_Loader();
-        const BYAML      = requireGlobal("lib/byaml/byaml.js");
-        const BYAML_Creator = requireGlobal("lib/byaml/byaml_creator.js");
-
-        let byamlIn = new BYAML();
-        let byamlJson = byamlIn.parse(fileLoader.buffer(byamlInPath));
-
-        console.log(byamlJson);
-
-        let byamlOut = new BYAML_Creator();
-        let byamlBuffer = byamlOut.create(byamlJson);
-
-        if(byamlBuffer != null)
-            fs.writeFileSync(byamlOutPath, byamlBuffer);
-
-        let byamlInTest = new BYAML();
-        let byamlJsonTest = byamlInTest.parse(fileLoader.buffer(byamlOutPath));
-        console.log("== TEST FILE ==");
-        console.log(byamlJsonTest);
-        
+        this.openShrine(filePath);
     }    
 };
