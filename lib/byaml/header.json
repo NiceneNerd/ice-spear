@@ -1,8 +1,8 @@
 {
-    "magic"  : {"type" : "string", "length": 2, "checkValue": "BY"},
+    "magic"  : {"type" : "string", "length": 2, "checkValue": "BY", "default": "BY"},
     "version": {"type": "u16", "default": "2"},
 
-    "nameTableOffset"   : {"type" : "s32", "_addValue": "@offset"},
-    "stringTableOffset" : {"type" : "s32", "_addValue": "@offset"},
-    "rootNodeOffset"    : {"type" : "s32", "_addValue": "@offset"}
+    "nameTableOffset"   : {"type" : "s32"},
+    "stringTableOffset" : {"type" : "s32"},
+    "rootNodeOffset"    : {"type" : "s32"}
 }

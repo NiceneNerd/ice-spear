@@ -3,7 +3,7 @@
     "version": {"type": "u32", "default": 2},
     "__UNKNOWN_0_": {"type": "u32", "default": 3},
 
-    "fileSize": {"type": "u32"},
+    "fileSize": {"type": "u32", "comment": "whole file size"},
     "__UNKNOWN_1_": {"type": "u32", "default": 0},
 
     "formatNameLength": {"type": "u32", "default": 4},
@@ -17,15 +17,5 @@
 
     "__UNKNOWN_2_": {"type": "u32", "default": 0},
 
-    "formatName" : {"type": "string", "length": "formatNameLength"},
-
-    "node": {"type": "structure", "count": "rootNodesCount",
-        "structure": {
-            "nodeOffset": {"value": "@offset"},
-            "id": {"type": "u32", "function": "crc32", "comment": "hash of the name"},
-            "__UNKNOWN_3_": {"type": "u32", "default": 3},
-            "dataOffset": {"type": "u16"},
-            "childCount": {"type": "u16"}
-        }
-    }
+    "formatName" : {"type": "string", "length": "formatNameLength", "default": "xml"}
 }

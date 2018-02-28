@@ -6,11 +6,12 @@
   "scripts": {
     "start": "electron . --js-flags=\"--expose-gc\"",
     "postinstall": "electron-rebuild",
-    "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv"
+    "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv",
+    "unit-tests": "electron-mocha ./tests"
   },
   "ice-spear": {
     "debug-mode": true,
-    "default-app": "bfres_editor",
+    "default-app": "shrine_editor",
     "app-icon": "assets/icons/icon_64.png",
     "default-size": [
       1024,
@@ -21,8 +22,10 @@
     "crc32": "^0.2.2",
     "delete": "^1.1.0",
     "electron": "1.7.10",
+    "electron-mocha": "^5.0.0",
     "electron-rebuild": "^1.6.0",
     "electron-remote": "^1.2.0",
+    "int24": "0.0.1",
     "pako": "^1.0.6",
     "png-lib": "gitlab:ice-spear-tools/png-lib",
     "split.js": "^1.3.5",

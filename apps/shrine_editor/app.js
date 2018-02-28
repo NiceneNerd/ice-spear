@@ -124,20 +124,18 @@ module.exports = class App extends App_Base
 
         this.footerNode.innerHTML = "Loaded Shrine: " + this.shrineDir;
 
-        //console.log(this.shrineEditor.dataActorDyn);
-
         if(this.shrineEditor.dataActorDyn != null && this.shrineEditor.dataActorDyn.Objs != null)
         {
             for(let obj of this.shrineEditor.dataActorDyn.Objs)
             {
-                let name = obj.UnitConfigName;
+                let name = obj.UnitConfigName.value;
 
                 // render actor data
                 let entryNode = this.htmlListEntry.create();
 
                 entryNode.querySelector(".data-fileEntry-type").innerHTML = name;
                 entryNode.querySelector(".data-fileType-num").innerHTML = "";
-                entryNode.querySelector(".data-fileEntry-description").innerHTML = obj.HashId;
+                entryNode.querySelector(".data-fileEntry-description").innerHTML = obj.HashId.value;
 
                 this.actorDynList.append(entryNode);
             }
@@ -159,24 +157,5 @@ module.exports = class App extends App_Base
         }
 
         this.openShrine(filePath);
-
-        // BXML Test
-        /*
-        this.stringTable.load();
-        const BXML  = requireGlobal("lib/bxml/bxml.js");
-
-        let bxmlInPath = this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.baiprog";
-        let bxmlIn = new BXML(this.stringTable);
-        let bxmlJson = bxmlIn.parse(bxmlInPath);
-        console.log(bxmlJson);
-
-        let bxmlOutPath = this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.test.baiprog";
-        let bxmlOut = new BXML(this.stringTable);
-        let bxmlBuffer = bxmlOut.create(bxmlJson);
-        console.log(bxmlBuffer);
-
-        if(bxmlBuffer != null)
-            fs.writeFileSync(bxmlBuffer);
-*/
     }    
 };
