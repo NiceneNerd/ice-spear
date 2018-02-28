@@ -160,23 +160,29 @@ module.exports = class App extends App_Base
 
         //this.openShrine(filePath);
 
-        // BXML Test
-        this.stringTable.load();
-        const BXML         = requireGlobal("lib/bxml/bxml.js");
-        const BXML_Creator = requireGlobal("lib/bxml/bxml_creator.js");
+        let byamlInPath = this.project.path + "/shrines/Dungeon000.pack/Map/CDungeon/Dungeon000/Dungeon000_Static.smubin";
+        let byamlOutPath = "/home/max/Documents/roms/tmp/Dungeon000_Static.out.smubin";
 
-        let bxmlInPath = this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.baiprog";
-        let bxmlIn = new BXML(this.stringTable);
-        let bxmlJson = bxmlIn.parse(bxmlInPath);
+        // BYAML Test
+        const fileLoader = new Binary_File_Loader();
+        const BYAML      = requireGlobal("lib/byaml/byaml.js");
+        const BYAML_Creator = requireGlobal("lib/byaml/byaml_creator.js");
 
-        console.log(bxmlJson);
+        let byamlIn = new BYAML();
+        let byamlJson = byamlIn.parse(fileLoader.buffer(byamlInPath));
 
-        let bxmlOutPath = this.project.path + "/shrines/Dungeon000.pack/Actor/Pack/DgnMrgPrt_Dungeon000.sbactorpack.unpacked/Actor/AIProgram/MergedDungeonParts.out.baiprog";
-        let bxmlOut = new BXML_Creator();
-        let bxmlBuffer = bxmlOut.create(bxmlJson);
-        console.log(bxmlBuffer);
+        console.log(byamlJson);
 
-        if(bxmlBuffer != null)
-            fs.writeFileSync(bxmlOutPath, bxmlBuffer);
+        let byamlOut = new BYAML_Creator();
+        let byamlBuffer = byamlOut.create(byamlJson);
+
+        if(byamlBuffer != null)
+            fs.writeFileSync(byamlOutPath, byamlBuffer);
+
+        let byamlInTest = new BYAML();
+        let byamlJsonTest = byamlInTest.parse(fileLoader.buffer(byamlOutPath));
+        console.log("== TEST FILE ==");
+        console.log(byamlJsonTest);
+        
     }    
 };
