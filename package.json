@@ -7,7 +7,6 @@
     "start": "electron . --js-flags=\"--expose-gc\"",
     "postinstall": "electron-rebuild",
     "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv",
-    "unit-tests--": "electron ./unit_tests.js --js-flags=\"--expose-gc\"",
     "unit-tests": "electron-mocha ./tests"
   },
   "ice-spear": {
