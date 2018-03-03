@@ -22,8 +22,8 @@
 .open-app-groupContainer
 {
     position: relative;
-    top: calc(50% - 125px);
-    height: 250px;
+    top: calc(50% - 175px);
+    height: 300px;
     display: inline-flex;
 }
 
@@ -37,7 +37,7 @@
 .open-app-container
 {
     height: 100%;
-    width: 200px;
+    width: 250px;
     transition: background-color ease-in-out 0.2s;
     display: inline-block;
     margin-left: 5px;
@@ -116,12 +116,18 @@
     height: calc(100% - 50px);
     margin-top: 5px;
     width: 270px;
-    background-color: #edf9fb;
+    background-color: #282c34;
     border: none;
 }
 
 .open-app-mainDiv .bg-gradient-orange select
 {
-    background-color: #282c34;
     color: #e2c08d;
+}
+
+.open-app-mainDiv input.form-control
+{
+    width: 270px;
+    height: 30px;
+    margin-top: 5px;
 }

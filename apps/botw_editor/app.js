@@ -15,6 +15,7 @@ const fs       = require('fs');
 const path     = require('path');
 const url      = require('url');
 const Split    = require('split.js');
+const Filter   = requireGlobal("lib/filter.js");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -66,6 +67,9 @@ module.exports = class App extends App_Base
             if(this.value != null)
                 that.windowHandler.open("bfres_editor", {file: this.value});
         };
+
+        this.shrineFilter = new Filter(this.node.querySelector(".shrine input"), this.selectShrine, "option", null);
+        this.modelFilter  = new Filter(this.node.querySelector(".model  input"), this.selectModel,  "option", null);
 
         this.clear();
     }
