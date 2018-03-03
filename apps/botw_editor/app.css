@@ -1,0 +1,127 @@
+.window #botwEditor-mainWindow #main-sidebar-right
+{
+    background-position-y: calc(100% - 25px);
+    background-position-x: calc(110% - 42px);
+    background-size: 30%;
+}
+
+#main-sidebar-right
+{
+    text-align: center;
+}
+
+.bg-gradient-blue
+{
+    background: linear-gradient(to top, #41a1e1, #3ad2d1);  
+}
+.bg-gradient-orange
+{
+    background: linear-gradient(to top, #e97d68, #e99b68);
+}
+
+.open-app-groupContainer
+{
+    position: relative;
+    top: calc(50% - 125px);
+    height: 250px;
+    display: inline-flex;
+}
+
+.open-app-mainDiv
+{
+    display: inline-block;
+    height: 100%;
+    font-family: open-sans;
+}
+
+.open-app-container
+{
+    height: 100%;
+    width: 200px;
+    transition: background-color ease-in-out 0.2s;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.open-app-container:first
+{
+    margin-left: 0;
+}
+
+.open-app-container .button-open-app
+{
+    width: 100%;
+    height: calc(100% - 50px);
+    background-size: 100%;
+    cursor: pointer !important;
+}
+
+.open-app-container-sidebar,
+.open-app-groupContainer:hover .open-app-container-sidebar
+{
+    width: 0;
+    border: 0;
+}
+
+.open-app-mainDiv .default-open,
+.open-app-mainDiv:hover .open-app-container-sidebar
+{
+    width: 300px;
+    border-left: 1px dashed rgba(255, 255, 255, 0.58);
+}
+
+.open-app-container-sidebar
+{
+    transition: width ease-in-out 0.5s;
+    display: inline-block;
+    overflow-x: hidden;
+    color: white;
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+}
+
+.open-app-container .icon-shrineEditor
+{
+    background-image: url("./../../assets/img/logos/shrine_editor_white.svg");
+}
+
+.open-app-container .icon-bfresEditor
+{
+    background-image: url("./../../assets/img/logos/bfres_editor_white.svg");
+}
+
+.open-app-mainDiv span.open-app-text
+{
+    border: 0;
+    display: inline-block;
+    width: 150px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 4px;
+    /* text-shadow: 0px 0px 4px #636363; */
+    text-align: center;
+    font-size: 16pt;
+    padding: 8px 0 0 0;
+}
+
+.open-app-mainDiv .open-app-container-sidebar span.open-app-text
+{
+    font-size: 10pt;
+}
+
+.open-app-mainDiv select
+{
+    color: #41a2e1;
+    height: calc(100% - 50px);
+    margin-top: 5px;
+    width: 270px;
+    background-color: #edf9fb;
+    border: none;
+}
+
+.open-app-mainDiv .bg-gradient-orange select
+{
+    background-color: #282c34;
+    color: #e2c08d;
+}

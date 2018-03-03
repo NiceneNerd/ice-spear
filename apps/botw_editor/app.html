@@ -7,8 +7,11 @@
             @license GNU-GPLv3 - see the "LICENSE" file in the root directory
         -->
 
-        <base href="./../../" >
         <title>Ice-Spear - Main Editor</title>
+
+        <link rel="stylesheet" href="./app.css" />
+
+        <base href="./../../" >
 
         <script src="apps/globals.js"></script>
 
@@ -20,67 +23,6 @@
 
         <link rel="stylesheet" href="css/split.css" />
         <link rel="stylesheet" href="css/style.css" />
-
-        <style>
-
-          .window #botwEditor-mainWindow #main-sidebar-right
-          {
-              background-position-y: calc(100% - 25px);
-              background-position-x: calc(110% - 42px);
-              background-size: 30%;
-          }
-
-          #main-sidebar-right
-          {
-              text-align: center;
-          }
-
-          .open-app-container
-          {
-              position: relative;
-              top: calc(50% - 92px);
-              height: 184px;
-              width: 150px;
-              border-radius: 11px;
-              background-color: rgba(0,0,0,0.3);
-              transition: background-color ease-in-out 0.2s;
-              display: inline-block;
-              margin: 5px;
-          }
-
-          .open-app-container:hover
-          {
-              background-color: rgba(0,0,0,0.6);
-          }
-
-          .button-open-app
-          {
-              width: 150px;
-              height: 150px;
-              background-size: 100%;
-          }
-
-          .icon-shrineEditor
-          {
-              background-image: url("assets/img/logos/shrine_editor.svg");
-          }
-
-          .icon-bfresEditor
-          {
-              background-image: url("assets/img/logos/bfres_editor.svg");
-          }
-
-          span.open-app-text
-          {
-              border-top: 1px rgba(63, 151, 213, 0.42) dashed;
-              display: inline-block;
-              width: 150px;
-              color: #42a2e3;
-              text-align: center;
-              font-size: 14pt;
-          }
-
-        </style>
 
     </head>
     <body>
@@ -132,26 +74,43 @@
         <div class="window-content" id="botwEditor-mainWindow">
             <div class="pane-group">
 
-                <div  class="pane-sm sidebar" id="main-sidebar-left" style="max-width: 250px;">
-                    <div id="main-tree-files" class="treeview-container">
-                    </div>
-                </div>
                 <div class="pane" id="main-sidebar-right">
 
-                    <div class="open-app-container">
-                        <div class="button-open-app icon-shrineEditor" data-appName="shrine_editor"></div>
-                        <span class="open-app-text">Shrine Editor</span>
-                    </div>
+                  <div class="open-app-groupContainer">
+                      <div class="open-app-mainDiv">
+                          <div class="open-app-container bg-gradient-blue">
+                              <span class="open-app-text">Shrines</span>
+                              <div class="button-open-app icon-shrineEditor" data-appName="shrine_editor"></div>
+                          </div><div class="open-app-container-sidebar default-open bg-gradient-blue">
+                              <span class="open-app-text">List</span>
+                              <select class="shrineList" size="2">
+                              </select>
+                          </div>
+                      </div>
 
-                    <div class="open-app-container">
-                        <div class="button-open-app icon-bfresEditor" data-appName="bfres_editor"></div>
-                        <span class="open-app-text">Model Editor</span>
-                    </div>
+                      <div class="open-app-mainDiv">
+                        <div class="open-app-container bg-gradient-orange">
+                            <span class="open-app-text">Models</span>
+                            <div class="button-open-app icon-bfresEditor" data-appName="bfres_editor"></div>
+                        </div><div class="open-app-container-sidebar bg-gradient-orange">
+                              <span class="open-app-text">List</span>
+                              <select class="modelList" size="2">
+                              </select>
+                          </div>
+                      </div>
+                  </div>
 
                   <!--
                   <div>
                     <button class="button-open-app" data-appName="shrine_editor">Shrine Editor</button>
                   </div>
+
+                  <div  class="pane-sm sidebar" id="main-sidebar-left" style="max-width: 250px;">
+                    <div id="main-tree-files" class="treeview-container">
+                    </div>
+                </div>
+
+
                   -->
 
                     <!--

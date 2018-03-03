@@ -161,12 +161,12 @@ module.exports = class App extends App_Base
         this.tabManager.init();
 
         let filePath = "";
+
+        filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.sbfres"; // TEST
+
         if(this.args.file != null) {
             filePath = this.args.file;
         }
-
-        filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.sbfres"; // TEST
-        //filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.Tex1.sbfres"; // TEST
 
         if(filePath != "")
             await this.openFile(filePath);

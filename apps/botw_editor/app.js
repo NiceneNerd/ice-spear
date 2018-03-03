@@ -26,18 +26,19 @@ module.exports = class App extends App_Base
     constructor(window, args)
     {
         super(window, args);
+        var that = this;
 
         this.stringTable = new String_Table();
 
         this.footerNode = footer.querySelector(".data-footer");
-
+/*
         Split(['#main-sidebar-left', '#main-sidebar-right'], {
             sizes     : [50, 50],
             minSize   : 0,
             snapOffset: 60,
             gutterSize: 12
         });
-
+*/
         let appButtons = this.node.querySelectorAll(".button-open-app");
         for(let btn of appButtons)
         {
@@ -49,7 +50,22 @@ module.exports = class App extends App_Base
                     this.windowHandler.open(appName);
                 }
             };
-        }1
+        }
+
+        this.selectShrine = this.node.querySelector("select.shrineList");
+        this.selectModel  = this.node.querySelector("select.modelList");
+
+        this.selectShrine.ondblclick = function(a,b) 
+        {
+            if(this.value != null)
+                that.windowHandler.open("shrine_editor", {file: this.value});
+        };
+
+        this.selectModel.ondblclick = function(a,b) 
+        {
+            if(this.value != null)
+                that.windowHandler.open("bfres_editor", {file: this.value});
+        };
 
         this.clear();
     }
@@ -68,22 +84,59 @@ module.exports = class App extends App_Base
         if(path == null)return false;
         outputPath = path[0];
 
-
         let fileName = filePath.split(/[\\/]+/).pop();
 
         let sarc = new SARC(this.stringTable);
         let files = sarc.parse(filePath);
-        console.log(files);
 
         sarc.extractFiles(outputPath, fileName + ".unpacked", true);
 
         return true;
     }
 
+    async scanShrineDir()
+    {
+        const shrineRegex = /^Dungeon[0-9]{3}\.pack$/;
+        let shrineDir = this.config.getValue("game.path") + "/content/Pack";
+        
+        let files = fs.readdir(shrineDir, (err, files) => {
+            let shrinesHtml = "";
+
+            files.forEach(file => {
+                if(shrineRegex.test(file)){
+                    shrinesHtml += `<option value="${shrineDir + "/" + file}">${file}</option>`;
+                }
+            });
+            this.selectShrine.innerHTML = shrinesHtml;
+        });
+    }
+
+    async scanModelTextureDir()
+    {
+        let modelDir = this.config.getValue("game.path") + "/content/Model";
+
+        let files = fs.readdir(modelDir, (err, files) => {
+            let modelsHtml = "";
+            let texHtml = "";
+            files.forEach(file => {
+                if(!file.includes(".Tex1") && !file.includes(".Tex2"))
+                    modelsHtml += `<option value="${modelDir + "/" + file}">${file}</option>`;
+            });
+            this.selectModel.innerHTML = modelsHtml;
+        });
+    }
+
     async run()
     {
-        await this.stringTable.load();
+        this.scanShrineDir();
+        this.scanModelTextureDir();
+    }
 
+};
+
+
+
+  /*
         let Aimara = requireGlobal("lib/external/aimara/aimara.js");
         let tree = Aimara("main-tree-files", null, "assets/img/treeview/");
 
@@ -95,6 +148,4 @@ module.exports = class App extends App_Base
 
         node1 = tree.createNode('Node-B',false);
         node1.createChildNode('Node-B-1', false);
-    }
-
-};
+        */
