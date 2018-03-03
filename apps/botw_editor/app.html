@@ -7,8 +7,11 @@
             @license GNU-GPLv3 - see the "LICENSE" file in the root directory
         -->
 
-        <base href="./../../" >
         <title>Ice-Spear - Main Editor</title>
+
+        <link rel="stylesheet" href="./app.css" />
+
+        <base href="./../../" >
 
         <script src="apps/globals.js"></script>
 
@@ -68,14 +71,47 @@
           </div>
         </header>
 
-        <div class="window-content" id="bfres_tab_1">
+        <div class="window-content" id="botwEditor-mainWindow">
             <div class="pane-group">
 
-                <div class="pane-sm sidebar" id="main-sidebar-left" style="max-width: 250px;">
+                <div class="pane" id="main-sidebar-right">
+
+                  <div class="open-app-groupContainer">
+                      <div class="open-app-mainDiv shrine">
+                          <div class="open-app-container bg-gradient-blue">
+                              <span class="open-app-text">Shrines</span>
+                              <div class="button-open-app icon-shrineEditor" data-appName="shrine_editor"></div>
+                          </div><div class="open-app-container-sidebar default-open bg-gradient-blue">
+                              <input class="form-control" type="text" placeholder="Search Shrines...">
+                              <select class="shrineList" size="2">
+                              </select>
+                          </div>
+                      </div>
+
+                      <div class="open-app-mainDiv model">
+                        <div class="open-app-container bg-gradient-orange">
+                            <span class="open-app-text">Models</span>
+                            <div class="button-open-app icon-bfresEditor" data-appName="bfres_editor"></div>
+                        </div><div class="open-app-container-sidebar bg-gradient-orange">
+                            <input class="form-control" type="text" placeholder="Search Models...">
+                              <select class="modelList" size="2">
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!--
+                  <div>
+                    <button class="button-open-app" data-appName="shrine_editor">Shrine Editor</button>
+                  </div>
+
+                  <div  class="pane-sm sidebar" id="main-sidebar-left" style="max-width: 250px;">
                     <div id="main-tree-files" class="treeview-container">
                     </div>
                 </div>
-                <div class="pane" id="main-sidebar-right">
+
+
+                  -->
 
                     <!--
                         - Add Grag&Drop view for unpacking Yaz0 and SARC files
