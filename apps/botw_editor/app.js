@@ -38,6 +38,19 @@ module.exports = class App extends App_Base
             gutterSize: 12
         });
 
+        let appButtons = this.node.querySelectorAll(".button-open-app");
+        for(let btn of appButtons)
+        {
+            btn.onclick = () => 
+            {
+                let appName = btn.getAttribute("data-appName");
+                if(appName != null)
+                {
+                    this.windowHandler.open(appName);
+                }
+            };
+        }1
+
         this.clear();
     }
 
@@ -75,13 +88,13 @@ module.exports = class App extends App_Base
         let tree = Aimara("main-tree-files", null, "assets/img/treeview/");
 
         var node1 = tree.createNode('Node A',false);
-       node1.createChildNode('Node A-1', false);
-       node1.createChildNode('Node A-2', false).createChildNode('Node A-2-1', false);
+        node1.createChildNode('Node A-1', false);
+        node1.createChildNode('Node A-2', false).createChildNode('Node A-2-1', false);
 
-       tree.drawTree();
+        tree.drawTree();
 
-       node1 = tree.createNode('Node-B',false);
-       node1.createChildNode('Node-B-1', false);
+        node1 = tree.createNode('Node-B',false);
+        node1.createChildNode('Node-B-1', false);
     }
 
 };
