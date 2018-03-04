@@ -1,8 +1,12 @@
+body
+{
+    -webkit-app-region: drag;
+}
+
 .window #botwEditor-mainWindow #main-sidebar-right
 {
-    background-position-y: calc(100% - 25px);
-    background-position-x: calc(110% - 42px);
-    background-size: 30%;
+    background-image: none;
+    border: 1px solid #5d5d5d;
 }
 
 #main-sidebar-right
@@ -18,11 +22,16 @@
 {
     background: linear-gradient(to top, #e97d68, #e99b68);
 }
+.bg-gradient-purple
+{
+    background: linear-gradient(to top, #580c88, #9526a9);
+}
 
 .open-app-groupContainer
 {
+    -webkit-app-region: no-drag;
     position: relative;
-    top: calc(50% - 175px);
+    top: calc(50% - 150px);
     height: 300px;
     display: inline-flex;
 }
@@ -91,6 +100,11 @@
     background-image: url("./../../assets/img/logos/bfres_editor_white.svg");
 }
 
+.open-app-container .icon-settings
+{
+    background-image: url("./../../assets/img/logos/settings_white.svg");
+}
+
 .open-app-mainDiv span.open-app-text
 {
     border: 0;
@@ -130,4 +144,63 @@
     width: 270px;
     height: 30px;
     margin-top: 5px;
+}
+
+.open-app-mainDiv .settings-nav-container
+{
+    position: relative;
+    top: calc(50% - 50px);
+}
+
+.open-app-mainDiv .nav-group-item,
+.open-app-mainDiv .nav-group-item .icon,
+.open-app-mainDiv nav
+{
+    color: white;
+    letter-spacing: 2pt;
+    font-size: 12pt;
+    text-transform: uppercase;
+
+}
+.open-app-mainDiv .nav-group-item .icon
+{
+    padding-top: 2px;
+}
+
+.open-app-mainDiv .nav-group-item
+{
+    text-align: left;
+    padding: 4px 0 4px 20px;
+}
+
+.open-app-mainDiv .nav-group-item,
+.open-app-mainDiv .nav-group-item .icon
+{
+    cursor: pointer;
+}
+
+.open-app-mainDiv .nav-group-item:hover,
+.open-app-mainDiv .nav-group-item:hover .icon
+{
+    __color: #282c34;
+    color: #580c88;
+    background-color: white;
+}
+
+.app-title-text
+{
+    color: #40a2e0;
+    text-transform: uppercase;
+    letter-spacing: 4pt;
+    font-size: 40pt;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.app-credit-text
+{
+    position: absolute;
+    bottom: 4px;
+    right: 8px;
+    color: #9a9a9a;
 }

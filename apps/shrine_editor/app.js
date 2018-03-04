@@ -41,7 +41,8 @@ module.exports = class App extends App_Base
         this.htmlListEntry = new HTML_Loader('./html/bfres_file_tab.html');
         this.fileLoader = new Binary_File_Loader();
 
-        this.stringTable = new String_Table();
+        this.project.reopenLast();
+        this.stringTable = new String_Table(this.project.getCachePath());
 
         this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.stringTable);
         this.shrineEditor.loader = this.loader;
@@ -60,8 +61,6 @@ module.exports = class App extends App_Base
         this.observerApp.observe(this.node.querySelector(".sidebar-2"), {attributes: true});
 */
         this.clear();
-
-        this.project.reopenLast();
     }
 
     clear()

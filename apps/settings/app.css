@@ -1,0 +1,15 @@
+.tab-content
+{
+    margin: 10px 15px;
+}
+
+.drag-drop-dir input
+{
+    width: calc(100% - 70px);
+}
+
+.tab-content button
+{
+    margin-bottom: 2px;
+    height: 32px;
+}

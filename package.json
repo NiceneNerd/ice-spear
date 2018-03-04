@@ -14,7 +14,7 @@
     "default-app": "botw_editor",
     "app-icon": "assets/icons/icon_64.png",
     "default-size": [
-      1024,
+      1024, 
       768
     ]
   },
