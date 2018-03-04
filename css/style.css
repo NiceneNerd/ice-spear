@@ -4,12 +4,13 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-@font-face {
+@font-face 
+{
     font-family: "open-sans";
     src: url("../fonts/open_sans/OpenSans-Bold.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
-  }
+}
 
 .hidden
 {

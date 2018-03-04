@@ -75,6 +75,14 @@ module.exports = class App_Base
     }
 
     /**
+     * opens the settings app
+     */
+    openSettings()
+    {
+        this.windowHandler.open("settings");
+    }
+
+    /**
      * changes the Theme of the whole application
      * @param {Node} node current theme button pressed
      * @param {String} theme name of the theme
