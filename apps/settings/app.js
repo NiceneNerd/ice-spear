@@ -47,6 +47,9 @@ module.exports = class App extends App_Base
             };
         }
 
+        document.addEventListener('drop',     e => e.preventDefault());
+        document.addEventListener('dragover', e => e.preventDefault());
+
         this.initDragDrop();
         this.initValues();
     }

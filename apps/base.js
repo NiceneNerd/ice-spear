@@ -79,7 +79,7 @@ module.exports = class App_Base
      */
     openSettings()
     {
-        this.windowHandler.open("settings"); // 940x400
+        this.windowHandler.open("settings");
     }
 
     /**
