@@ -4,7 +4,7 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
+const Binary_File_Loader = require("binary-file").Loader;
 const BFRES_Parser       = requireGlobal('./lib/bfres/parser.js');
 const BFRES_Renderer     = requireGlobal('./lib/bfres/renderer.js');
 const Tab_Manager        = requireGlobal('./lib/tab_manager.js');

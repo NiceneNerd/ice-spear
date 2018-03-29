@@ -4,7 +4,7 @@ global.__BASE_PATH = process.cwd() + "/";
 
 
 const Config_Manager = require("./../lib/config_manager.js");
-const Binary_File_Loader = require('./../lib/binary_file/file_loader.js');
+const Binary_File_Loader = require("binary-file").Loader;
 const BYAML         = require("./../lib/byaml/byaml.js");
 const BYAML_Creator = require("./../lib/byaml/byaml_creator.js");
 

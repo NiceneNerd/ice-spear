@@ -12,7 +12,7 @@ const Split    = require('split.js');
 
 const Filter      = requireGlobal("lib/filter.js");
 const HTML_Loader   = requireGlobal("lib/html_loader.js");
-const Binary_File_Loader = requireGlobal('./lib/binary_file/file_loader.js');
+const Binary_File_Loader = require("binary-file").Loader;
 const SARC          = requireGlobal("lib/sarc/sarc.js");
 const Shrine_Editor = require("./lib/shrine_editor.js");
 const String_Table  = requireGlobal("lib/string_table/string_table.js");

@@ -7,7 +7,7 @@
 const fs    = require('fs');
 const BYAML = requireGlobal("lib/byaml/byaml.js");
 
-const Binary_File_Loader = requireGlobal('lib/binary_file/file_loader.js');
+const Binary_File_Loader = require("binary-file").Loader;
 const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
 const Shrine_Renderer    = require("./shrine_renderer.js");
 const Actor_Handler      = requireGlobal("lib/actor/actor_handler.js");
