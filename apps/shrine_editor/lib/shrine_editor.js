@@ -5,7 +5,7 @@
 */
 
 const fs    = require('fs');
-const BYAML = requireGlobal("lib/byaml/byaml.js");
+const BYAML = require("byaml-lib").Parser;
 
 const Binary_File_Loader = require("binary-file").Loader;
 const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');

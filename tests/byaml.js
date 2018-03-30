@@ -5,8 +5,7 @@ global.__BASE_PATH = process.cwd() + "/";
 
 const Config_Manager = require("./../lib/config_manager.js");
 const Binary_File_Loader = require("binary-file").Loader;
-const BYAML         = require("./../lib/byaml/byaml.js");
-const BYAML_Creator = require("./../lib/byaml/byaml_creator.js");
+const BYAML = require("byaml-lib");
 
 let config = new Config_Manager();
 
@@ -15,8 +14,8 @@ function createAndCompare(fileInPath)
     let fileLoader = new Binary_File_Loader();
     let byamlInBuffer = fileLoader.buffer(fileInPath);
 
-    let byamlJson = (new BYAML()).parse(byamlInBuffer);
-    let byamlOutBuffer = (new BYAML_Creator()).create(byamlJson);
+    let byamlJson = (new BYAML.Parser()).parse(byamlInBuffer);
+    let byamlOutBuffer = (new BYAML.Creator()).create(byamlJson);
 
     return byamlInBuffer.compare(byamlOutBuffer) == 0;
 }
