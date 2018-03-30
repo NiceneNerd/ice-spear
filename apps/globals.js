@@ -13,6 +13,9 @@ const __BASE_PATH = electron.remote.app.getAppPath() + "/";
 
 function requireGlobal(path)
 {
+    //if(path == "lib/sarc/sarc.js")
+        //throw "ewweffe SARC";
+
     return require.main.require(__BASE_PATH + path);
 }
 

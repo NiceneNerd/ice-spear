@@ -4,7 +4,7 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const SARC = requireGlobal("lib/sarc/sarc.js");
+const SARC = require("sarc-lib");
 
 const electron = require('electron');
 const fs       = require('fs');
