@@ -103,7 +103,7 @@ module.exports = class App extends App_Base
             {
                 let sarc = new SARC(this.stringTable);
                 this.shrineFiles = sarc.parse(shrineDirOrFile);
-                sarc.extractFiles(this.project.path + "/shrines", fileName, true);
+                await sarc.extractFiles(path.join(this.project.path, "shrines", fileName), true);
             }
 
             await this.shrineEditor.load(this.shrineDir, this.shrineName);

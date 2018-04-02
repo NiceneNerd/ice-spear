@@ -62,6 +62,7 @@ module.exports = class App extends App_Base
     {
     }
 
+    /*
     extractSARC(filePath = null, outputPath = null)
     {
         let path = dialog.showOpenDialog({properties: ['openFile']});
@@ -77,10 +78,11 @@ module.exports = class App extends App_Base
         let sarc = new SARC(this.stringTable);
         let files = sarc.parse(filePath);
 
-        sarc.extractFiles(outputPath, fileName + ".unpacked", true);
+        sarc.extractFiles(path.join(outputPath, fileName + ".unpacked"), true);
 
         return true;
     }
+    */
 
     async scanShrineDir()
     {
