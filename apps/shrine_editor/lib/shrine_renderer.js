@@ -23,6 +23,7 @@ module.exports = class Shrine_Renderer
             this.threeJsRenderer.clear();
 
         this.threeJsRenderer = new Renderer(this.canvasNode);
+        this.threeJsRenderer.changeCameraType('fps');
         this.updateDrawSize();
         this.shrineModels = [];
     }
