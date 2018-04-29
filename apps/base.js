@@ -8,7 +8,7 @@ const Theme_Manager = requireGlobal('lib/theme_manager.js');
 const Loader = requireGlobal("lib/loader.js");
 const Window_Handler_Remote = requireGlobal("lib/window_handler_remote.js");
 const Config_Manager  = requireGlobal("lib/config_manager.js");
-const Project_Manager = requireGlobal("lib/project_manager.js");
+const Project_Manager = requireGlobal("lib/project/manager.js");
 
 const electron = require('electron');
 const path     = require('path');

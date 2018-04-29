@@ -1,70 +1,88 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!--
+
+<head>
+    <!--
             @copyright 2018 - Max Bebök
             @author Max Bebök
             @license GNU-GPLv3 - see the "LICENSE" file in the root directory
         -->
 
-        <title>Ice-Spear - Settings</title>
+    <title>Ice-Spear - Settings</title>
 
-        <link rel="stylesheet" href="./app.css" />
+    <link rel="stylesheet" href="./app.css" />
 
-        <base href="./../../" >
+    <base href="./../../">
 
-        <script src="apps/globals.js"></script>
+    <script src="apps/globals.js"></script>
 
-        <link rel="stylesheet" href="css/photon.dark.css" data-theme="href" />
-        <link rel="stylesheet" href="css/theme.dark.css" data-theme="href" />
+    <link rel="stylesheet" href="css/photon.dark.css" data-theme="href" />
+    <link rel="stylesheet" href="css/theme.dark.css" data-theme="href" />
 
-        <link rel="stylesheet" href="css/split.css" />
-        <link rel="stylesheet" href="css/style.css" />
-        
-    </head>
-    <body>
-        <div class="window">
-            <div class="window-content" id="settings-mainWindow">
-                <div class="pane-group">
+    <link rel="stylesheet" href="css/split.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
-                    <div class="pane-sm sidebar" id="main-sidebar-left">
+</head>
 
-                        <ul class="list-group">
-                            <li class="list-group-header">
-                                <input class="form-control" type="text" placeholder="Filer...">
-                            </li>
-                            <li class="list-group-item active" data-tab="game">
-                                <div class="media-body">
+<body>
+    <div class="window">
+        <div class="window-content" id="settings-mainWindow">
+            <div class="pane-group">
+
+                <div class="pane-sm sidebar" id="main-sidebar-left">
+
+                    <ul class="list-group">
+                        <li class="list-group-header">
+                            <input class="form-control" type="text" placeholder="Filer...">
+                        </li>
+                        <li class="list-group-item active" data-tab="game">
+                            <div class="media-body">
                                 <strong class="search-value">Game</strong>
                                 <p class="search-value">General Game/ROM settings</p>
-                                </div>
-                            </li>
-                            <li class="list-group-item" data-tab="editor">
-                                <div class="media-body">
+                            </div>
+                        </li>
+                        <li class="list-group-item" data-tab="projects">
+                            <div class="media-body">
+                                <strong class="search-value">Projects</strong>
+                                <p class="search-value">Project settings</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item" data-tab="editor">
+                            <div class="media-body">
                                 <strong class="search-value">Editor</strong>
                                 <p class="search-value">Edtitor settings</p>
-                                </div>
-                            </li>
-                        </ul>
-                        
-                    </div>
-                    <div class="pane" id="main-sidebar-right">
-                        <div class="tab-content" data-tab="game">
-                            
-                            <div class="form-group drag-drop-dir">
-                                <label>Game/ROM directory</label><br/>
-                                <button class="btn btn-large btn-default">Select</button>
-                                <input type="text" data-configRef="game.path" class="form-control" placeholder="Open or drag&drop a directory">
                             </div>
-
-                        </div>
-                        <div class="tab-content" data-tab="editor" hidden>
-                            [WIP]
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
 
                 </div>
+                <div class="pane" id="main-sidebar-right">
+                    <div class="tab-content" data-tab="game">
+
+                        <div class="form-group drag-drop-dir">
+                            <label>Game/ROM directory</label>
+                            <br/>
+                            <button class="btn btn-large btn-default">Select</button>
+                            <input type="text" data-dataType="path" data-configRef="game.path" class="form-control" placeholder="Open or drag&drop a directory">
+                        </div>
+
+                    </div>
+                    <div class="tab-content" data-tab="projects" hidden>
+                        <div class="form-group drag-drop-dir">
+                            <label>Directory to put Projects in</label>
+                            <br/>
+                            <button class="btn btn-large btn-default">Select</button>
+                            <input type="text" data-dataType="path" data-configRef="projects.path" class="form-control" placeholder="Open or drag&drop a directory">
+                        </div>
+                    </div>
+                    <div class="tab-content" data-tab="editor" hidden>
+                        [WIP]
+                    </div>
+                </div>
+
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

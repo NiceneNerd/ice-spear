@@ -84,6 +84,12 @@ module.exports = class App extends App_Base
     }
     */
 
+    createProject()
+    {
+        const projectPath = dialog.showSaveDialog({properties: ['openDirectory']});
+        this.project.create(projectPath);
+    }
+
     async scanShrineDir()
     {
         const shrineRegex = /^Dungeon[0-9]{3}\.pack$/;

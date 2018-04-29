@@ -6,7 +6,7 @@ body
 .window #botwEditor-mainWindow #main-sidebar-right
 {
     background-image: none;
-    border: 1px solid #5d5d5d;
+    border: 2px solid #373b47;
 }
 
 #main-sidebar-right
@@ -24,7 +24,7 @@ body
 }
 .bg-gradient-purple
 {
-    background: linear-gradient(to top, #580c88, #9526a9);
+    background: linear-gradient(to top, #963c79, #b55f9c);
 }
 
 .open-app-groupContainer
@@ -69,14 +69,12 @@ body
 .open-app-groupContainer:hover .open-app-container-sidebar
 {
     width: 0;
-    border: 0;
 }
 
 .open-app-mainDiv .default-open,
 .open-app-mainDiv:hover .open-app-container-sidebar
 {
     width: 300px;
-    border-left: 1px dashed rgba(255, 255, 255, 0.58);
 }
 
 .open-app-container-sidebar
@@ -107,7 +105,6 @@ body
 
 .open-app-mainDiv span.open-app-text
 {
-    border: 0;
     display: inline-block;
     width: 150px;
     text-transform: uppercase;
@@ -131,7 +128,6 @@ body
     margin-top: 5px;
     width: 270px;
     background-color: #282c34;
-    border: none;
 }
 
 .open-app-mainDiv .bg-gradient-orange select
@@ -152,14 +148,19 @@ body
     top: calc(50% - 50px);
 }
 
+.open-app-mainDiv.settings nav hr {
+    width: calc(100% - 40px);
+    margin: 8px 0 8px 20px;
+    opacity: 0.5;
+}
+
 .open-app-mainDiv .nav-group-item,
 .open-app-mainDiv .nav-group-item .icon,
 .open-app-mainDiv nav
 {
     color: white;
-    letter-spacing: 2pt;
-    font-size: 12pt;
-    text-transform: uppercase;
+    __letter-spacing: 2pt;
+    font-size: 10pt;
 
 }
 .open-app-mainDiv .nav-group-item .icon
@@ -179,17 +180,16 @@ body
     cursor: pointer;
 }
 
-.open-app-mainDiv .nav-group-item:hover,
-.open-app-mainDiv .nav-group-item:hover .icon
+.open-app-mainDiv.settings nav .nav-group-item:hover,
+.open-app-mainDiv.settings nav .nav-group-item:hover .icon
 {
-    __color: #282c34;
-    color: #580c88;
+    color: #963c79;
     background-color: white;
 }
 
 .app-title-text
 {
-    color: #40a2e0;
+    color: #41a1e1;
     text-transform: uppercase;
     letter-spacing: 4pt;
     font-size: 40pt;
