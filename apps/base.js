@@ -53,12 +53,11 @@ module.exports = class App_Base
         if(this.creditWindow == null)
         {
             this.creditWindow = new BrowserWindow({
-                //frame: false,
-                //resizable: false,
                 width: 880,
                 height: 935,
                 icon: "assets/icons/icon_64.png"
             });
+            this.creditWindow.setBackgroundColor("#373b47");
 
             this.creditWindow.name = "main-window-credits";
 

@@ -21,7 +21,6 @@
 
     <link rel="stylesheet" href="css/split.css" />
     <link rel="stylesheet" href="css/style.css" />
-
 </head>
 
 <body>
@@ -33,14 +32,14 @@
 
                 <div class="pane" id="main-sidebar-right">
 
-                    <div class="app-title-text">
+                    <div class="app-title-text no-user-select">
                         Ice-Spear
                     </div>
 
                     <div class="open-app-groupContainer">
                         <div class="open-app-mainDiv shrine">
                             <div class="open-app-container bg-gradient-blue">
-                                <span class="open-app-text">Shrines</span>
+                                <span class="open-app-text no-user-select">Shrines</span>
                                 <div class="button-open-app icon-shrineEditor" data-appName="shrine_editor"></div>
                             </div><div class="open-app-container-sidebar bg-gradient-blue">
                                 <input class="form-control" type="text" placeholder="Search Shrines...">
@@ -51,7 +50,7 @@
 
                         <div class="open-app-mainDiv model">
                             <div class="open-app-container bg-gradient-orange">
-                                <span class="open-app-text">Models</span>
+                                <span class="open-app-text no-user-select">Models</span>
                                 <div class="button-open-app icon-bfresEditor" data-appName="bfres_editor"></div>
                             </div><div class="open-app-container-sidebar bg-gradient-orange">
                                 <input class="form-control" type="text" placeholder="Search Models...">
@@ -62,10 +61,10 @@
 
                         <div class="open-app-mainDiv settings">
                             <div class="open-app-container bg-gradient-purple">
-                                <span class="open-app-text">Menu</span>
+                                <span class="open-app-text no-user-select">Menu</span>
                                 <div class="button-open-app icon-settings" data-appName="settings"></div>
                             </div><div class="open-app-container-sidebar default-open bg-gradient-purple">
-                                <div class="settings-nav-container">
+                                <div class="settings-nav-container no-user-select">
                                     <nav class="nav-group">
                                         <span class="nav-group-item" onclick="mainApp.openProject();">
                                             <span class="icon icon-folder"></span>
@@ -97,6 +96,7 @@
                 </div>
             </div>
         </div>
+              
     </div>
 
 </body>

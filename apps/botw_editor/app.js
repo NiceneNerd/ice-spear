@@ -10,6 +10,7 @@ const electron = require('electron');
 const fs       = require('fs');
 const path     = require('path');
 const url      = require('url');
+const swal     = require('sweetalert2')
 const Filter   = requireGlobal("lib/filter.js");
 
 const {dialog} = electron.remote;
@@ -62,32 +63,21 @@ module.exports = class App extends App_Base
     {
     }
 
-    /*
-    extractSARC(filePath = null, outputPath = null)
+    async createProject()
     {
-        let path = dialog.showOpenDialog({properties: ['openFile']});
-        if(path == null)return false;
-        filePath = path[0];
-
-        path = dialog.showOpenDialog({properties: ['openDirectory']});
-        if(path == null)return false;
-        outputPath = path[0];
-
-        let fileName = filePath.split(/[\\/]+/).pop();
-
-        let sarc = new SARC(this.stringTable);
-        let files = sarc.parse(filePath);
-
-        sarc.extractFiles(path.join(outputPath, fileName + ".unpacked"), true);
+        const {value: projectName} = await swal({
+            title: "What's your new project called?",
+            type: 'question',
+            input: 'text',
+            showCloseButton: true,
+            showCancelButton: true,
+            cancelButtonText: 'I changed my mind',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i>Create',
+        });
+        console.log(projectName);
+        //this.project.create(projectName);
 
         return true;
-    }
-    */
-
-    createProject()
-    {
-        const projectPath = dialog.showSaveDialog({properties: ['openDirectory']});
-        this.project.create(projectPath);
     }
 
     async scanShrineDir()
