@@ -41,7 +41,6 @@ module.exports = class App extends App_Base
         this.htmlListEntry = new HTML_Loader('./html/bfres_file_tab.html');
         this.fileLoader = new Binary_File_Loader();
 
-        this.project.reopenLast();
         this.stringTable = new String_Table(this.project.getCachePath());
 
         this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.stringTable);

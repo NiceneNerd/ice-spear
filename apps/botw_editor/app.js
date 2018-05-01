@@ -63,6 +63,31 @@ module.exports = class App extends App_Base
     {
     }
 
+    async openProject()
+    {
+        const projectNames = await this.project.listProjectNames();
+        if(!Array.isArray(projectNames) || projectNames.length == 0) {
+            return false;
+        }
+
+        const {value: projectName} = await swal({
+            title: "Select a project",
+            type: 'question',
+            input: 'select',
+            inputOptions: new Map(projectNames.map((name) => [name, name])),
+            showCloseButton: true,
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Open',
+        });
+        
+        if(projectName) 
+        {
+            return this.project.open(projectName);
+        }
+        return true;
+    }
+
     async createProject()
     {
         const {value: projectName} = await swal({
@@ -71,11 +96,15 @@ module.exports = class App extends App_Base
             input: 'text',
             showCloseButton: true,
             showCancelButton: true,
-            cancelButtonText: 'I changed my mind',
-            confirmButtonText: '<i class="fa fa-thumbs-up"></i>Create',
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Create',
         });
-        console.log(projectName);
-        //this.project.create(projectName);
+
+        if(projectName) 
+        {
+            await this.project.create(projectName);
+            this.project.open(projectName);
+        }
 
         return true;
     }
