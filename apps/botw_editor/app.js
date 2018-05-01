@@ -12,6 +12,7 @@ const path     = require('path');
 const url      = require('url');
 const swal     = require('sweetalert2')
 const Filter   = requireGlobal("lib/filter.js");
+const Notify   = requireGlobal("lib/notify/notify.js");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -65,8 +66,15 @@ module.exports = class App extends App_Base
 
     async openProject()
     {
-        const projectNames = await this.project.listProjectNames();
+        let projectNames;
+        try{
+            projectNames = await this.project.listProjectNames();
+        } catch(e) {
+            console.error(e);
+        }
+
         if(!Array.isArray(projectNames) || projectNames.length == 0) {
+            Notify.info(`You don't have any Projects!`);
             return false;
         }
 
@@ -83,9 +91,15 @@ module.exports = class App extends App_Base
         
         if(projectName) 
         {
-            return this.project.open(projectName);
+            if(this.project.open(projectName))
+            {
+                Notify.success(`Project '${projectName}' opened`);
+                return true;
+            }
+            Notify.error(`Error opening '${projectName}'`);
         }
-        return true;
+
+        return false;
     }
 
     async createProject()
@@ -102,7 +116,15 @@ module.exports = class App extends App_Base
 
         if(projectName) 
         {
-            await this.project.create(projectName);
+            try {
+                await this.project.create(projectName);
+            } catch(e) {
+                console.error(e);
+                Notify.error(`Error creating project!`);
+                return false;
+            }
+
+            Notify.success(`Project '${projectName}' created and opened!`);
             this.project.open(projectName);
         }
 
@@ -148,6 +170,8 @@ module.exports = class App extends App_Base
 
     async run()
     {
+        await super.run();
+        
         this.scanShrineDir();
         this.scanModelTextureDir();
     }

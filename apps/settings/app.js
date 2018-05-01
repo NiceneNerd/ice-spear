@@ -87,8 +87,4 @@ module.exports = class App extends App_Base
         }
         this.config.save();
     }
-
-    async run()
-    {
-    }
 };

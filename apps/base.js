@@ -7,7 +7,7 @@
 const Theme_Manager = requireGlobal('lib/theme_manager.js');
 const Loader = requireGlobal("lib/loader.js");
 const Window_Handler_Remote = requireGlobal("lib/window_handler_remote.js");
-const Config_Manager  = requireGlobal("lib/config_manager.js");
+const Main_Config = requireGlobal("lib/config/main_config.js");
 const Project_Manager = require("./../lib/project/manager.js");
 
 const electron = require('electron');
@@ -31,10 +31,9 @@ module.exports = class App_Base
         this.themeManager = new Theme_Manager(this.node, "dark");
         this.creditWindow = null;
         this.windowHandler = new Window_Handler_Remote();
-        this.config       = new Config_Manager();
+        this.config       = new Main_Config();
         
         this.project      = new Project_Manager(this.config);
-        this.project.openCurrent();
 
         this.loader = new Loader(
             this.node.querySelector(".window"),
@@ -101,8 +100,9 @@ module.exports = class App_Base
     /**
      * called to start the app
      */
-    run()
+    async run()
     {
+        await this.project.openCurrent();
     }
 
     /**
@@ -120,14 +120,18 @@ module.exports = class App_Base
     /**
      * called when the user is trying to exit the app
      */
-    exit()
+    exit(force = false)
     {
-        let answer = dialog.showMessageBox({
-            type: "question",
-            title: "Exit Editor",
-            message: "Do you really want to exit?",
-            buttons: ["OK", "Cancel"]
-        });
+        let answer = 0;
+        if(!force)
+        {
+            answer = dialog.showMessageBox({
+                type: "question",
+                title: "Exit Editor",
+                message: "Do you really want to exit?",
+                buttons: ["OK", "Cancel"]
+            });
+        }
 
         if(answer == 0) // Cancel
         {

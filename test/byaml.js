@@ -3,11 +3,11 @@ global.requireGlobal = path => require("./../" + path);
 global.__BASE_PATH = process.cwd() + "/";
 
 
-const Config_Manager = require("./../lib/config_manager.js");
+const Main_Config = require("./../lib/config/main_config.js");
 const Binary_File_Loader = require("binary-file").Loader;
 const BYAML = require("byaml-lib");
 
-let config = new Config_Manager();
+let config = new Main_Config();
 
 function createAndCompare(fileInPath)
 {
