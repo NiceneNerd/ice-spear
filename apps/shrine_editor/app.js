@@ -41,7 +41,6 @@ module.exports = class App extends App_Base
         this.htmlListEntry = new HTML_Loader('./html/bfres_file_tab.html');
         this.fileLoader = new Binary_File_Loader();
 
-        this.project.reopenLast();
         this.stringTable = new String_Table(this.project.getCachePath());
 
         this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.stringTable);
@@ -85,13 +84,13 @@ module.exports = class App extends App_Base
             this.clear();
 
             this.stringTable.loader = this.loader;
-            await this.stringTable.load();
+            //await this.stringTable.load(); // not needed now, yay!
 
             if(typeof(global.gc) == "function") // free some memory after maybe loading the stringtable
                 global.gc();
                 
             let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
-            this.shrineDir = this.project.path + "/shrines/" + fileName + "/";
+            this.shrineDir = path.join(this.project.getShrinesPath(), fileName);
 
             this.shrineName = fileName.match(/Dungeon[0-9]+/);
 
@@ -103,7 +102,7 @@ module.exports = class App extends App_Base
             {
                 let sarc = new SARC(this.stringTable);
                 this.shrineFiles = sarc.parse(shrineDirOrFile);
-                await sarc.extractFiles(path.join(this.project.path, "shrines", fileName), true);
+                await sarc.extractFiles(this.shrineDir, true);
             }
 
             await this.shrineEditor.load(this.shrineDir, this.shrineName);
@@ -143,8 +142,10 @@ module.exports = class App extends App_Base
         this.shrineEditor.start();
     }
 
-    run()
+    async run()
     {
+        await super.run();
+
         // 000 = ivy shrine
         // 006 = physics + guardians
         // 099 = blessing

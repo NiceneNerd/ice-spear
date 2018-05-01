@@ -5,6 +5,7 @@
 */
 
 const fs    = require('fs');
+const path  = require('path');
 const BYAML = require("byaml-lib").Parser;
 
 const Binary_File_Loader = require("binary-file").Loader;
@@ -70,7 +71,7 @@ module.exports = class Shrine_Editor
      */
     async _loadShrineModel()
     {
-        let shrineModelPath = this.shrineDir + "Model/DgnMrgPrt_" + this.shrineName + ".sbfres";
+        let shrineModelPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".sbfres");
         if(fs.existsSync(shrineModelPath))
         {
             let modelBuffer = this.fileLoader.buffer(shrineModelPath);
@@ -99,7 +100,7 @@ module.exports = class Shrine_Editor
      */
     async _loadShrineTexture()
     {
-        let shrineTexPath = this.shrineDir + "Model/DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres";
+        let shrineTexPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres");
         console.log(shrineTexPath);
         if(fs.existsSync(shrineTexPath))
         {
@@ -123,7 +124,7 @@ module.exports = class Shrine_Editor
     {
         if(this.loader)await this.loader.setStatus("Loading Actors (Dynamic)");
 
-        let fileActorsDyn = this.shrineDir + "Map/CDungeon/" + this.shrineName + "/" + this.shrineName + "_Dynamic.smubin";
+        let fileActorsDyn = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, this.shrineName + "_Dynamic.smubin");
         if(fs.existsSync(fileActorsDyn))
         {
             let byaml = new BYAML();

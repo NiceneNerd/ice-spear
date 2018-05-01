@@ -13,3 +13,10 @@
     margin-bottom: 2px;
     height: 32px;
 }
+
+.small-info-text 
+{
+    font-size: 10px;
+    opacity: 0.6;
+    margin-left: 4px;
+}

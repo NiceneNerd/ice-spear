@@ -57,8 +57,10 @@ module.exports = class App extends App_Base
     initDragDrop()
     {
         let dragNodes = this.node.querySelectorAll(".drag-drop-dir");
-        for(let dragNode of dragNodes)
+        for(let dragNode of dragNodes) {
             File_Drop.create(dragNode, () => this.save());
+            dragNode.onchange = () => this.save();
+        }
     }
 
     initValues()
@@ -74,13 +76,15 @@ module.exports = class App extends App_Base
     {
         for(let node of this.valueNodes)
         {
-            let configRef = node.getAttribute("data-configRef");
+            const configRef = node.getAttribute("data-configRef");
+            const dataType = node.getAttribute("data-dataType") || "text";
+
+            if(dataType == "path") {
+                node.value = node.value.trim().replace(/[\/\\]+$/g, '');
+            }
+
             this.config.setValue(configRef, node.value);
         }
         this.config.save();
-    }
-
-    async run()
-    {
     }
 };

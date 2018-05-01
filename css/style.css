@@ -17,6 +17,10 @@
     display: none;
 }
 
+.no-user-select {
+    -webkit-user-select: none;
+}
+
 .window #main-sidebar-right
 {
     background-image: url("./../assets/img/logos/ice_spear_blue.svg");

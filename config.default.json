@@ -3,8 +3,11 @@
         "path": null
     },
     "editor": {
-        "lastOpened" : {
-            "projects": []
-        }
+    },
+    "projects": {
+        "path": "",
+        "lastOpened" : [
+            
+        ]
     }
 }

@@ -10,7 +10,9 @@ const electron = require('electron');
 const fs       = require('fs');
 const path     = require('path');
 const url      = require('url');
+const swal     = require('sweetalert2')
 const Filter   = requireGlobal("lib/filter.js");
+const Notify   = requireGlobal("lib/notify/notify.js");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -62,27 +64,72 @@ module.exports = class App extends App_Base
     {
     }
 
-    /*
-    extractSARC(filePath = null, outputPath = null)
+    async openProject()
     {
-        let path = dialog.showOpenDialog({properties: ['openFile']});
-        if(path == null)return false;
-        filePath = path[0];
+        let projectNames;
+        try{
+            projectNames = await this.project.listProjectNames();
+        } catch(e) {
+            console.error(e);
+        }
 
-        path = dialog.showOpenDialog({properties: ['openDirectory']});
-        if(path == null)return false;
-        outputPath = path[0];
+        if(!Array.isArray(projectNames) || projectNames.length == 0) {
+            Notify.info(`You don't have any Projects!`);
+            return false;
+        }
 
-        let fileName = filePath.split(/[\\/]+/).pop();
+        const {value: projectName} = await swal({
+            title: "Select a project",
+            type: 'question',
+            input: 'select',
+            inputOptions: new Map(projectNames.map((name) => [name, name])),
+            showCloseButton: true,
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Open',
+        });
+        
+        if(projectName) 
+        {
+            if(this.project.open(projectName))
+            {
+                Notify.success(`Project '${projectName}' opened`);
+                return true;
+            }
+            Notify.error(`Error opening '${projectName}'`);
+        }
 
-        let sarc = new SARC(this.stringTable);
-        let files = sarc.parse(filePath);
+        return false;
+    }
 
-        sarc.extractFiles(path.join(outputPath, fileName + ".unpacked"), true);
+    async createProject()
+    {
+        const {value: projectName} = await swal({
+            title: "What's your new project called?",
+            type: 'question',
+            input: 'text',
+            showCloseButton: true,
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Create',
+        });
+
+        if(projectName) 
+        {
+            try {
+                await this.project.create(projectName);
+            } catch(e) {
+                console.error(e);
+                Notify.error(`Error creating project!`);
+                return false;
+            }
+
+            Notify.success(`Project '${projectName}' created and opened!`);
+            this.project.open(projectName);
+        }
 
         return true;
     }
-    */
 
     async scanShrineDir()
     {
@@ -123,6 +170,8 @@ module.exports = class App extends App_Base
 
     async run()
     {
+        await super.run();
+        
         this.scanShrineDir();
         this.scanModelTextureDir();
     }

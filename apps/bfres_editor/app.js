@@ -38,8 +38,6 @@ module.exports = class App extends App_Base
 
         this.init();
         this.clear();
-
-        this.project.reopenLast(); // TEST
     }
 
     init()
@@ -157,6 +155,8 @@ module.exports = class App extends App_Base
 
     async run()
     {
+        await super.run();
+        
         this.tabManager = new Tab_Manager(tab_tabContainer_bfres, tab_contentContainer_bfres);
         this.tabManager.init();
 
