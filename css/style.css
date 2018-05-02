@@ -23,12 +23,10 @@
 
 .window #main-sidebar-right
 {
-    background-image: url("./../assets/img/logos/ice_spear_blue.svg");
-    __background-image: url("./../assets/img/logos/ice_spear_color.svg");
+    background-image: url("./../assets/img/bg/ice_spear_blue.svg");
     background-repeat: no-repeat;
-    background-position-y: calc(100% - 25px);
-    background-position-x: calc(115% - 25px);
-    background-size: 55%;
+    background-size: contain;
+    background-position: bottom right;
 
 }
 
