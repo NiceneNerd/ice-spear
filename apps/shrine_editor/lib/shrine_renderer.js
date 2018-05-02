@@ -4,7 +4,7 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const Renderer = requireGlobal("lib/threejs/renderer.js");
+const Renderer = requireGlobal("lib/3d_renderer/renderer.js");
 
 module.exports = class Shrine_Renderer
 {
