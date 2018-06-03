@@ -5,6 +5,7 @@
 */
 
 const fs = require('fs');
+const uuid = require("uuid/v4");
 
 const Main_Config        = requireGlobal("./lib/config/main_config.js");
 const Binary_File_Loader = require("binary-file").Loader;
@@ -40,6 +41,7 @@ module.exports = class Actor_Handler
 
         this.objects = {};
         this.objects.DUMMY_BOX = new Actor_Object(this.shrineRenderer);
+        this.objects.DUMMY_BOX.setThreeModel(this.shrineRenderer.renderer.createBox());
     }
 
     async loadActorDatabase()
@@ -64,7 +66,11 @@ module.exports = class Actor_Handler
     async addActor(name, {Translate = null, Rotate = null, ...params})
     {
         let actorObject = await this._getActorObject(name) || await this._getActorObject("DUMMY_BOX");
-        const actor = new Actor(name, actorObject.createInstance());
+
+        if(actorObject.name == "DUMMY_BOX")
+            actorObject.name = name;
+
+        const actor = new Actor(name, uuid(), actorObject.createInstance());
 
         if(Translate != null)
             actor.pos.fromArray(BYAML.toRawValues(Translate));
@@ -79,10 +85,9 @@ module.exports = class Actor_Handler
             }
         }
 
-        console.log(actor);
+        
         actor.update();
-
-        this.actors[name] = actor; // TODO get uuid
+        this.actors[actor.id] = actor;
         return actor;
     }
 
@@ -90,7 +95,7 @@ module.exports = class Actor_Handler
     {
         if(!this.objects[name])
         {
-            let actorInfo = await this._getActorData(name);
+            let actorInfo = await this._getActorInfo(name);
             if(!actorInfo)
             {
                 console.warn(`Actor_Handler._getActorData for ${name} returned nothing!`);
@@ -104,14 +109,18 @@ module.exports = class Actor_Handler
             }
 
             this.objects[name] = new Actor_Object(this.shrineRenderer, actorInfo.bfresParser.getModels());
+
+            if(actorInfo.mainModel)
+                this.objects[name].showModel(actorInfo.mainModel.value);
         }
 
         return this.objects[name];
     }
 
-    async _getActorData(name)
+    async _getActorInfo(name)
     {
         const info = this.actorInfo[name];
+        console.log(info);
         if(info == null)
             return null;
         
@@ -121,7 +130,6 @@ module.exports = class Actor_Handler
             {
                 const bfresName = info.bfres.value;
                 const bfresPath = this.modelsPath + "/" + bfresName + ".sbfres";
-        
                 if(fs.existsSync(bfresPath))
                 {
                     const bfresParser = new BFRES_Parser(true);
@@ -143,17 +151,11 @@ module.exports = class Actor_Handler
                     if(await bfresParser.parse(this.fileLoader.buffer(bfresPath)))
                     info.bfresParser = bfresParser;
                 }
-        
-                return null;
-                //console.log(info.bfresParser);
             }else{
                 console.warn("Actor is missing the BFRES setting: " + name);
             }
         }
 
-        return info;
-
-        /*
         let actorPackPath = this.actorPath + "/Pack/" + name + ".sbactorpack";
         if(fs.existsSync(actorPackPath))
         {
@@ -165,27 +167,18 @@ module.exports = class Actor_Handler
 
             let bxml = new BXML(this.stringTable);
             let bxmlData = bxml.parse(this.fileLoader.buffer(modelListBuff));
-            
-            let bfresName = bxmlData.UnitName;
-            if(bfresName == null)return null;
+            console.log("bxmlData");
+            console.log(bxmlData);
 
-            return this._loadActorModel(name, bfresName);
+            //let bfresName = bxmlData.UnitName;
+            //if(bfresName == null)return null;
+
+            //return this._loadActorModel(name, bfresName);
         }else{
             console.warn("Actor-Pack not found for: " + name);
         }
-        */
-    }
 
-/*
-    getInfoByHash(hash)
-    {
-        let numActors = this.actorData.Hashes.length;
-        for(let i=0; i<numActors; ++i)
-        {
-            if(hash == this.actorData.Hashes[i].value)
-                return this.actorData.Actors[i];
-        }
-        return null;
+        return info;
+
     }
-    */
 };

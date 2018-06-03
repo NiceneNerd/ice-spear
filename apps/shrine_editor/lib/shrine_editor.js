@@ -108,7 +108,6 @@ module.exports = class Shrine_Editor
     async _loadShrineTexture()
     {
         let shrineTexPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres");
-        console.log(shrineTexPath);
         if(fs.existsSync(shrineTexPath))
         {
             let texBuffer = this.fileLoader.buffer(shrineTexPath);
@@ -177,7 +176,8 @@ module.exports = class Shrine_Editor
         for(let obj of actorObjectArray)
         {
             let name = obj.UnitConfigName.value;
-            await this.addActor(name, obj);
+            if(name == "DgnObj_Hrl_CandleStandA_01")
+                await this.addActor(name, obj);
         }
     }
 

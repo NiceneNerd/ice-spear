@@ -37,8 +37,11 @@ module.exports = class Actor_Object
 
             this.objectGroup.add(subModelGroup);
         }
+    }
 
-        console.log(this.objectGroup);
+    setThreeModel(model)
+    {
+        this.objectGroup.add(model);
     }
 
     createInstance()
@@ -51,7 +54,10 @@ module.exports = class Actor_Object
 
     showModel(name)
     {
-        //console.log(this.objectGroup);
+        for(let model of this.objectGroup.children)
+        {
+            model.visible = model.name == name;
+        }
     }
 
     setPos(pos)
@@ -66,6 +72,3 @@ module.exports = class Actor_Object
         this.objectGroup.rotation.z = rot.z;
     }
 };
-
-
-//actorGroup.add(this.renderer.createBox());

@@ -84,7 +84,7 @@ module.exports = class App extends App_Base
             this.clear();
 
             this.stringTable.loader = this.loader;
-            //await this.stringTable.load(); // not needed now, yay!
+            await this.stringTable.load(); // not needed now, yay!
 
             if(typeof(global.gc) == "function") // free some memory after maybe loading the stringtable
                 global.gc();

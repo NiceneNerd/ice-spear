@@ -6,14 +6,16 @@
 
 module.exports = class Actor
 {
-    constructor(name, object = undefined)
+    constructor(name, id, object = undefined)
     {
+        this.id = id;
         this.name = name;
-        this.object = object;
 
         this.pos  = new THREE.Vector3(0.0, 0.0, 0.0);
         this.rot  = new THREE.Vector3(0.0, 0.0, 0.0);
         this.size = new THREE.Vector3(1.0, 1.0, 1.0);
+
+        this.setObject(object);
     }
 
     setObject(object)
@@ -23,12 +25,6 @@ module.exports = class Actor
 
         this.object = object;
         this.update();
-    }
-
-    setModel(name)
-    {
-        if(this.object)
-            this.object.setModel(name);
     }
 
     update()
