@@ -155,7 +155,7 @@ module.exports = class Actor_Handler
                 console.warn("Actor is missing the BFRES setting: " + name);
             }
         }
-
+/*
         let actorPackPath = this.actorPath + "/Pack/" + name + ".sbactorpack";
         if(fs.existsSync(actorPackPath))
         {
@@ -177,7 +177,7 @@ module.exports = class Actor_Handler
         }else{
             console.warn("Actor-Pack not found for: " + name);
         }
-
+*/
         return info;
 
     }
