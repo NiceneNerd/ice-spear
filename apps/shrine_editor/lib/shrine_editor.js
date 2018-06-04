@@ -176,8 +176,8 @@ module.exports = class Shrine_Editor
         for(let obj of actorObjectArray)
         {
             let name = obj.UnitConfigName.value;
-            if(name == "DgnObj_Hrl_CandleStandA_01")
-                await this.addActor(name, obj);
+            //if(name == "DgnObj_Hrl_CandleStandA_01")
+            await this.addActor(name, obj);
         }
     }
 

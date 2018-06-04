@@ -120,7 +120,7 @@ module.exports = class Actor_Handler
     async _getActorInfo(name)
     {
         const info = this.actorInfo[name];
-        console.log(info);
+
         if(info == null)
             return null;
         
@@ -167,8 +167,8 @@ module.exports = class Actor_Handler
 
             let bxml = new BXML(this.stringTable);
             let bxmlData = bxml.parse(this.fileLoader.buffer(modelListBuff));
-            console.log("bxmlData");
-            console.log(bxmlData);
+            //console.log("bxmlData");
+            //console.log(bxmlData);
 
             //let bfresName = bxmlData.UnitName;
             //if(bfresName == null)return null;
