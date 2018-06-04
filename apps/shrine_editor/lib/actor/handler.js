@@ -13,6 +13,7 @@ const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
 
 const Actor_Object = require('./actor_object.js');
 const Actor        = require('./actor.js');
+const Actor_Params = require('./params.js');
 
 const BYAML = require("byaml-lib").Parser;
 const BXML  = requireGlobal("lib/bxml/bxml.js");
@@ -63,7 +64,7 @@ module.exports = class Actor_Handler
         }
     }
 
-    async addActor(name, {Translate = null, Rotate = null, ...params})
+    async addActor(name, params)
     {
         let actorObject = await this._getActorObject(name) || await this._getActorObject("DUMMY_BOX");
 
@@ -71,22 +72,8 @@ module.exports = class Actor_Handler
             actorObject.name = name;
 
         const actor = new Actor(name, uuid(), actorObject.createInstance());
+        Actor_Params.parse(actor, params).update();
 
-        if(Translate != null)
-            actor.pos.fromArray(BYAML.toRawValues(Translate));
-
-        if(Rotate != null)
-        {
-            if(Rotate.length == null)
-            {
-                actor.rot.y = Rotate.value;
-            }else{
-                actor.rot.fromArray(BYAML.toRawValues(Rotate));
-            }
-        }
-
-        
-        actor.update();
         this.actors[actor.id] = actor;
         return actor;
     }
@@ -128,29 +115,7 @@ module.exports = class Actor_Handler
         {            
             if(info.bfres != null)
             {
-                const bfresName = info.bfres.value;
-                const bfresPath = this.modelsPath + "/" + bfresName + ".sbfres";
-                if(fs.existsSync(bfresPath))
-                {
-                    const bfresParser = new BFRES_Parser(true);
-                    bfresParser.loader = this.loader;
-        
-                    const texturePath = this.modelsPath + "/" + bfresName + ".Tex1.sbfres";
-                    if(fs.existsSync(texturePath))
-                    {
-                        const texBuffer = this.fileLoader.buffer(texturePath);
-                        const textureParser = new BFRES_Parser(true);
-                        textureParser.loader = this.loader;
-
-                        if(await textureParser.parse(texBuffer))
-                        {
-                            bfresParser.setTextureParser(textureParser);
-                        }
-                    }
-        
-                    if(await bfresParser.parse(this.fileLoader.buffer(bfresPath)))
-                    info.bfresParser = bfresParser;
-                }
+                info.bfresParser = await this._getActorBfresFiles(info.bfres.value);
             }else{
                 console.warn("Actor is missing the BFRES setting: " + name);
             }
@@ -180,5 +145,33 @@ module.exports = class Actor_Handler
 */
         return info;
 
+    }
+
+    async _getActorBfresFiles(bfresName)
+    {
+        const bfresPath = this.modelsPath + "/" + bfresName + ".sbfres";
+        if(fs.existsSync(bfresPath))
+        {
+            const bfresParser = new BFRES_Parser(true);
+            bfresParser.loader = this.loader;
+
+            const texturePath = this.modelsPath + "/" + bfresName + ".Tex1.sbfres";
+            if(fs.existsSync(texturePath))
+            {
+                const texBuffer = this.fileLoader.buffer(texturePath);
+                const textureParser = new BFRES_Parser(true);
+                textureParser.loader = this.loader;
+
+                if(await textureParser.parse(texBuffer))
+                {
+                    bfresParser.setTextureParser(textureParser);
+                }
+            }
+
+            if(await bfresParser.parse(this.fileLoader.buffer(bfresPath)))
+            return bfresParser;
+        }
+
+        return undefined;
     }
 };
