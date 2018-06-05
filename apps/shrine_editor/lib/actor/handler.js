@@ -6,10 +6,12 @@
 
 const fs = require('fs');
 const uuid = require("uuid/v4");
+const path = require("path");
 
 const Main_Config        = requireGlobal("./lib/config/main_config.js");
 const Binary_File_Loader = require("binary-file").Loader;
 const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
+const BFRES_Container    = requireGlobal('lib/bfres/container.js');
 
 const Actor_Object = require('./actor_object.js');
 const Actor        = require('./actor.js');
@@ -39,6 +41,7 @@ module.exports = class Actor_Handler
     {
         this.actors = {};
         this.actorInfo = {};
+        this.bfresFiles = {};
 
         this.objects = {};
         this.objects.DUMMY_BOX = new Actor_Object(this.shrineRenderer);
@@ -89,13 +92,13 @@ module.exports = class Actor_Handler
                 return undefined;
             }
 
-            if(!actorInfo.bfresParser)
+            if(!actorInfo.bfresContainer || actorInfo.bfresContainer.isEmpty())
             {
                 console.warn(`Actor_Handler._getActorData for ${name} returned no bfresParser!`);
                 return undefined;
             }
 
-            this.objects[name] = new Actor_Object(this.shrineRenderer, actorInfo.bfresParser.getModels());
+            this.objects[name] = new Actor_Object(this.shrineRenderer, actorInfo.bfresContainer.getModels());
 
             if(actorInfo.mainModel)
                 this.objects[name].showModel(actorInfo.mainModel.value);
@@ -111,11 +114,11 @@ module.exports = class Actor_Handler
         if(info == null)
             return null;
         
-        if(info.bfresParser == null)
+        if(info.bfresContainer == null)
         {            
             if(info.bfres != null)
             {
-                info.bfresParser = await this._getActorBfresFiles(info.bfres.value);
+                info.bfresContainer = await this._getActorBfresFiles(info.bfres.value);
             }else{
                 console.warn("Actor is missing the BFRES setting: " + name);
             }
@@ -147,15 +150,46 @@ module.exports = class Actor_Handler
 
     }
 
+    /**
+     * tries to find and load bfres files that belong to an actor
+     * @param {string} bfresName 
+     * @returns {BFRES_Container}
+     */
     async _getActorBfresFiles(bfresName)
     {
-        const bfresPath = this.modelsPath + "/" + bfresName + ".sbfres";
-        if(fs.existsSync(bfresPath))
+        const files = new BFRES_Container();
+
+        // check if a normal file exists
+        const bfresMainPath = path.join(this.modelsPath, `${bfresName}.sbfres`);
+
+        if(this.bfresFiles[bfresMainPath] || fs.existsSync(bfresMainPath))
+        {
+            files.add(await this._getSingleActorBfresFile(bfresMainPath));
+        }else{
+            // check until no more sub-files are found
+            for(let i=0;;++i)
+            {
+                const bfresNum = i.toString().padStart(2, "0");
+                const bfresSubPath = path.join(this.modelsPath, `${bfresName}-${bfresNum}.sbfres`);
+                if(this.bfresFiles[bfresSubPath] || fs.existsSync(bfresSubPath)) 
+                {
+                    files.add(await this._getSingleActorBfresFile(bfresSubPath));
+                }else{
+                    break;
+                }
+            }
+        }
+        return files;
+    }
+
+    async _getSingleActorBfresFile(bfresPath)
+    {
+        if(!this.bfresFiles[bfresPath])
         {
             const bfresParser = new BFRES_Parser(true);
             bfresParser.loader = this.loader;
 
-            const texturePath = this.modelsPath + "/" + bfresName + ".Tex1.sbfres";
+            const texturePath = bfresPath.substr(0, bfresPath.length - "sbfres".length) + "Tex1.sbfres";
             if(fs.existsSync(texturePath))
             {
                 const texBuffer = this.fileLoader.buffer(texturePath);
@@ -169,9 +203,9 @@ module.exports = class Actor_Handler
             }
 
             if(await bfresParser.parse(this.fileLoader.buffer(bfresPath)))
-            return bfresParser;
+                this.bfresFiles[bfresPath] = bfresParser;
         }
 
-        return undefined;
+        return this.bfresFiles[bfresPath];
     }
 };

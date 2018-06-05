@@ -140,44 +140,13 @@ module.exports = class Shrine_Editor
         return undefined;
     }
 
-    /**
-     * tries to get all actor types from the actor BYAML
-     */
-    /*
-    async _getAllActorTypes()
-    {
-        let types = {};
-        if(this.dataActorDyn != null && this.dataActorDyn.Objs != null)
-        {
-            for(let obj of this.dataActorDyn.Objs)
-            {
-                let type = obj.UnitConfigName.value;
-                if(types[type] == null)
-                {
-                    types[type] = type;
-
-                    let actorData = await this.actorHandler.getActorData(type);
-                    if(actorData != null)
-                    {
-                        console.log(actorData.bfresParser.getModels());
-                    }
-                }
-                
-            }
-        }
-
-        console.log(types);
-        return types;
-    }
-    */
-
     async addMultipleActors(actorObjectArray)
     {
         for(let obj of actorObjectArray)
         {
             let name = obj.UnitConfigName.value;
             //if(name == "DgnObj_Hrl_CandleStandA_01")
-            await this.addActor(name, obj);
+                await this.addActor(name, obj);
         }
     }
 
