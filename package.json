@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron . --js-flags=\"--expose-gc\"",
     "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv",
-    "test": "electron-mocha ./test"
+    "test": "electron-mocha './{,!(node_modules)/**/}*.test.js'"
   },
   "ice-spear": {
     "debug-mode": true,

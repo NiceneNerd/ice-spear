@@ -20,7 +20,7 @@ function requireGlobal(path)
 }
 
 // THREE.js is not compatible with the normal includes
-var THREE = requireGlobal("lib/threejs/three.min.js");
+var THREE = requireGlobal("lib/3d_renderer/three.min.js");
 var mainApp = null;
 
 document.addEventListener('DOMContentLoaded', () =>
@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () =>
 
     let App = require("./app.js");
     mainApp = new App(window, args);
+    
     mainApp.run();
 },
 false);

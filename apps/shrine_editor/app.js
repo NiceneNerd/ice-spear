@@ -47,7 +47,7 @@ module.exports = class App extends App_Base
         this.shrineEditor.loader = this.loader;
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
-            sizes     : [25, 25, 50],
+            sizes     : [5, 5, 50],
             minSize   : 0,
             snapOffset: 60,
             gutterSize: 12
@@ -148,6 +148,7 @@ module.exports = class App extends App_Base
 
         // 000 = ivy shrine
         // 006 = physics + guardians
+        // 033 = water puzzle, missing polygon in corner
         // 099 = blessing
         let filePath = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
         //let filePath = "";

@@ -11,7 +11,7 @@ const BYAML = require("byaml-lib").Parser;
 const Binary_File_Loader = require("binary-file").Loader;
 const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
 const Shrine_Renderer    = require("./shrine_renderer.js");
-const Actor_Handler      = requireGlobal("lib/actor/actor_handler.js");
+const Actor_Handler      = require("./actor/handler.js");
 
 module.exports = class Shrine_Editor
 {
@@ -25,13 +25,15 @@ module.exports = class Shrine_Editor
         this.shrineName = "";
 
         this.dataActorDyn = {};
+        this.dataActorStatic = {};
 
         this.stringTable  = stringTable;
-        this.actorHandler = new Actor_Handler(this.stringTable);
         
-        this.fileLoader = new Binary_File_Loader();
-        this.renderer   = new Shrine_Renderer(canvasNode);
-        this.loader     = null;
+        this.fileLoader     = new Binary_File_Loader();
+        this.shrineRenderer = new Shrine_Renderer(canvasNode);
+        this.actorHandler   = new Actor_Handler(this.shrineRenderer, this.stringTable);
+
+        this.loader = null;
     }
 
     /**
@@ -45,12 +47,19 @@ module.exports = class Shrine_Editor
         this.shrineName = name;
 
         this.actorHandler.loader = this.loader;
-        await this.actorHandler.load();
-
+        await this.actorHandler.loadActorDatabase();
         await this._loadShrineModel();
-        await this._loadDynamicActors();
 
-        await this._addActorsToScene();
+        this.dataActorDyn = await this._loadActors("Dynamic");
+        this.dataActorStatic = await this._loadActors("Static");
+
+        if(this.loader)await this.loader.setStatus("Adding Actors to Scene");
+
+        if(this.dataActorDyn != null && this.dataActorDyn.Objs != null)
+            await this.addMultipleActors(this.dataActorDyn.Objs);
+
+        if(this.dataActorStatic != null && this.dataActorStatic.Objs != null)
+            await this.addMultipleActors(this.dataActorStatic.Objs);
     }
 
     /**
@@ -58,12 +67,12 @@ module.exports = class Shrine_Editor
      */
     start()
     {
-        this.renderer.start();
+        this.shrineRenderer.start();
     }
 
     clear()
     {
-        this.renderer.clear();
+        this.shrineRenderer.clear();
     }
 
     /**
@@ -85,9 +94,7 @@ module.exports = class Shrine_Editor
             if(await this.shrineBfresParser.parse(modelBuffer))
             {
                 let shrineModels = this.shrineBfresParser.getModels();
-
-                if(shrineModels[0] != null)
-                        this.renderer.setShrineModels(shrineModels[0]);
+                Object.values(shrineModels).forEach(subModel => this.shrineRenderer.setShrineModels(subModel));
 
                 return true;
             }
@@ -101,7 +108,6 @@ module.exports = class Shrine_Editor
     async _loadShrineTexture()
     {
         let shrineTexPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres");
-        console.log(shrineTexPath);
         if(fs.existsSync(shrineTexPath))
         {
             let texBuffer = this.fileLoader.buffer(shrineTexPath);
@@ -118,90 +124,35 @@ module.exports = class Shrine_Editor
     }
 
     /**
-     * loads dynamic actors from the BYAML file
+     * loads dynamic or static actors from the shrine actor BYAML files
+     * @returns undefined or an object with the parsed BYAML
      */
-    async _loadDynamicActors()
+    async _loadActors(typeName)
     {
-        if(this.loader)await this.loader.setStatus("Loading Actors (Dynamic)");
-
-        let fileActorsDyn = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, this.shrineName + "_Dynamic.smubin");
-        if(fs.existsSync(fileActorsDyn))
+        let fileActors = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, `${this.shrineName}_${typeName}.smubin`);
+        if(fs.existsSync(fileActors))
         {
             let byaml = new BYAML();
-            this.dataActorDyn = byaml.parse(this.fileLoader.buffer(fileActorsDyn));
+            return byaml.parse(this.fileLoader.buffer(fileActors));
             //await this._getAllActorTypes();
-            return true;
         }
-        return false;
+
+        return undefined;
     }
 
-    /**
-     * tries to get all actor types from the actor BYAML
-     */
-    async _getAllActorTypes()
+    async addMultipleActors(actorObjectArray)
     {
-        let types = {};
-        if(this.dataActorDyn != null && this.dataActorDyn.Objs != null)
+        for(let obj of actorObjectArray)
         {
-            for(let obj of this.dataActorDyn.Objs)
-            {
-                let type = obj.UnitConfigName.value;
-                if(types[type] == null)
-                {
-                    types[type] = type;
-
-                    let actorData = await this.actorHandler.getActorData(type);
-                    if(actorData != null)
-                    {
-                        console.log(actorData.bfresParser.getModels());
-                    }
-                }
-                
-            }
+            let name = obj.UnitConfigName.value;
+            //if(name == "DgnObj_Hrl_CandleStandA_01")
+                await this.addActor(name, obj);
         }
-
-        console.log(types);
-        return types;
     }
 
-    /**
-     * adds all actors to the scene
-     */
-    async _addActorsToScene()
-    {
-        if(this.dataActorDyn != null && this.dataActorDyn.Objs != null)
-        {
-            if(this.loader)await this.loader.setStatus("Adding Actors to Scene");
-
-            for(let obj of this.dataActorDyn.Objs)
-            {
-                let name = obj.UnitConfigName.value;
-
-                let pos = new this.THREE.Vector3(0.0, 0.0, 0.0);
-                let rot = new this.THREE.Vector3(0.0, 0.0, 0.0);
-
-                if(obj.Translate[0] == null) // leave it in until i know that that doesn't happen
-                {
-                    console.log(obj);
-                    throw "Translate is not an array";
-                }
-
-                if(obj.Translate != null)
-                    pos.fromArray(BYAML.toRawValues(obj.Translate));
-
-                if(obj.Rotate != null)
-                {
-                    if(obj.Rotate.length == null)
-                    {
-                        rot.y = obj.Rotate.value;
-                    }else{
-                        rot.fromArray(BYAML.toRawValues(obj.Rotate));
-                    }
-                }
-                
-                let actorData = await this.actorHandler.getActorData(name);
-                let actorObj = this.renderer.addActor(actorData, pos, rot);   
-            }
-        }
+    async addActor(name, params)
+    {        
+        const actor = await this.actorHandler.addActor(name, params);
+        this.shrineRenderer.addActor(actor);
     }
 }

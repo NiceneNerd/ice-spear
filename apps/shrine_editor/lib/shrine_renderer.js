@@ -4,7 +4,7 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const Renderer = requireGlobal("lib/threejs/renderer.js");
+const Renderer = requireGlobal("lib/3d_renderer/renderer.js");
 
 module.exports = class Shrine_Renderer
 {
@@ -19,11 +19,15 @@ module.exports = class Shrine_Renderer
         
     clear()
     {
-        if(this.threeJsRenderer != null)
-            this.threeJsRenderer.clear();
+        if(this.renderer != null)
+            this.renderer.clear();
 
-        this.threeJsRenderer = new Renderer(this.canvasNode);
-        this.threeJsRenderer.changeCameraType('fps');
+        this.renderer = new Renderer(this.canvasNode);
+        this.renderer.changeCameraType('fps');
+        
+        this.groupActorDynamic = this.renderer.createObjectGroup("actor_dynamic", true);
+        this.groupActorStatic  = this.renderer.createObjectGroup("actor_static",  true);
+
         this.updateDrawSize();
         this.shrineModels = [];
     }
@@ -36,60 +40,28 @@ module.exports = class Shrine_Renderer
     {
         for(let i in modelDataArray)
         {
-            this.shrineModels.push(this.threeJsRenderer.addModel(modelDataArray[i]));
+            this.shrineModels.push(this.renderer.addModel(modelDataArray[i]));
         }
     }
 
-    addActor(actorData, pos, rot)
+    addActor(actor)
     {
-        let actorModel = null;
-
-        if(actorData && actorData.bfresParser)
-        {
-            // @TODO create an actor class which handles all of this better
-            let models = actorData.bfresParser.getModels();
-            for(let subModel of models)
-            {
-                for(let i in subModel)
-                {
-                    let actorModel_ = this.threeJsRenderer.addModel(subModel[i]); // @TODO CREATE MESH ONLY ONCE!
-                    actorModel_.rotation.order = "YXZ";
-                    actorModel_.position.copy(pos);
-            
-                    actorModel_.rotation.x = rot.x;
-                    actorModel_.rotation.y = rot.y;
-                    actorModel_.rotation.z = rot.z;
-                }
-            }
-        }else{
-            actorModel = this.threeJsRenderer.addBox();
-        }
-
-        if(actorModel != null)
-        {
-            actorModel.rotation.order = "YXZ";
-            actorModel.position.copy(pos);
-
-            actorModel.rotation.x = rot.x;
-            actorModel.rotation.y = rot.y;
-            actorModel.rotation.z = rot.z;
-        }
-
-        return actorModel;
+        if(actor.object && actor.object.objectGroup)
+            this.renderer.addObject(actor.object.objectGroup);
     }
 
     updateDrawSize()
     {
-        this.threeJsRenderer.updateDrawSize();
+        this.renderer.updateDrawSize();
     }
 
     start()
     {
-        this.threeJsRenderer.start();
+        this.renderer.start();
     }
 
     stop()
     {
-        this.threeJsRenderer.stop();
+        this.renderer.stop();
     }
 }
