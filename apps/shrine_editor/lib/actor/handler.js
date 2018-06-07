@@ -74,8 +74,9 @@ module.exports = class Actor_Handler
         if(actorObject.name == "DUMMY_BOX")
             actorObject.name = name;
 
-        const actor = new Actor(name, uuid(), actorObject.createInstance());
-        Actor_Params.parse(actor, params).update();
+        Actor_Params.normalize(params);
+        const actor = new Actor(name, params, uuid(), actorObject.createInstance());
+        actor.update();
 
         this.actors[actor.id] = actor;
         return actor;
@@ -94,7 +95,7 @@ module.exports = class Actor_Handler
 
             if(!actorInfo.bfresContainer || actorInfo.bfresContainer.isEmpty())
             {
-                console.warn(`Actor_Handler._getActorData for ${name} returned no bfresParser!`);
+                //console.warn(`Actor_Handler._getActorData for ${name} returned no bfresParser!`);
                 return undefined;
             }
 
@@ -120,7 +121,7 @@ module.exports = class Actor_Handler
             {
                 info.bfresContainer = await this._getActorBfresFiles(info.bfres.value);
             }else{
-                console.warn("Actor is missing the BFRES setting: " + name);
+                //console.warn("Actor is missing the BFRES setting: " + name);
             }
         }
 /*

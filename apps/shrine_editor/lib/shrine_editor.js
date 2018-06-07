@@ -4,9 +4,11 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const fs    = require('fs');
+const fs    = require('fs-extra');
 const path  = require('path');
-const BYAML = require("byaml-lib").Parser;
+const BYAML = require("byaml-lib");
+const SARC  = require("sarc-lib");
+const yaz0  = require("yaz0-lib");
 
 const Binary_File_Loader = require("binary-file").Loader;
 const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
@@ -80,10 +82,10 @@ module.exports = class Shrine_Editor
      */
     async _loadShrineModel()
     {
-        let shrineModelPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".sbfres");
+        const shrineModelPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".sbfres");
         if(fs.existsSync(shrineModelPath))
         {
-            let modelBuffer = this.fileLoader.buffer(shrineModelPath);
+            const modelBuffer = this.fileLoader.buffer(shrineModelPath);
 
             this.shrineBfresParser = new BFRES_Parser(true);
             this.shrineBfresParser.loader = this.loader;
@@ -93,7 +95,7 @@ module.exports = class Shrine_Editor
 
             if(await this.shrineBfresParser.parse(modelBuffer))
             {
-                let shrineModels = this.shrineBfresParser.getModels();
+                const shrineModels = this.shrineBfresParser.getModels();
                 Object.values(shrineModels).forEach(subModel => this.shrineRenderer.setShrineModels(subModel));
 
                 return true;
@@ -107,10 +109,10 @@ module.exports = class Shrine_Editor
      */
     async _loadShrineTexture()
     {
-        let shrineTexPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres");
+        const shrineTexPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres");
         if(fs.existsSync(shrineTexPath))
         {
-            let texBuffer = this.fileLoader.buffer(shrineTexPath);
+            const texBuffer = this.fileLoader.buffer(shrineTexPath);
 
             this.texBfresParser = new BFRES_Parser(true);
             this.texBfresParser.loader = this.loader;
@@ -129,12 +131,11 @@ module.exports = class Shrine_Editor
      */
     async _loadActors(typeName)
     {
-        let fileActors = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, `${this.shrineName}_${typeName}.smubin`);
+        const fileActors = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, `${this.shrineName}_${typeName}.smubin`);
         if(fs.existsSync(fileActors))
         {
-            let byaml = new BYAML();
+            const byaml = new BYAML.Parser();
             return byaml.parse(this.fileLoader.buffer(fileActors));
-            //await this._getAllActorTypes();
         }
 
         return undefined;
@@ -144,9 +145,8 @@ module.exports = class Shrine_Editor
     {
         for(let obj of actorObjectArray)
         {
-            let name = obj.UnitConfigName.value;
-            //if(name == "DgnObj_Hrl_CandleStandA_01")
-                await this.addActor(name, obj);
+            const name = obj.UnitConfigName.value;
+            await this.addActor(name, obj);
         }
     }
 
@@ -154,5 +154,31 @@ module.exports = class Shrine_Editor
     {        
         const actor = await this.actorHandler.addActor(name, params);
         this.shrineRenderer.addActor(actor);
+    }
+
+    async save()
+    {
+        const packPath = this.shrineDir.replace(".unpacked", "");
+
+        await Promise.all([
+            this.saveActors("Dynamic"),
+            this.saveActors("Static"),
+        ]);
+
+        const sarc = new SARC();
+        await sarc.fromDirectory(this.shrineDir);
+        await sarc.save(packPath);
+
+        console.log(`Shrine saved to '${packPath}'!`);
+    }
+
+    async saveActors(typeName)
+    {
+        const actorPath = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, `${this.shrineName}_${typeName}.smubin`); 
+        const byaml = new BYAML.Creator();
+        const actorBuffer = byaml.create(typeName == "Dynamic" ? this.dataActorDyn : this.dataActorStatic);
+        const actorYaz = yaz0.encode(actorBuffer);
+
+        await fs.writeFile(actorPath, actorYaz);
     }
 }

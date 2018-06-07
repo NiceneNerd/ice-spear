@@ -5,7 +5,7 @@
 */
 
 const electron = require('electron');
-const fs       = require('fs');
+const fs       = require('fs-extra');
 const path     = require('path');
 const url      = require('url');
 const Split    = require('split.js');
@@ -34,10 +34,10 @@ module.exports = class App extends App_Base
         this.shrineFiles = null;
 
         this.footerNode = footer.querySelector(".data-footer");
-
+/*
         this.actorDynList = this.node.querySelector(".data-actorDynList");
         this.filterActorDyn = new Filter(this.actorDynList.querySelector(".list-group-header input"), this.actorDynList, ".list-group-item");
-
+*/
         this.htmlListEntry = new HTML_Loader('./html/bfres_file_tab.html');
         this.fileLoader = new Binary_File_Loader();
 
@@ -46,19 +46,16 @@ module.exports = class App extends App_Base
         this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.stringTable);
         this.shrineEditor.loader = this.loader;
 
-        Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
-            sizes     : [5, 5, 50],
+        Split(['#main-sidebar-1', '#main-sidebar-2'], {
+            sizes     : [1, 9],
             minSize   : 0,
             snapOffset: 60,
             gutterSize: 12
         });
 
         this.observerCanvas = new MutationObserver(mutations => this.shrineEditor.renderer.updateDrawSize());
-        this.observerCanvas.observe(document.querySelector("#main-sidebar-3"), {attributes: true});
-/*
-        this.observerApp = new MutationObserver(mutations => this.threeJsRenderer.updateDrawSize());
-        this.observerApp.observe(this.node.querySelector(".sidebar-2"), {attributes: true});
-*/
+        this.observerCanvas.observe(document.querySelector("#main-sidebar-2"), {attributes: true});
+
         this.clear();
     }
 
@@ -90,15 +87,17 @@ module.exports = class App extends App_Base
                 global.gc();
                 
             let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
-            this.shrineDir = path.join(this.project.getShrinesPath(), fileName);
+            this.shrineDir = path.join(this.project.getShrinesPath(), fileName + ".unpacked");
 
             this.shrineName = fileName.match(/Dungeon[0-9]+/);
 
             if(this.shrineName != null)
                 this.shrineName = this.shrineName[0];
 
+            const alreadyExtracted = await fs.pathExists(this.shrineDir);
+
             // extract if it's not a directory
-            if(fs.lstatSync(shrineDirOrFile).isFile())
+            if(!alreadyExtracted && fs.lstatSync(shrineDirOrFile).isFile())
             {
                 let sarc = new SARC(this.stringTable);
                 this.shrineFiles = sarc.parse(shrineDirOrFile);
@@ -121,7 +120,7 @@ module.exports = class App extends App_Base
     {
 
         this.footerNode.innerHTML = "Loaded Shrine: " + this.shrineDir;
-
+        /*
         if(this.shrineEditor.dataActorDyn != null && this.shrineEditor.dataActorDyn.Objs != null)
         {
             for(let obj of this.shrineEditor.dataActorDyn.Objs)
@@ -138,7 +137,7 @@ module.exports = class App extends App_Base
                 this.actorDynList.append(entryNode);
             }
         }
-
+        */
         this.shrineEditor.start();
     }
 

@@ -6,14 +6,11 @@
 
 module.exports = class Actor
 {
-    constructor(name, id, object = undefined)
+    constructor(name, params, id, object = undefined)
     {
         this.id = id;
+        this.params = params;
         this.name = name;
-
-        this.pos  = new THREE.Vector3(0.0, 0.0, 0.0);
-        this.rot  = new THREE.Vector3(0.0, 0.0, 0.0);
-        this.size = new THREE.Vector3(1.0, 1.0, 1.0);
 
         this.setObject(object);
     }
@@ -29,7 +26,19 @@ module.exports = class Actor
 
     update()
     {
-        this.object.setPos(this.pos);
-        this.object.setRot(this.rot);
+        const {Rotate, Translate} = this.params;
+
+        if(Translate)
+        {
+            this.object.setPos(new THREE.Vector3(Translate[0].value, Translate[1].value, Translate[2].value));
+        }
+
+        if(this.params.Rotate)
+        {
+            if(Array.isArray(this.params.Rotate))
+                this.object.setRot(new THREE.Vector3(Rotate[0].value, Rotate[1].value, Rotate[2].value));
+            else
+                this.object.setRot(new THREE.Vector3(0.0, Rotate.value, 0.0));
+        }
     }
 };
