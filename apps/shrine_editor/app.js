@@ -87,7 +87,7 @@ module.exports = class App extends App_Base
                 global.gc();
                 
             let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
-            this.shrineDir = path.join(this.project.getShrinesPath(), fileName);
+            this.shrineDir = path.join(this.project.getShrinesPath(), fileName + ".unpacked");
 
             this.shrineName = fileName.match(/Dungeon[0-9]+/);
 

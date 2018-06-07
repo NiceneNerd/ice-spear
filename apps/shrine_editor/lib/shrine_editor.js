@@ -158,14 +158,18 @@ module.exports = class Shrine_Editor
 
     async save()
     {
-        //await this.saveActors("Dynamic");
-        //await this.saveActors("Static");
+        const packPath = this.shrineDir.replace(".unpacked", "");
+
+        await Promise.all([
+            this.saveActors("Dynamic"),
+            this.saveActors("Static"),
+        ]);
 
         const sarc = new SARC();
         await sarc.fromDirectory(this.shrineDir);
-        await sarc.save(this.shrineDir + "out");
+        await sarc.save(packPath);
 
-        console.log("Shrine saved!");
+        console.log(`Shrine saved to '${packPath}'!`);
     }
 
     async saveActors(typeName)
@@ -175,6 +179,6 @@ module.exports = class Shrine_Editor
         const actorBuffer = byaml.create(typeName == "Dynamic" ? this.dataActorDyn : this.dataActorStatic);
         const actorYaz = yaz0.encode(actorBuffer);
 
-        await fs.writeFile(actorPath, actorBuffer);
+        await fs.writeFile(actorPath, actorYaz);
     }
 }
