@@ -8,6 +8,10 @@
     "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv",
     "test": "electron-mocha './{,!(node_modules)/**/}*.test.js'"
   },
+  "repository": {
+    "type": "git",
+    "url": "gitlab:ice-spear-tools/botw-editor"
+  },
   "ice-spear": {
     "debug-mode": true,
     "default-app": "botw_editor",
