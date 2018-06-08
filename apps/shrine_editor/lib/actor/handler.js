@@ -28,6 +28,9 @@ module.exports = class Actor_Handler
         this.shrineRenderer = shrineRenderer;
         this.stringTable = stringTable;
 
+        this.dataActorDyn = {};
+        this.dataActorStatic = {};
+
         this.fileLoader = new Binary_File_Loader();
 
         let cfg = new Main_Config();
@@ -79,6 +82,8 @@ module.exports = class Actor_Handler
         actor.update();
 
         this.actors[actor.id] = actor;
+        this.shrineRenderer.addActor(actor);
+        
         return actor;
     }
 

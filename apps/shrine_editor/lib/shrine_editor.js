@@ -14,6 +14,7 @@ const Binary_File_Loader = require("binary-file").Loader;
 const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
 const Shrine_Renderer    = require("./shrine_renderer.js");
 const Actor_Handler      = require("./actor/handler.js");
+const Shrine_ActorEditor = require("./actor_editor/editor.js");
 
 module.exports = class Shrine_Editor
 {
@@ -33,7 +34,9 @@ module.exports = class Shrine_Editor
         
         this.fileLoader     = new Binary_File_Loader();
         this.shrineRenderer = new Shrine_Renderer(canvasNode);
-        this.actorHandler   = new Actor_Handler(this.shrineRenderer, this.stringTable);
+        
+        this.actorHandler = new Actor_Handler(this.shrineRenderer, this.stringTable);
+        this.actorEditor = new Shrine_ActorEditor(this.actorHandler);
 
         this.loader = null;
     }
@@ -146,14 +149,8 @@ module.exports = class Shrine_Editor
         for(let obj of actorObjectArray)
         {
             const name = obj.UnitConfigName.value;
-            await this.addActor(name, obj);
+            await this.actorEditor.addActor(name, obj);
         }
-    }
-
-    async addActor(name, params)
-    {        
-        const actor = await this.actorHandler.addActor(name, params);
-        this.shrineRenderer.addActor(actor);
     }
 
     async save()
@@ -168,8 +165,6 @@ module.exports = class Shrine_Editor
         const sarc = new SARC();
         await sarc.fromDirectory(this.shrineDir);
         await sarc.save(packPath);
-
-        console.log(`Shrine saved to '${packPath}'!`);
     }
 
     async saveActors(typeName)

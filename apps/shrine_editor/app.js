@@ -64,6 +64,13 @@ module.exports = class App extends App_Base
         this.shrineEditor.clear();
     }
 
+    async save()
+    {
+        await this.shrineEditor.save();
+
+        console.log(`Shrine saved!`);
+    }
+
     async openShrine(shrineDirOrFile = null)
     {
         if(shrineDirOrFile == "" || shrineDirOrFile == null)
