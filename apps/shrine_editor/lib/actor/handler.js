@@ -99,10 +99,11 @@ module.exports = class Actor_Handler
                 return undefined;
             }
 
-            this.objects[name] = new Actor_Object(this.shrineRenderer, actorInfo.bfresContainer.getModels());
-
+            let mainModel = undefined;
             if(actorInfo.mainModel)
-                this.objects[name].showModel(actorInfo.mainModel.value);
+                mainModel = actorInfo.mainModel.value;
+
+            this.objects[name] = new Actor_Object(this.shrineRenderer, actorInfo.bfresContainer.getModel(mainModel));
         }
 
         return this.objects[name];

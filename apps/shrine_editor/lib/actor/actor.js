@@ -21,6 +21,8 @@ module.exports = class Actor
             this.object.clear();
 
         this.object = object;
+        this.object.setActor(this);
+
         this.update();
     }
 

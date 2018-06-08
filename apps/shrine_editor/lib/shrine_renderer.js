@@ -25,11 +25,10 @@ module.exports = class Shrine_Renderer
         this.renderer = new Renderer(this.canvasNode);
         this.renderer.changeCameraType('fps');
         
-        this.groupActorDynamic = this.renderer.createObjectGroup("actor_dynamic", true);
-        this.groupActorStatic  = this.renderer.createObjectGroup("actor_static",  true);
+        this.actorGroup  = this.renderer.createObjectGroup("actors",  true);
+        this.shrineGroup = this.renderer.createObjectGroup("shrine",  true);
 
         this.updateDrawSize();
-        this.shrineModels = [];
     }
 
     /**
@@ -40,14 +39,16 @@ module.exports = class Shrine_Renderer
     {
         for(let i in modelDataArray)
         {
-            this.shrineModels.push(this.renderer.addModel(modelDataArray[i]));
+            this.shrineGroup.add(this.renderer.createModel(modelDataArray[i]));
         }
     }
 
     addActor(actor)
     {
-        if(actor.object && actor.object.objectGroup)
-            this.renderer.addObject(actor.object.objectGroup);
+        const objectGroup = actor.object.getGroup();
+        
+        if(objectGroup)
+            this.actorGroup.add(objectGroup);
     }
 
     updateDrawSize()
