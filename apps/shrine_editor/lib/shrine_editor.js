@@ -10,9 +10,8 @@ const BYAML = require("byaml-lib");
 const SARC  = require("sarc-lib");
 const yaz0  = require("yaz0-lib");
 
-const Binary_File_Loader = require("binary-file").Loader;
-const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
 const Shrine_Renderer    = require("./shrine_renderer.js");
+const Shrine_Model_Loader = require("./shrine/model_loader.js");
 
 const Actor_Handler = require("./actor/handler.js");
 const Actor_Editor  = require("./actor_editor/editor.js");
@@ -31,9 +30,9 @@ module.exports = class Shrine_Editor
 
         this.stringTable  = stringTable;
         
-        this.fileLoader = new Binary_File_Loader();
         this.shrineRenderer = new Shrine_Renderer(canvasNode);
-        
+        this.shrineModelLoader = new Shrine_Model_Loader();
+
         this.actorHandler = new Actor_Handler(this.shrineRenderer, this.stringTable);
         this.actorEditor  = new Actor_Editor(this.actorHandler);
         this.actorLoader  = new Actor_Loader(this.actorHandler);
@@ -53,10 +52,13 @@ module.exports = class Shrine_Editor
 
         this.actorHandler.loader = this.loader;
         await this.actorHandler.loadActorDatabase();
-        await this._loadShrineModel();
+
+        this.shrineModelLoader.loader = this.loader;
+        const shrineModels = await this.shrineModelLoader.load(this.shrineDir, this.shrineName);
+        this.shrineRenderer.setShrineModels(shrineModels);
 
         if(this.loader)await this.loader.setStatus("Adding Actors to Scene");
-        
+
         await this.actorLoader.load(this.shrineDir, this.shrineName);
     }
 
@@ -71,54 +73,6 @@ module.exports = class Shrine_Editor
     clear()
     {
         this.shrineRenderer.clear();
-    }
-
-    /**
-     * loads the shrine BFRES model, also tries to load the texture file
-     */
-    async _loadShrineModel()
-    {
-        const shrineModelPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".sbfres");
-        if(fs.existsSync(shrineModelPath))
-        {
-            const modelBuffer = this.fileLoader.buffer(shrineModelPath);
-
-            this.shrineBfresParser = new BFRES_Parser(true);
-            this.shrineBfresParser.loader = this.loader;
-
-            if(await this._loadShrineTexture())
-                this.shrineBfresParser.setTextureParser(this.texBfresParser);
-
-            if(await this.shrineBfresParser.parse(modelBuffer))
-            {
-                const shrineModels = this.shrineBfresParser.getModels();
-                Object.values(shrineModels).forEach(subModel => this.shrineRenderer.setShrineModels(subModel));
-
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * tries to load the Tex2 texture file
-     */
-    async _loadShrineTexture()
-    {
-        const shrineTexPath = path.join(this.shrineDir, "Model", "DgnMrgPrt_" + this.shrineName + ".Tex2.sbfres");
-        if(fs.existsSync(shrineTexPath))
-        {
-            const texBuffer = this.fileLoader.buffer(shrineTexPath);
-
-            this.texBfresParser = new BFRES_Parser(true);
-            this.texBfresParser.loader = this.loader;
-            if(await this.texBfresParser.parse(texBuffer))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     async save()

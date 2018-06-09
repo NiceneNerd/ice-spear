@@ -33,13 +33,16 @@ module.exports = class Shrine_Renderer
 
     /**
      * sets the model for the shrine
-     * @param {Array} modelDataArray 
+     * @param {Object} models 
      */
-    setShrineModels(modelDataArray)
+    setShrineModels(models)
     {
-        for(let i in modelDataArray)
+        for(const model of Object.values(models))
         {
-            this.shrineGroup.add(this.renderer.createModel(modelDataArray[i]));
+            for(const subModel of Object.values(model))
+            {
+                this.shrineGroup.add(this.renderer.createModel(subModel));
+            }
         }
     }
 
