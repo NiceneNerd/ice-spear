@@ -13,8 +13,10 @@ const yaz0  = require("yaz0-lib");
 const Binary_File_Loader = require("binary-file").Loader;
 const BFRES_Parser       = requireGlobal('lib/bfres/parser.js');
 const Shrine_Renderer    = require("./shrine_renderer.js");
-const Actor_Handler      = require("./actor/handler.js");
-const Shrine_ActorEditor = require("./actor_editor/editor.js");
+
+const Actor_Handler = require("./actor/handler.js");
+const Actor_Editor  = require("./actor_editor/editor.js");
+const Actor_Loader  = require("./actor/loader.js");
 
 module.exports = class Shrine_Editor
 {
@@ -27,16 +29,14 @@ module.exports = class Shrine_Editor
         this.shrineDir  = "";
         this.shrineName = "";
 
-        this.dataActorDyn = {};
-        this.dataActorStatic = {};
-
         this.stringTable  = stringTable;
         
-        this.fileLoader     = new Binary_File_Loader();
+        this.fileLoader = new Binary_File_Loader();
         this.shrineRenderer = new Shrine_Renderer(canvasNode);
         
         this.actorHandler = new Actor_Handler(this.shrineRenderer, this.stringTable);
-        this.actorEditor = new Shrine_ActorEditor(this.actorHandler);
+        this.actorEditor  = new Actor_Editor(this.actorHandler);
+        this.actorLoader  = new Actor_Loader(this.actorHandler);
 
         this.loader = null;
     }
@@ -55,16 +55,9 @@ module.exports = class Shrine_Editor
         await this.actorHandler.loadActorDatabase();
         await this._loadShrineModel();
 
-        this.dataActorDyn = await this._loadActors("Dynamic");
-        this.dataActorStatic = await this._loadActors("Static");
-
         if(this.loader)await this.loader.setStatus("Adding Actors to Scene");
-
-        if(this.dataActorDyn != null && this.dataActorDyn.Objs != null)
-            await this.addMultipleActors(this.dataActorDyn.Objs);
-
-        if(this.dataActorStatic != null && this.dataActorStatic.Objs != null)
-            await this.addMultipleActors(this.dataActorStatic.Objs);
+        
+        await this.actorLoader.load(this.shrineDir, this.shrineName);
     }
 
     /**
@@ -128,31 +121,6 @@ module.exports = class Shrine_Editor
         return false;
     }
 
-    /**
-     * loads dynamic or static actors from the shrine actor BYAML files
-     * @returns undefined or an object with the parsed BYAML
-     */
-    async _loadActors(typeName)
-    {
-        const fileActors = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, `${this.shrineName}_${typeName}.smubin`);
-        if(fs.existsSync(fileActors))
-        {
-            const byaml = new BYAML.Parser();
-            return byaml.parse(this.fileLoader.buffer(fileActors));
-        }
-
-        return undefined;
-    }
-
-    async addMultipleActors(actorObjectArray)
-    {
-        for(let obj of actorObjectArray)
-        {
-            const name = obj.UnitConfigName.value;
-            await this.actorEditor.addActor(name, obj);
-        }
-    }
-
     async save()
     {
         const packPath = this.shrineDir.replace(".unpacked", "");
@@ -171,7 +139,7 @@ module.exports = class Shrine_Editor
     {
         const actorPath = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, `${this.shrineName}_${typeName}.smubin`); 
         const byaml = new BYAML.Creator();
-        const actorBuffer = byaml.create(typeName == "Dynamic" ? this.dataActorDyn : this.dataActorStatic);
+        const actorBuffer = byaml.create(typeName == "Dynamic" ? this.actorHandler.dataActorDyn : this.actorHandler.dataActorStatic);
         const actorYaz = yaz0.encode(actorBuffer);
 
         await fs.writeFile(actorPath, actorYaz);

@@ -1,4 +1,4 @@
-module.exports = class Shrine_ActorEditor
+module.exports = class Actor_Editor
 {   
     /**
      * @param {Actor_Handler} actorHandler 

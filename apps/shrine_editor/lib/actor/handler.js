@@ -17,7 +17,7 @@ const Actor_Object = require('./actor_object.js');
 const Actor        = require('./actor.js');
 const Actor_Params = require('./params.js');
 
-const BYAML = require("byaml-lib").Parser;
+const BYAML = require("byaml-lib");
 const BXML  = requireGlobal("lib/bxml/bxml.js");
 const SARC  = require("sarc-lib");
 
@@ -59,7 +59,7 @@ module.exports = class Actor_Handler
             await this.loader.setInfo("Parsing File");
         }
 
-        let byaml = new BYAML();
+        let byaml = new BYAML.Parser();
         this.actorData = byaml.parse(this.fileLoader.buffer(this.actorPath + "/ActorInfo.product.sbyml"));
 
         if(this.loader)await this.loader.setInfo("Converting Data");
@@ -70,7 +70,18 @@ module.exports = class Actor_Handler
         }
     }
 
-    async addActor(name, params)
+    async copyActor(actor)
+    {
+        const newParams = BYAML.Helper.deepCopy(actor.params);
+        if(newParams.Translate)
+        {
+            newParams.Translate[1].value += 1.0;
+        }
+
+        return await this.addActor(actor.name, newParams);
+    }
+
+    async addActor(name, params, type, includeInByaml = true)
     {
         let actorObject = await this._getActorObject(name) || await this._getActorObject("DUMMY_BOX");
 
@@ -81,9 +92,18 @@ module.exports = class Actor_Handler
         const actor = new Actor(name, params, uuid(), actorObject.createInstance());
         actor.update();
 
+        if(includeInByaml)
+        {
+            if(type == "Dynamic"){
+                this.dataActorDyn.Objs.push(params);
+            }else{
+                this.dataActorStatic.Objs.push(params);
+            }
+        }
+
         this.actors[actor.id] = actor;
         this.shrineRenderer.addActor(actor);
-        
+
         return actor;
     }
 

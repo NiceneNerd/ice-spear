@@ -43,4 +43,15 @@ module.exports = class Actor
                 this.object.setRot(new THREE.Vector3(0.0, Rotate.value, 0.0));
         }
     }
+
+    move({x = 0.0, y = 0.0, z = 0.0})
+    {
+        if(this.params.Translate)
+        {
+            this.params.Translate[0].value += x;
+            this.params.Translate[1].value += y;
+            this.params.Translate[2].value += z;
+        }
+        this.update();
+    }
 };
