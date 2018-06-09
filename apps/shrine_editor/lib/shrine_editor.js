@@ -4,14 +4,9 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const fs    = require('fs-extra');
-const path  = require('path');
-const BYAML = require("byaml-lib");
-const SARC  = require("sarc-lib");
-const yaz0  = require("yaz0-lib");
-
-const Shrine_Renderer    = require("./shrine_renderer.js");
+const Shrine_Renderer     = require("./shrine/renderer.js");
 const Shrine_Model_Loader = require("./shrine/model_loader.js");
+const Shrine_Creator      = require("./shrine/creator.js")
 
 const Actor_Handler = require("./actor/handler.js");
 const Actor_Editor  = require("./actor_editor/editor.js");
@@ -21,8 +16,9 @@ module.exports = class Shrine_Editor
 {
     /**
      * @param {Node} canvasNode 
+     * @param {stringTable} stringTable optional string table object
      */
-    constructor(canvasNode, stringTable = null)
+    constructor(canvasNode, stringTable = undefined)
     {
         this.THREE = THREE;
         this.shrineDir  = "";
@@ -37,7 +33,9 @@ module.exports = class Shrine_Editor
         this.actorEditor  = new Actor_Editor(this.actorHandler);
         this.actorLoader  = new Actor_Loader(this.actorHandler);
 
-        this.loader = null;
+        this.shrineCreator = new Shrine_Creator(this.actorHandler);
+
+        this.loader = undefined;
     }
 
     /**
@@ -70,32 +68,19 @@ module.exports = class Shrine_Editor
         this.shrineRenderer.start();
     }
 
+    /**
+     * resets the editor and it's renderer
+     */
     clear()
     {
         this.shrineRenderer.clear();
     }
 
+    /**
+     * saves all shrine related data
+     */
     async save()
     {
-        const packPath = this.shrineDir.replace(".unpacked", "");
-
-        await Promise.all([
-            this.saveActors("Dynamic"),
-            this.saveActors("Static"),
-        ]);
-
-        const sarc = new SARC();
-        await sarc.fromDirectory(this.shrineDir);
-        await sarc.save(packPath);
-    }
-
-    async saveActors(typeName)
-    {
-        const actorPath = path.join(this.shrineDir, "Map", "CDungeon", this.shrineName, `${this.shrineName}_${typeName}.smubin`); 
-        const byaml = new BYAML.Creator();
-        const actorBuffer = byaml.create(typeName == "Dynamic" ? this.actorHandler.dataActorDyn : this.actorHandler.dataActorStatic);
-        const actorYaz = yaz0.encode(actorBuffer);
-
-        await fs.writeFile(actorPath, actorYaz);
+        return await this.shrineCreator.save(this.shrineDir, this.shrineName, true);
     }
 }
