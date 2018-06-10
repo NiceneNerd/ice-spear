@@ -4,7 +4,7 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const ROTATION_ORDER = "YXZ";
+const ROTATION_ORDER = "ZYX";
 
 module.exports = class Actor_Object
 {

@@ -63,10 +63,12 @@ module.exports = class Actor_Editor
             return;
 
         const speedMulti = 0.02;
+        const scrollMulti = 0.002;
         let speedVec;
-        if(ev.shiftKey)
+
+        if(ev.type == "wheel")
         {
-            speedVec = { y: -ev.movementY * speedMulti };
+            speedVec = { y: -ev.deltaY * scrollMulti };
         }else{
             const moveVec = new THREE.Vector2(ev.movementX, -ev.movementY);            
             moveVec.rotateAround(new THREE.Vector2(0.0, 0.0), camera.rotation.y % (Math.PI * 2));
@@ -79,7 +81,13 @@ module.exports = class Actor_Editor
 
         for(const actor of this.selectedActors)
         {
-            actor.move(speedVec);
+            if(ev.shiftKey)
+            {
+                console.log(speedVec);
+                actor.rotate(speedVec);
+            }else{
+                actor.move(speedVec);
+            }
         }
     }
 

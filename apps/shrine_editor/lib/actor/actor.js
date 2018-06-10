@@ -54,4 +54,20 @@ module.exports = class Actor
         }
         this.update();
     }
+
+    rotate({x = 0.0, y = 0.0, z = 0.0})
+    {
+        if(this.params.Rotate)
+        {
+            if(Array.isArray(this.params.Rotate))
+            {
+                this.params.Rotate[0].value += x;
+                this.params.Rotate[1].value += y;
+                this.params.Rotate[2].value += z;
+            }else{
+                this.params.Rotate.value += y;
+            }
+        }
+        this.update();
+    }
 };
