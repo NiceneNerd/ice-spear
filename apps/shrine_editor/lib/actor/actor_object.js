@@ -12,6 +12,7 @@ module.exports = class Actor_Object
     {
         this.shrineRenderer = shrineRenderer;
         this.renderer = this.shrineRenderer.renderer;
+        this.hasOwnModel = false;
 
         this.objectGroup = this.renderer.createObjectGroup("actor_object");
         this.objectGroup.rotation.order = ROTATION_ORDER;
@@ -31,6 +32,7 @@ module.exports = class Actor_Object
         {
             this.objectGroup.add(this.renderer.createModel(subModel));
         }
+        this.hasOwnModel = true;
     }
 
     getGroup()
@@ -48,6 +50,7 @@ module.exports = class Actor_Object
         const obj = new Actor_Object(this.shrineRenderer);
         obj.objectGroup = this._cloneObjects(this.objectGroup);
         obj.objectGroup.rotation.order = ROTATION_ORDER;
+        obj.hasOwnModel = this.hasOwnModel;
         return obj;
     }
 

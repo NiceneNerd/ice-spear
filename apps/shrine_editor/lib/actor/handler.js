@@ -89,7 +89,7 @@ module.exports = class Actor_Handler
             actorObject.name = name;
 
         Actor_Params.normalize(params);
-        const actor = new Actor(name, params, uuid(), actorObject.createInstance());
+        const actor = new Actor(name, params, type, uuid(), actorObject.createInstance());
         actor.update();
 
         if(includeInByaml)

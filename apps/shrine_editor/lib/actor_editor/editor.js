@@ -94,7 +94,7 @@ module.exports = class Actor_Editor
     _resetSelection()
     {
         for(const actor of this.selectedActors)
-            this._deSelectActor(actor);
+            this._deselectActor(actor);
 
         this.selectedActors = [];
     }
@@ -106,6 +106,8 @@ module.exports = class Actor_Editor
         this.selectedActors.push(actor);
         actor.object.setColor(0xff4444);
         this.actorAdded = true;
+
+        this.shrineRenderer.selectActor(actor);
     }
 
     _removeFromSelection(actor)
@@ -114,13 +116,14 @@ module.exports = class Actor_Editor
         if(idx > -1) 
         {
             this.selectedActors.splice(idx, 1);
-            this._deSelectActor(actor);
+            this._deselectActor(actor);
         }
     }
 
-    _deSelectActor(actor)
+    _deselectActor(actor)
     {
         actor.object.setColor(0xFFFFFF);   
+        this.shrineRenderer.deselectActor(actor);
     }
 
     /**

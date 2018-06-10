@@ -10,8 +10,9 @@ const path     = require('path');
 const url      = require('url');
 const Split    = require('split.js');
 
+const Notify      = requireGlobal("lib/notify/notify.js");
 const Filter      = requireGlobal("lib/filter.js");
-const HTML_Loader   = requireGlobal("lib/html_loader.js");
+
 const Binary_File_Loader = require("binary-file").Loader;
 const SARC          = require("sarc-lib");
 const Shrine_Editor = require("./lib/shrine_editor.js");
@@ -34,20 +35,20 @@ module.exports = class App extends App_Base
         this.shrineFiles = null;
 
         this.footerNode = footer.querySelector(".data-footer");
+        
 /*
         this.actorDynList = this.node.querySelector(".data-actorDynList");
         this.filterActorDyn = new Filter(this.actorDynList.querySelector(".list-group-header input"), this.actorDynList, ".list-group-item");
 */
-        this.htmlListEntry = new HTML_Loader('./html/bfres_file_tab.html');
         this.fileLoader = new Binary_File_Loader();
 
         this.stringTable = new String_Table(this.project.getCachePath());
 
-        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.stringTable);
+        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.stringTable);
         this.shrineEditor.loader = this.loader;
 
-        Split(['#main-sidebar-1', '#main-sidebar-2'], {
-            sizes     : [1, 9],
+        Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
+            sizes     : [10, 70, 20],
             minSize   : 0,
             snapOffset: 60,
             gutterSize: 12
@@ -55,13 +56,25 @@ module.exports = class App extends App_Base
 
         this.observerCanvas = new MutationObserver(mutations => this.shrineEditor.shrineRenderer.renderer.updateDrawSize());
         this.observerCanvas.observe(document.querySelector("#main-sidebar-2"), {attributes: true});
+
+        this.initTools();
     }
 
-    async save()
+    initTools()
     {
-        await this.shrineEditor.save();
+        this.node.querySelector(".data-tool-save").onclick = () => this.save(false);
+        this.node.querySelector(".data-tool-saveBuild").onclick = () => this.save(true);
+    }
 
-        console.log(`Shrine saved!`);
+    /**
+     * saves the shrine
+     * @param {bool} repack if true, it rebuilds the .pack file
+     */
+    async save(rebuild = true)
+    {
+        await this.shrineEditor.save(rebuild);
+
+        Notify.success(`Shrine '${this.shrineName}' saved`);
     }
 
     async openShrine(shrineDirOrFile = null)
@@ -118,6 +131,13 @@ module.exports = class App extends App_Base
     {
 
         this.footerNode.innerHTML = "Loaded Shrine: " + this.shrineDir;
+
+        this.node.querySelector(".data-shrine-name").innerHTML = this.shrineName;
+
+        this.node.querySelector(".data-actors-staticCount").innerHTML  = this.shrineEditor.actorHandler.dataActorStatic.Objs.length;
+        this.node.querySelector(".data-actors-dynamicCount").innerHTML = this.shrineEditor.actorHandler.dataActorDyn.Objs.length;
+
+
         /*
         if(this.shrineEditor.dataActorDyn != null && this.shrineEditor.dataActorDyn.Objs != null)
         {
@@ -146,6 +166,7 @@ module.exports = class App extends App_Base
         // 000 = ivy shrine
         // 006 = physics + guardians
         // 033 = water puzzle, missing polygon in corner
+        // 051 = has lava and spikeballs
         // 099 = blessing
         let filePath = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
         //let filePath = "";

@@ -18,7 +18,7 @@ module.exports = class Shrine_Editor
      * @param {Node} canvasNode 
      * @param {stringTable} stringTable optional string table object
      */
-    constructor(canvasNode, stringTable = undefined)
+    constructor(canvasNode, uiNode, stringTable = undefined)
     {
         this.THREE = THREE;
         this.shrineDir  = "";
@@ -26,7 +26,7 @@ module.exports = class Shrine_Editor
 
         this.stringTable  = stringTable;
         
-        this.shrineRenderer = new Shrine_Renderer(canvasNode);
+        this.shrineRenderer = new Shrine_Renderer(canvasNode, uiNode);
         this.shrineModelLoader = new Shrine_Model_Loader();
 
         this.actorHandler = new Actor_Handler(this.shrineRenderer, this.stringTable);
@@ -77,9 +77,10 @@ module.exports = class Shrine_Editor
 
     /**
      * saves all shrine related data
+     * @param {bool} rebuild if true, it rebuilds the .pack file
      */
-    async save()
+    async save(rebuild = true)
     {
-        return await this.shrineCreator.save(this.shrineDir, this.shrineName, true);
+        return await this.shrineCreator.save(this.shrineDir, this.shrineName, rebuild);
     }
 }

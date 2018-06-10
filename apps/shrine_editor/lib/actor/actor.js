@@ -6,11 +6,13 @@
 
 module.exports = class Actor
 {
-    constructor(name, params, id, object = undefined)
+    constructor(name, params, type, id, object = undefined)
     {
         this.id = id;
         this.params = params;
+        this.type = type;
         this.name = name;
+        this.ui = null;
 
         this.setObject(object);
     }
