@@ -30,11 +30,10 @@ module.exports = class Shrine_Editor
         this.shrineModelLoader = new Shrine_Model_Loader();
 
         this.actorHandler = new Actor_Handler(this.shrineRenderer, this.stringTable);
-        this.actorEditor  = new Actor_Editor(this.actorHandler);
+        this.actorEditor  = new Actor_Editor(this.shrineRenderer, this.actorHandler);
         this.actorLoader  = new Actor_Loader(this.actorHandler);
 
         this.shrineCreator = new Shrine_Creator(this.actorHandler);
-
         this.loader = undefined;
     }
 

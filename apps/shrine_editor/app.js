@@ -53,15 +53,8 @@ module.exports = class App extends App_Base
             gutterSize: 12
         });
 
-        this.observerCanvas = new MutationObserver(mutations => this.shrineEditor.renderer.updateDrawSize());
+        this.observerCanvas = new MutationObserver(mutations => this.shrineEditor.shrineRenderer.renderer.updateDrawSize());
         this.observerCanvas.observe(document.querySelector("#main-sidebar-2"), {attributes: true});
-
-        this.clear();
-    }
-
-    clear()
-    {
-        this.shrineEditor.clear();
     }
 
     async save()
@@ -85,8 +78,6 @@ module.exports = class App extends App_Base
         await this.loader.show();
         await this.loader.setStatus("Loading Shrine");
         try{
-            this.clear();
-
             this.stringTable.loader = this.loader;
             //await this.stringTable.load(); // not needed now, yay!
 
