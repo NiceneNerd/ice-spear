@@ -1,0 +1,9 @@
+#main-sidebar-2
+{
+    overflow: hidden;
+}
+
+.window .tool-group button
+{
+    width: 90%;
+}

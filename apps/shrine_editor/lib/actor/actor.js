@@ -6,11 +6,13 @@
 
 module.exports = class Actor
 {
-    constructor(name, params, id, object = undefined)
+    constructor(name, params, type, id, object = undefined)
     {
         this.id = id;
         this.params = params;
+        this.type = type;
         this.name = name;
+        this.ui = null;
 
         this.setObject(object);
     }
@@ -21,6 +23,8 @@ module.exports = class Actor
             this.object.clear();
 
         this.object = object;
+        this.object.setActor(this);
+
         this.update();
     }
 
@@ -40,5 +44,32 @@ module.exports = class Actor
             else
                 this.object.setRot(new THREE.Vector3(0.0, Rotate.value, 0.0));
         }
+    }
+
+    move({x = 0.0, y = 0.0, z = 0.0})
+    {
+        if(this.params.Translate)
+        {
+            this.params.Translate[0].value += x;
+            this.params.Translate[1].value += y;
+            this.params.Translate[2].value += z;
+        }
+        this.update();
+    }
+
+    rotate({x = 0.0, y = 0.0, z = 0.0})
+    {
+        if(this.params.Rotate)
+        {
+            if(Array.isArray(this.params.Rotate))
+            {
+                this.params.Rotate[0].value += x;
+                this.params.Rotate[1].value += y;
+                this.params.Rotate[2].value += z;
+            }else{
+                this.params.Rotate.value += y;
+            }
+        }
+        this.update();
     }
 };

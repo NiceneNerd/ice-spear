@@ -4,7 +4,7 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const ROTATION_ORDER = "YXZ";
+const ROTATION_ORDER = "ZYX";
 
 module.exports = class Actor_Object
 {
@@ -12,6 +12,8 @@ module.exports = class Actor_Object
     {
         this.shrineRenderer = shrineRenderer;
         this.renderer = this.shrineRenderer.renderer;
+        this.hasOwnModel = false;
+
         this.objectGroup = this.renderer.createObjectGroup("actor_object");
         this.objectGroup.rotation.order = ROTATION_ORDER;
 
@@ -26,17 +28,16 @@ module.exports = class Actor_Object
 
     _createModels(models)
     {
-        for(let modelName in models)
+        for(let subModel of Object.values(models))
         {
-            const subModelGroup = this.renderer.createObjectGroup(modelName);
-            subModelGroup.visible = true;
-
-            Object.values(models[modelName]).forEach(subModel => {
-                subModelGroup.add(this.renderer.createModel(subModel));
-            });
-
-            this.objectGroup.add(subModelGroup);
+            this.objectGroup.add(this.renderer.createModel(subModel));
         }
+        this.hasOwnModel = true;
+    }
+
+    getGroup()
+    {
+        return this.objectGroup;
     }
 
     setThreeModel(model)
@@ -47,17 +48,15 @@ module.exports = class Actor_Object
     createInstance()
     {
         const obj = new Actor_Object(this.shrineRenderer);
-        obj.objectGroup = this.objectGroup.clone();
+        obj.objectGroup = this._cloneObjects(this.objectGroup);
         obj.objectGroup.rotation.order = ROTATION_ORDER;
+        obj.hasOwnModel = this.hasOwnModel;
         return obj;
     }
 
-    showModel(name)
+    setActor(actor)
     {
-        for(let model of this.objectGroup.children)
-        {
-            model.visible = model.name == name;
-        }
+        this.objectGroup.userData = {actor};
     }
 
     setPos(pos)
@@ -70,5 +69,31 @@ module.exports = class Actor_Object
         this.objectGroup.rotation.x = rot.x;
         this.objectGroup.rotation.y = rot.y;
         this.objectGroup.rotation.z = rot.z;
+    }
+
+    setColor(color, obj = this.objectGroup)
+    {
+        if(obj.children.length > 0)
+        {
+            for(let child of obj.children)
+                this.setColor(color, child);
+        }else if(obj.material && obj.material.color){
+            obj.material.color.set(color);
+        }
+    }
+
+    _cloneObjects(obj)
+    {
+        const clone = obj.clone();
+
+        if(clone.children.length > 0)
+        {
+            for(const i in clone.children)
+            {
+                clone.children[i].material = clone.children[i].material.clone();
+            }
+        }
+
+        return clone;
     }
 };
