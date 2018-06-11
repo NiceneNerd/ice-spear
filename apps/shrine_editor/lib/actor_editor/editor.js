@@ -25,7 +25,7 @@ module.exports = class Actor_Editor
 
     async addActor(name, params)
     {        
-        const actor = await this.actorHandler.addActor(name, params);
+        return await this.actorHandler.addActor(name, params);
     }
 
     eventActorSelected(objects, isMouseUp, mouseMoved)
@@ -47,7 +47,7 @@ module.exports = class Actor_Editor
                     }
                 }else if(!mouseMoved && !this.actorAdded && this.selectedActors.includes(actor))
                 {
-                    this._removeFromSelection(actor);    
+                    this.deselectActor(actor);    
                 }
             }
             else if(isMouseUp && !mouseMoved)
@@ -94,7 +94,7 @@ module.exports = class Actor_Editor
     _resetSelection()
     {
         for(const actor of this.selectedActors)
-            this._deselectActor(actor);
+            this._removeActorSelection(actor);
 
         this.selectedActors = [];
     }
@@ -110,17 +110,17 @@ module.exports = class Actor_Editor
         this.shrineRenderer.selectActor(actor);
     }
 
-    _removeFromSelection(actor)
+    deselectActor(actor)
     {
         const idx = this.selectedActors.indexOf(actor);
         if(idx > -1) 
         {
             this.selectedActors.splice(idx, 1);
-            this._deselectActor(actor);
+            this._removeActorSelection(actor);
         }
     }
 
-    _deselectActor(actor)
+    _removeActorSelection(actor)
     {
         actor.object.setColor(0xFFFFFF);   
         this.shrineRenderer.deselectActor(actor);

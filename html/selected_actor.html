@@ -20,6 +20,11 @@
         {
             padding-bottom: 10px;
         }
+
+        .selected-actor-item button
+        {
+            width: 110px;
+        }
     </style>
     <span>
         <img class="img __img-circle media-object pull-left actor-model-type" src="assets/img/icons/unknown.png" width="32" height="32">
@@ -28,23 +33,39 @@
             <p class="search-value data-actor-type">????</p>
         </div>
     </span>
-    <span>
-        <table class="table">
-            <tbody>
-                <td>UnitConfigName</td>
-                    <td><input disabled class="form-control data-actor-params-UnitConfigName" type="text" /></td>
-                </tr>
-                <tr>
-                    <td>HashId</td>
-                    <td><input class="form-control data-actor-params-HashId" type="text" /></td>
-                </tr>
-                <tr>
-                    <td>SRTHash</td>
-                    <td><input class="form-control data-actor-params-SRTHash" type="text" /></td>
-                </tr>
-                <tr>
-            </tbody>
-        </table>
-</span>
+    <div>
+        <div>
+            <h5 class="nav-group-title">Tools</h5>
+            
+            <nav class="nav-group tool-group">
+                <span class="nav-group-item">
+                    <button class="btn btn btn-default data-tool-copy">Copy</button>
+                    <button class="btn btn btn-default data-tool-delete">Delete</button>
+                </span>
+                <span class="nav-group-item">
+                    <button class="btn btn btn-default data-tool-copyJSON">Copy JSON</button>
+                    <button class="btn btn btn-default data-tool-importJSON">Import JSON</button>
+                </span>
+            </nav>
+
+            <h5 class="nav-group-title">Parameter</h5>
+
+            <table class="table">
+                <tbody>
+                    <td>UnitConfigName</td>
+                        <td><input disabled class="form-control data-actor-params-UnitConfigName" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>HashId</td>
+                        <td><input class="form-control data-actor-params-HashId" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>SRTHash</td>
+                        <td><input class="form-control data-actor-params-SRTHash" type="text" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </li>
     

@@ -27,6 +27,7 @@ module.exports = class Actor_Handler
     {
         this.shrineRenderer = shrineRenderer;
         this.stringTable = stringTable;
+        this.actorEditor = undefined;
 
         this.dataActorDyn = {};
         this.dataActorStatic = {};
@@ -38,6 +39,8 @@ module.exports = class Actor_Handler
         this.modelsPath = cfg.getValue("game.path") + "/content/Model";
 
         this.clear();
+
+        this.testData = [];
     }
 
     clear()
@@ -70,19 +73,12 @@ module.exports = class Actor_Handler
         }
     }
 
-    async copyActor(actor)
-    {
-        const newParams = BYAML.Helper.deepCopy(actor.params);
-        if(newParams.Translate)
-        {
-            newParams.Translate[1].value += 1.0;
-        }
-
-        return await this.addActor(actor.name, newParams);
-    }
-
     async addActor(name, params, type, includeInByaml = true)
     {
+        this.testData.push([
+            this.testData.length, type, name, params.HashId.value, params.SRTHash.value
+        ]);
+
         let actorObject = await this._getActorObject(name) || await this._getActorObject("DUMMY_BOX");
 
         if(actorObject.name == "DUMMY_BOX")
@@ -90,6 +86,7 @@ module.exports = class Actor_Handler
 
         Actor_Params.normalize(params);
         const actor = new Actor(name, params, type, uuid(), actorObject.createInstance());
+        actor.setHandler(this);
         actor.update();
 
         if(includeInByaml)
@@ -105,6 +102,70 @@ module.exports = class Actor_Handler
         this.shrineRenderer.addActor(actor);
 
         return actor;
+    }
+
+    /**
+     * removes an actor, also removes it from all other places (editor, renderer, obj array)
+     * @param {Actor} actor actor to remove
+     * @returns {boolean} false if it was already removed / not set here
+     */
+    async deleteActor(actor)
+    {
+        const paramObj = actor.type == "Dynamic" ? this.dataActorDyn.Objs : this.dataActorStatic.Objs;
+        const objIndex = paramObj.indexOf(actor.params);
+        if(objIndex >= 0)
+        {
+            paramObj.splice(objIndex, 1);
+        }else{
+            console.warn("Removed Actor's params are not in the BYAML file!");
+            console.warn(actor);
+            return false;
+        }
+
+        this.actorEditor.deselectActor(actor);
+        this.shrineRenderer.deleteActor(actor);
+
+        delete this.actors[actor.id];
+
+        return true;
+    }
+
+    /**
+     * copies an actor and adds it to the scene
+     * @param {Actor} actor actor to copy
+     * @returns {Actor} new actor
+     */
+    async copyActor(actor)
+    {
+        console.log(actor);
+        const paramCopy = BYAML.Helper.deepCopy(actor.params);
+        if(paramCopy.Translate)
+        {
+            paramCopy.Translate[1].value += 1.0;
+            paramCopy.HashId.value = 0;
+        }
+        return await this.addActor(actor.name, paramCopy, actor.type);
+    }
+
+    /**
+     * assigns a new param object to the actor and the internal BYAML data
+     * @param {Actor} actor 
+     * @param {Object} params 
+     */
+    assignNewActorParams(actor, params)
+    {
+        const dataObj = actor.type == "Dynamic" ? this.dataActorDyn.Objs : this.dataActorStatic.Objs;
+        const dataIndex = dataObj.indexOf(actor.params);
+        if(dataIndex < 0)
+        {
+            console.warn("Actor assign new params, actor has no params set in Objs!");
+            return undefined;
+        }
+
+        dataObj[dataIndex] = params;
+        actor.params = dataObj[dataIndex];
+        
+        return dataObj[dataIndex];
     }
 
     async _getActorObject(name)
