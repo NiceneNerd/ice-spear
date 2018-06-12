@@ -150,12 +150,13 @@ module.exports = class Actor
         {
             if(Array.isArray(this.params.Scale))
             {
-                this.params.Scale[0].value += x;
-                this.params.Scale[1].value += y;
-                this.params.Scale[2].value += z;
+                this.params.Scale[0].value *= x;
+                this.params.Scale[1].value *= y;
+                this.params.Scale[2].value *= z;
             }else{
-                this.params.Scale.value += x || y || z || 0.0;
+                this.params.Scale.value *= y;
             }
         }
+        this.update();
     }
 };

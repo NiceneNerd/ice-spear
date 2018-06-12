@@ -57,35 +57,55 @@ module.exports = class Actor_Editor
         }
     }
 
+    // @TODO refactor here, general logic for direction and scaling
     eventActorMove(ev, camera)
     {
         if(this.selectedActors.length == 0)
             return;
 
-        const speedMulti = 0.02;
+        const speedMulti  = 0.02;
+        const speedScale  = 0.1;
         const scrollMulti = 0.002;
+
         let speedVec;
 
-        if(ev.type == "wheel")
+        if(ev.ctrlKey) // scaling
         {
-            speedVec = { y: -ev.deltaY * scrollMulti };
-        }else{
-            const moveVec = new THREE.Vector2(ev.movementX, -ev.movementY);            
-            moveVec.rotateAround(new THREE.Vector2(0.0, 0.0), camera.rotation.y % (Math.PI * 2));
+            if(ev.type == "wheel")
+            {
+                speedVec = { y: 1.0 + (ev.deltaY < 0 ? speedScale : -speedScale) };
+            }else{
+                const moveVec = new THREE.Vector2(ev.movementX, -ev.movementY);
+                speedVec = {
+                    x: 1.0 + (moveVec.x >= 0 ? speedScale : -speedScale),
+                    z: 1.0 + (moveVec.y >= 0 ? speedScale : -speedScale),
+                };
+            }
 
-            speedVec = {
-                x: moveVec.x * speedMulti,
-                z: -moveVec.y * speedMulti
-            };
+        }else{ // moving / rotating
+            if(ev.type == "wheel")
+            {
+                speedVec = { y: -ev.deltaY * scrollMulti };
+            }else{
+                const moveVec = new THREE.Vector2(ev.movementX, -ev.movementY);            
+                moveVec.rotateAround(new THREE.Vector2(0.0, 0.0), camera.rotation.y % (Math.PI * 2));
+
+                speedVec = {
+                    x: moveVec.x * speedMulti,
+                    z: -moveVec.y * speedMulti
+                };
+            }
         }
-
+        
         for(const actor of this.selectedActors)
         {
-            if(ev.shiftKey)
+            if(ev.shiftKey) // rotating
             {
-                console.log(speedVec);
                 actor.rotate(speedVec);
-            }else{
+            }else if(ev.ctrlKey) // scaling
+            {
+                actor.scale(speedVec);
+            }else{ // moving
                 actor.move(speedVec);
             }
         }
