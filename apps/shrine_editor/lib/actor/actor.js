@@ -48,6 +48,8 @@ module.exports = class Actor
 
     importParamJSON(jsonString) 
     {
+        const oldParams = this.params;
+
         let newParams;
         try{
             newParams = BYAML.Helper.fromJSON(jsonString);
@@ -56,8 +58,19 @@ module.exports = class Actor
             console.warn(jsonString);
         }
 
-        console.log(newParams);
         this.handler.assignNewActorParams(this, newParams);
+
+        this.params.HashId.value = oldParams.HashId.value;
+        if(this.params.Translate && oldParams.Translate)
+        {
+            this.setPos({
+                x: oldParams.Translate[0].value,
+                y: oldParams.Translate[1].value,
+                z: oldParams.Translate[2].value,
+            });
+        }
+
+        this.update();
     }
 
     delete()
@@ -82,6 +95,15 @@ module.exports = class Actor
             else
                 this.object.setRot(new THREE.Vector3(0.0, Rotate.value, 0.0));
         }
+
+        if(this.params.Scale)
+        {
+            const Scale = this.params.Scale;
+            if(Array.isArray(Scale))
+                this.object.setScale(new THREE.Vector3(Scale[0].value, Scale[1].value, Scale[2].value));
+            else
+                this.object.setScale(new THREE.Vector3(Scale.value, Scale.value, Scale.value));
+        }
     }
 
     move({x = 0.0, y = 0.0, z = 0.0})
@@ -91,6 +113,17 @@ module.exports = class Actor
             this.params.Translate[0].value += x;
             this.params.Translate[1].value += y;
             this.params.Translate[2].value += z;
+        }
+        this.update();
+    }
+
+    setPos({x = 0.0, y = 0.0, z = 0.0})
+    {
+        if(this.params.Translate)
+        {
+            this.params.Translate[0].value = x;
+            this.params.Translate[1].value = y;
+            this.params.Translate[2].value = z;
         }
         this.update();
     }
@@ -109,5 +142,20 @@ module.exports = class Actor
             }
         }
         this.update();
+    }
+
+    scale({x = 1.0, y = 1.0, z = 1.0})
+    {
+        if(this.params.Scale)
+        {
+            if(Array.isArray(this.params.Scale))
+            {
+                this.params.Scale[0].value += x;
+                this.params.Scale[1].value += y;
+                this.params.Scale[2].value += z;
+            }else{
+                this.params.Scale.value += x || y || z || 0.0;
+            }
+        }
     }
 };

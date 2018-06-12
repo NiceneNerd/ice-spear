@@ -66,9 +66,16 @@ module.exports = class Actor_Object
 
     setRot(rot)
     {
-        this.objectGroup.rotation.x = rot.x;
+        this.objectGroup.rotation.x = rot.x; // copy doesn't work here
         this.objectGroup.rotation.y = rot.y;
         this.objectGroup.rotation.z = rot.z;
+    }
+
+    setScale(scale)
+    {
+        this.objectGroup.scale.x = scale.x; // copy doesn't work here
+        this.objectGroup.scale.y = scale.y;
+        this.objectGroup.scale.z = scale.z;
     }
 
     setColor(color, obj = this.objectGroup)
