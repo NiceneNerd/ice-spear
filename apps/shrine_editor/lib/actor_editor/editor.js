@@ -25,7 +25,7 @@ module.exports = class Actor_Editor
 
     async addActor(name, params)
     {        
-        const actor = await this.actorHandler.addActor(name, params);
+        return await this.actorHandler.addActor(name, params);
     }
 
     eventActorSelected(objects, isMouseUp, mouseMoved)
@@ -47,7 +47,7 @@ module.exports = class Actor_Editor
                     }
                 }else if(!mouseMoved && !this.actorAdded && this.selectedActors.includes(actor))
                 {
-                    this._removeFromSelection(actor);    
+                    this.deselectActor(actor);    
                 }
             }
             else if(isMouseUp && !mouseMoved)
@@ -57,35 +57,55 @@ module.exports = class Actor_Editor
         }
     }
 
+    // @TODO refactor here, general logic for direction and scaling
     eventActorMove(ev, camera)
     {
         if(this.selectedActors.length == 0)
             return;
 
-        const speedMulti = 0.02;
+        const speedMulti  = 0.02;
+        const speedScale  = 0.02;
         const scrollMulti = 0.002;
+
         let speedVec;
 
-        if(ev.type == "wheel")
+        if(ev.ctrlKey) // scaling
         {
-            speedVec = { y: -ev.deltaY * scrollMulti };
-        }else{
-            const moveVec = new THREE.Vector2(ev.movementX, -ev.movementY);            
-            moveVec.rotateAround(new THREE.Vector2(0.0, 0.0), camera.rotation.y % (Math.PI * 2));
+            if(ev.type == "wheel")
+            {
+                speedVec = { y: 1.0 + (ev.deltaY < 0 ? speedScale : -speedScale) };
+            }else{
+                const moveVec = new THREE.Vector2(ev.movementX, -ev.movementY);
+                speedVec = {
+                    x: 1.0 + Math.sign(moveVec.x) * speedScale,
+                    z: 1.0 + Math.sign(moveVec.y) * speedScale,
+                };
+            }
 
-            speedVec = {
-                x: moveVec.x * speedMulti,
-                z: -moveVec.y * speedMulti
-            };
+        }else{ // moving / rotating
+            if(ev.type == "wheel")
+            {
+                speedVec = { y: -ev.deltaY * scrollMulti };
+            }else{
+                const moveVec = new THREE.Vector2(ev.movementX, -ev.movementY);            
+                moveVec.rotateAround(new THREE.Vector2(0.0, 0.0), camera.rotation.y % (Math.PI * 2));
+
+                speedVec = {
+                    x: moveVec.x * speedMulti,
+                    z: -moveVec.y * speedMulti
+                };
+            }
         }
-
+        
         for(const actor of this.selectedActors)
         {
-            if(ev.shiftKey)
+            if(ev.shiftKey) // rotating
             {
-                console.log(speedVec);
                 actor.rotate(speedVec);
-            }else{
+            }else if(ev.ctrlKey) // scaling
+            {
+                actor.scale(speedVec);
+            }else{ // moving
                 actor.move(speedVec);
             }
         }
@@ -94,7 +114,7 @@ module.exports = class Actor_Editor
     _resetSelection()
     {
         for(const actor of this.selectedActors)
-            this._deselectActor(actor);
+            this._removeActorSelection(actor);
 
         this.selectedActors = [];
     }
@@ -110,17 +130,17 @@ module.exports = class Actor_Editor
         this.shrineRenderer.selectActor(actor);
     }
 
-    _removeFromSelection(actor)
+    deselectActor(actor)
     {
         const idx = this.selectedActors.indexOf(actor);
         if(idx > -1) 
         {
             this.selectedActors.splice(idx, 1);
-            this._deselectActor(actor);
+            this._removeActorSelection(actor);
         }
     }
 
-    _deselectActor(actor)
+    _removeActorSelection(actor)
     {
         actor.object.setColor(0xFFFFFF);   
         this.shrineRenderer.deselectActor(actor);

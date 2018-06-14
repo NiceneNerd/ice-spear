@@ -3,7 +3,7 @@
     overflow: hidden;
 }
 
-.window .tool-group button
+.window #main-sidebar-1 .tool-group button
 {
     width: 90%;
 }

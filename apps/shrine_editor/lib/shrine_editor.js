@@ -16,25 +16,28 @@ module.exports = class Shrine_Editor
 {
     /**
      * @param {Node} canvasNode 
+     * @param {Node} uiNode
+     * @param {Loader} loader
      * @param {stringTable} stringTable optional string table object
      */
-    constructor(canvasNode, uiNode, stringTable = undefined)
+    constructor(canvasNode, uiNode, loader, stringTable = undefined)
     {
         this.THREE = THREE;
         this.shrineDir  = "";
         this.shrineName = "";
-
+        this.loader = loader;
         this.stringTable  = stringTable;
         
-        this.shrineRenderer = new Shrine_Renderer(canvasNode, uiNode);
+        this.shrineRenderer = new Shrine_Renderer(canvasNode, uiNode, this.loader);
         this.shrineModelLoader = new Shrine_Model_Loader();
 
-        this.actorHandler = new Actor_Handler(this.shrineRenderer, this.stringTable);
+        this.actorHandler = new Actor_Handler(this.shrineRenderer, this.loader, this.stringTable);
         this.actorEditor  = new Actor_Editor(this.shrineRenderer, this.actorHandler);
         this.actorLoader  = new Actor_Loader(this.actorHandler);
 
+        this.actorHandler.actorEditor = this.actorEditor;
+        
         this.shrineCreator = new Shrine_Creator(this.actorHandler);
-        this.loader = undefined;
     }
 
     /**
