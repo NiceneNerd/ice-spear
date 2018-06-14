@@ -23,9 +23,15 @@ const SARC  = require("sarc-lib");
 
 module.exports = class Actor_Handler
 {
-    constructor(shrineRenderer, stringTable = null)
+    /**
+     * @param {Shrine_Renderer} shrineRenderer 
+     * @param {Loader} loader 
+     * @param {String_Table} stringTable 
+     */
+    constructor(shrineRenderer, loader, stringTable = null)
     {
         this.shrineRenderer = shrineRenderer;
+        this.loader = this.loader;
         this.stringTable = stringTable;
         this.actorEditor = undefined;
 
@@ -39,8 +45,6 @@ module.exports = class Actor_Handler
         this.modelsPath = cfg.getValue("game.path") + "/content/Model";
 
         this.clear();
-
-        this.testData = [];
     }
 
     clear()
@@ -54,18 +58,27 @@ module.exports = class Actor_Handler
         this.objects.DUMMY_BOX.setThreeModel(this.shrineRenderer.renderer.createBox());
     }
 
+    async showLoader(status = "", info = "")
+    {
+        await this.loader.setStatus(status);
+        await this.loader.setInfo(info);
+        await this.loader.show();
+    }
+
+    async hideLoader()
+    {
+        await this.loader.hide();
+    }
+
     async loadActorDatabase()
     {
-        if(this.loader)
-        {
-            await this.loader.setStatus("Loading Actor Database");
-            await this.loader.setInfo("Parsing File");
-        }
+        await this.loader.setStatus("Loading Actor Database");
+        await this.loader.setInfo("Parsing File");
 
         let byaml = new BYAML.Parser();
         this.actorData = byaml.parse(this.fileLoader.buffer(this.actorPath + "/ActorInfo.product.sbyml"));
 
-        if(this.loader)await this.loader.setInfo("Converting Data");
+        await this.loader.setInfo("Converting Data");
 
         for(let actor of this.actorData.Actors)
         {
@@ -75,17 +88,11 @@ module.exports = class Actor_Handler
 
     async addActor(name, params, type, includeInByaml = true)
     {
-        this.testData.push([
-            this.testData.length, type, name, params.HashId.value, params.SRTHash.value
-        ]);
-
-        let actorObject = await this._getActorObject(name) || await this._getActorObject("DUMMY_BOX");
-
-        if(actorObject.name == "DUMMY_BOX")
-            actorObject.name = name;
+        const actorObject = await this.createActorObjectInstance(name);
 
         Actor_Params.normalize(params);
-        const actor = new Actor(name, params, type, uuid(), actorObject.createInstance());
+
+        const actor = new Actor(params, type, uuid(), actorObject);
         actor.setHandler(this);
         actor.update();
 
@@ -102,6 +109,22 @@ module.exports = class Actor_Handler
         this.shrineRenderer.addActor(actor);
 
         return actor;
+    }
+
+    /**
+     * loads (if not already loaded) the actor object and returns a cloned instance of it
+     * if no object can be found, a dummy box is returned
+     * @param {string} name actor name
+     * @returns {Actor_Object}
+     */
+    async createActorObjectInstance(name)
+    {
+        let actorObject = await this._getActorObject(name) || await this._getActorObject("DUMMY_BOX");
+
+        if(actorObject.name == "DUMMY_BOX")
+            actorObject.name = name;
+
+        return actorObject.createInstance();
     }
 
     /**
@@ -144,7 +167,18 @@ module.exports = class Actor_Handler
             paramCopy.Translate[1].value += 1.0;
             paramCopy.HashId.value = 0;
         }
-        return await this.addActor(actor.name, paramCopy, actor.type);
+        return await this.addActor(actor.getName(), paramCopy, actor.type);
+    }
+    
+    /**
+     * refreshes the actor model by removing and adding it again
+     * should be called after an actor object changed
+     * @param {Actor} actor 
+     */
+    refreshActorRenderer(actor)
+    {
+        this.shrineRenderer.deleteActor(actor);
+        this.shrineRenderer.addActor(actor);
     }
 
     /**

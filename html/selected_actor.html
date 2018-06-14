@@ -23,7 +23,7 @@
 
         .selected-actor-item button
         {
-            width: 110px;
+            min-width: 130px;
         }
     </style>
     <span>
@@ -49,12 +49,20 @@
             </nav>
 
             <h5 class="nav-group-title">Parameter</h5>
-
+            <span class="nav-group-item">
+                <button class="btn btn btn-default data-tool-addRotScalar">Add Rotation (Y)</button>
+                <button class="btn btn btn-default data-tool-addRotVector">Add Rotation (XYZ)</button>
+            </span>
+            <span class="nav-group-item">
+                <button class="btn btn btn-default data-tool-addScaleScalar">Add Scaling (XZ)</button>
+                <button class="btn btn btn-default data-tool-addScaleVector">Add Scaling (XYZ)</button>
+            </span>
+            <span class="nav-group-item">
+                <button class="btn btn btn-default data-tool-removeRot">Remove Rotation</button>
+                <button class="btn btn btn-default data-tool-removeScale">Remove Scaling</button>
+            </span>
             <table class="table">
                 <tbody>
-                    <td>UnitConfigName</td>
-                        <td><input disabled class="form-control data-actor-params-UnitConfigName" type="text" /></td>
-                    </tr>
                     <tr>
                         <td>HashId</td>
                         <td><input class="form-control data-actor-params-HashId" type="text" /></td>

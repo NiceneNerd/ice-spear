@@ -8,15 +8,19 @@ const BYAML = require("byaml-lib");
 
 module.exports = class Actor
 {
-    constructor(name, params, type, id, object = undefined)
+    constructor(params, type, id, object = undefined)
     {
         this.id = id;
         this.params = params;
         this.type = type;
-        this.name = name;
         this.gui = null;
 
         this.setObject(object);
+    }
+
+    getName()
+    {
+        return this.params.UnitConfigName.value;
     }
 
     setHandler(handler)
@@ -24,7 +28,7 @@ module.exports = class Actor
         this.handler = handler;
     }
 
-    setObject(object)
+    setObject(object, doUpdate = true)
     {
         if(this.object)
             this.object.clear();
@@ -32,7 +36,8 @@ module.exports = class Actor
         this.object = object;
         this.object.setActor(this);
 
-        this.update();
+        if(doUpdate)
+            this.update();
     }
 
     copy()
@@ -46,7 +51,7 @@ module.exports = class Actor
         return BYAML.Helper.toJSON(this.params);
     }
 
-    importParamJSON(jsonString) 
+    async importParamJSON(jsonString) 
     {
         const oldParams = this.params;
 
@@ -58,7 +63,13 @@ module.exports = class Actor
             console.warn(jsonString);
         }
 
+        const oldName = this.getName();
         this.handler.assignNewActorParams(this, newParams);
+
+        if(this.getName() != oldName)
+        {
+            await this.updateObject();
+        }
 
         this.params.HashId.value = oldParams.HashId.value;
         if(this.params.Translate && oldParams.Translate)
@@ -71,6 +82,20 @@ module.exports = class Actor
         }
 
         this.update();
+    }
+
+    /**
+     * fetches a new Actor_Object via the handler and a name
+     * should be called after changing name aka UnitConfigName in the params
+     */
+    async updateObject()
+    {
+        if(this.handler)
+        {
+            const actorObject = await this.handler.createActorObjectInstance(this.getName());
+            this.setObject(actorObject, false);
+            this.handler.refreshActorRenderer(this);
+        }
     }
 
     delete()
@@ -94,6 +119,8 @@ module.exports = class Actor
                 this.object.setRot(new THREE.Vector3(Rotate[0].value, Rotate[1].value, Rotate[2].value));
             else
                 this.object.setRot(new THREE.Vector3(0.0, Rotate.value, 0.0));
+        }else{
+            this.object.setRot(new THREE.Vector3(0.0, 0.0, 0.0));
         }
 
         if(this.params.Scale)
@@ -103,7 +130,53 @@ module.exports = class Actor
                 this.object.setScale(new THREE.Vector3(Scale[0].value, Scale[1].value, Scale[2].value));
             else
                 this.object.setScale(new THREE.Vector3(Scale.value, Scale.value, Scale.value));
+        }else{
+            this.object.setScale(new THREE.Vector3(1.0, 1.0, 1.0));
         }
+    }
+
+    addRotationParams(asVector = true)
+    {
+        if(asVector)
+        {
+            this.params.Rotate = BYAML.Helper.fromJSON(`[
+                {"type": 210, "value": 0},
+                {"type": 210, "value": 0},
+                {"type": 210, "value": 0}
+            ]`);
+        }else{
+            this.params.Rotate = BYAML.Helper.fromJSON(`{"type": 210, "value": 0}`);
+        }
+
+        this.update();
+    }
+
+    addScalingParams(asVector)
+    {
+        if(asVector)
+        {
+            this.params.Scale = BYAML.Helper.fromJSON(`[
+                {"type": 210, "value": 1},
+                {"type": 210, "value": 1},
+                {"type": 210, "value": 1}
+            ]`);
+        }else{
+            this.params.Scale = BYAML.Helper.fromJSON(`{"type": 210, "value": 1}`);
+        }
+
+        this.update();
+    }
+
+    removeRotationParams()
+    {
+        delete this.params.Rotate;
+        this.update();
+    }
+
+    removeScalingParams()
+    {
+        delete this.params.Scale;
+        this.update();
     }
 
     move({x = 0.0, y = 0.0, z = 0.0})

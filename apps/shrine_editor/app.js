@@ -44,8 +44,7 @@ module.exports = class App extends App_Base
 
         this.stringTable = new String_Table(this.project.getCachePath());
 
-        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.stringTable);
-        this.shrineEditor.loader = this.loader;
+        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.loader, this.stringTable);
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
             sizes     : [10, 70, 20],

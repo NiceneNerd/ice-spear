@@ -64,7 +64,7 @@ module.exports = class Actor_Editor
             return;
 
         const speedMulti  = 0.02;
-        const speedScale  = 0.1;
+        const speedScale  = 0.02;
         const scrollMulti = 0.002;
 
         let speedVec;
@@ -77,8 +77,8 @@ module.exports = class Actor_Editor
             }else{
                 const moveVec = new THREE.Vector2(ev.movementX, -ev.movementY);
                 speedVec = {
-                    x: 1.0 + (moveVec.x >= 0 ? speedScale : -speedScale),
-                    z: 1.0 + (moveVec.y >= 0 ? speedScale : -speedScale),
+                    x: 1.0 + Math.sign(moveVec.x) * speedScale,
+                    z: 1.0 + Math.sign(moveVec.y) * speedScale,
                 };
             }
 

@@ -12,11 +12,16 @@ module.exports = class Shrine_Renderer
 {
     /**
      * @param {Node} canvasNode canvas to draw to
+     * @param {Node} uiNode node that contains all ui elements
+     * @param {Loader} loader
      */
-    constructor(canvasNode, uiNode)
+    constructor(canvasNode, uiNode, loader)
     {
         this.canvasNode = canvasNode;
         this.uiNode = uiNode;
+        this.loader = loader;
+
+        this.actorObjectMap = {};
         this.clear();
     }
         
@@ -59,7 +64,10 @@ module.exports = class Shrine_Renderer
         const objectGroup = actor.object.getGroup();
         
         if(objectGroup)
+        {
+            this.actorObjectMap[actor.id] = objectGroup;
             this.actorGroup.add(objectGroup);
+        }
     }
 
     /**
@@ -68,15 +76,19 @@ module.exports = class Shrine_Renderer
      */
     deleteActor(actor)
     {
-        if(actor.object)
-            this.actorGroup.remove(actor.object.getGroup());
+        if(this.actorObjectMap[actor.id])
+        {
+            this.actorGroup.remove(this.actorObjectMap[actor.id]);
+            delete this.actorObjectMap[actor.id];
+        }
     }
 
     selectActor(actor)
     {
         let actorNode = this.htmlActorEntry.create();
         this.selectedActorList.appendChild(actorNode);
-        actor.gui = new Actor_GUI(actor, this.selectedActorList.children[this.selectedActorList.children.length-1]);
+        const addedChild = this.selectedActorList.children[this.selectedActorList.children.length-1]; // only way to get a correct reference
+        actor.gui = new Actor_GUI(actor, addedChild, this.loader);
         actor.gui.update();
     }
 
