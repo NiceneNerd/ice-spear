@@ -21,9 +21,41 @@
             padding-bottom: 10px;
         }
 
-        .selected-actor-item button
+        .selected-actor-item button.btn
         {
             min-width: 130px;
+        }
+
+        .selected-actor-item button.btn.byaml-buttons
+        {
+            min-width: 110px;
+        }
+
+        .selected-actor-item .nav-group-item.param-tools button.btn
+        {
+            min-width: 80px;
+        }
+
+        .selected-actor-item .byaml-editor
+        {
+            height: 300px;
+            margin-top: 6px;
+            border: 1px solid #494a4c;
+        }
+
+        .selected-actor-item .btn.btn-icon
+        {
+            width: 38px;
+            text-align: center;
+            min-width: unset;
+        }
+
+        .selected-actor-item .nav-group-item.param-tools .param-name
+        {
+            color: #cab19e;
+            display: inline-block;
+            width: 60px;
+            vertical-align: middle;
         }
     </style>
     <span>
@@ -35,44 +67,62 @@
     </span>
     <div>
         <div>
-            <h5 class="nav-group-title">Tools</h5>
-            
-            <nav class="nav-group tool-group">
-                <span class="nav-group-item">
-                    <button class="btn btn btn-default data-tool-copy">Copy</button>
-                    <button class="btn btn btn-default data-tool-delete">Delete</button>
-                </span>
-                <span class="nav-group-item">
-                    <button class="btn btn btn-default data-tool-copyJSON">Copy JSON</button>
-                    <button class="btn btn btn-default data-tool-importJSON">Import JSON</button>
-                </span>
-            </nav>
+            <h5 class="nav-group-title">IDs</h5>
 
-            <h5 class="nav-group-title">Parameter</h5>
-            <span class="nav-group-item">
-                <button class="btn btn btn-default data-tool-addRotScalar">Add Rotation (Y)</button>
-                <button class="btn btn btn-default data-tool-addRotVector">Add Rotation (XYZ)</button>
-            </span>
-            <span class="nav-group-item">
-                <button class="btn btn btn-default data-tool-addScaleScalar">Add Scaling (XZ)</button>
-                <button class="btn btn btn-default data-tool-addScaleVector">Add Scaling (XYZ)</button>
-            </span>
-            <span class="nav-group-item">
-                <button class="btn btn btn-default data-tool-removeRot">Remove Rotation</button>
-                <button class="btn btn btn-default data-tool-removeScale">Remove Scaling</button>
-            </span>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>HashId</td>
-                        <td><input class="form-control data-actor-params-HashId" type="text" /></td>
-                    </tr>
-                    <tr>
-                        <td>SRTHash</td>
-                        <td><input class="form-control data-actor-params-SRTHash" type="text" /></td>
-                    </tr>
-                </tbody>
-            </table>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>HashId</td>
+                            <td><input class="form-control data-actor-params-HashId" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>SRTHash</td>
+                            <td><input class="form-control data-actor-params-SRTHash" type="text" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            <h5 class="nav-group-title">Actor Tools</h5>
+            
+                <nav class="nav-group tool-group">
+                    
+                    <span class="nav-group-item">
+                        <button class="btn btn-default data-tool-copy">Duplicate</button>
+                        <button class="btn btn-default data-tool-delete">Delete</button>
+                    </span>
+                    <span class="nav-group-item">
+                        <button class="btn btn-default data-tool-copyJSON">Copy JSON</button>
+                        <button class="btn btn-default data-tool-importJSON">Import JSON</button>
+                    </span>
+                </nav>
+
+            <h5 class="nav-group-title">Parameter Tools</h5>
+
+                <span class="nav-group-item param-tools">
+                    <span class="param-name">Rotation:</span>
+                    <button class="btn btn-default data-tool-addRotScalar">Add (Y)</button>
+                    <button class="btn btn-default data-tool-addRotVector">Add (XYZ)</button>
+                    <button class="btn btn-default data-tool-removeRot">Remove</button>
+                </span>
+
+                <span class="nav-group-item param-tools">
+                    <span class="param-name">Scaling:</span>
+                    <button class="btn btn-default data-tool-addScaleScalar">Add (XZ)</button>
+                    <button class="btn btn-default data-tool-addScaleVector">Add (XYZ)</button>
+                    <button class="btn btn-default data-tool-removeScale">Remove</button>
+                </span>
+
+            <h5 class="nav-group-title">BYAML Editor</h5>
+
+                <span class="nav-group-item">
+                    <button class="btn btn-default btn-icon data-tool-toggleEditor" title="Toggle Editor">
+                        <span class="icon icon-right-open"></span>
+                    </button>
+                    <button class="btn btn-default byaml-buttons data-tool-byamlToActor">Apply</button>
+                    <button class="btn btn-default byaml-buttons data-tool-byamlRefresh">Refresh</button>
+                </span>
+
+                <div class="byaml-editor" hidden></div>
         </div>
     </div>
 </li>

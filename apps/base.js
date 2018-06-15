@@ -102,6 +102,12 @@ module.exports = class App_Base
      */
     async run()
     {
+        document.addEventListener("keyup", (ev) => 
+        {
+            if(ev.key == "F5")
+                this.reload();
+        });
+
         await this.project.openCurrent();
     }
 
@@ -137,5 +143,10 @@ module.exports = class App_Base
         {
             electron.remote.app.exit();
         }
+    }
+
+    reload()
+    {
+        this.window.reload();
     }
 };

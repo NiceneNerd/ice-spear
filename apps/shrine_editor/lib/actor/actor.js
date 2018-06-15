@@ -51,7 +51,7 @@ module.exports = class Actor
         return BYAML.Helper.toJSON(this.params);
     }
 
-    async importParamJSON(jsonString) 
+    async importParamJSON(jsonString, keepPosition = false) 
     {
         const oldParams = this.params;
 
@@ -72,7 +72,8 @@ module.exports = class Actor
         }
 
         this.params.HashId.value = oldParams.HashId.value;
-        if(this.params.Translate && oldParams.Translate)
+
+        if(keepPosition && this.params.Translate && oldParams.Translate)
         {
             this.setPos({
                 x: oldParams.Translate[0].value,
@@ -100,6 +101,9 @@ module.exports = class Actor
 
     delete()
     {
+        if(this.gui)
+            this.gui.delete();
+
         if(this.handler)
             this.handler.deleteActor(this);
     }
@@ -112,7 +116,7 @@ module.exports = class Actor
         {
             this.object.setPos(new THREE.Vector3(Translate[0].value, Translate[1].value, Translate[2].value));
         }
-
+        
         if(this.params.Rotate)
         {
             if(Array.isArray(this.params.Rotate))
@@ -132,6 +136,11 @@ module.exports = class Actor
                 this.object.setScale(new THREE.Vector3(Scale.value, Scale.value, Scale.value));
         }else{
             this.object.setScale(new THREE.Vector3(1.0, 1.0, 1.0));
+        }
+
+        if(this.gui)
+        {
+            this.gui.update();
         }
     }
 
