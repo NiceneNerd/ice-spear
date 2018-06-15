@@ -27,6 +27,7 @@
     "mocha": "^5.0.4"
   },
   "dependencies": {
+    "ace-builds": "^1.3.3",
     "binary-file": "gitlab:ice-spear-tools/binary-file",
     "byaml-lib": "gitlab:ice-spear-tools/byaml-lib",
     "crc32": "^0.2.2",
