@@ -26,17 +26,28 @@ module.exports = class Shrine_Creator
         this.actorHandler = actorHandler;
         this.project = project;
     }
+    
+    /**
+     * returns the path to the packed .pack file
+     * note: a path is always returned, even if the file does not exist
+     * @param {string} shrineName shrine name
+     * @returns {string} full path
+     */
+    getPackFilePath(shrineName)
+    {
+        return path.join(this.project.getShrinePath("build"),  shrineName + ".pack");
+    }
 
     /**
      * saves all shrine data, and optionally builds the .pack file
+     * if build, it also creates an backup
      * @param {string} shrineDir shrine base directory
      * @param {string} shrineName shrine name
      * @param {bool} packData if true, builds the .pack file
      */
     async save(shrineDir, shrineName, packData)
     {
-        const packPath = path.join(this.project.getShrinePath("build"),  shrineName + ".pack");
-
+        const packPath   = this.getPackFilePath(shrineName);
         const backupName = `${shrineName}.${dateformat(new Date(), "yyyy-mm-dd_HH:MM:ss")}.pack`;
         const backupPath = path.join(this.project.getShrinePath("backup"), backupName);
 

@@ -64,6 +64,11 @@ module.exports = class Shrine_Editor
         await this.actorLoader.load(this.shrineDir, this.shrineName);
     }
 
+    getPackFilePath()
+    {
+        return this.shrineCreator.getPackFilePath();
+    }
+
     /**
      * starts the editor and it's renderer
      */

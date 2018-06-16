@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "gitlab:ice-spear-tools/botw-editor"
+    "url": "gitlab:ice-spear-tools/ice-spear"
   },
   "ice-spear": {
     "debug-mode": true,

@@ -63,6 +63,9 @@ module.exports = class App extends App_Base
     {
         this.node.querySelector(".data-tool-save").onclick = () => this.save(false);
         this.node.querySelector(".data-tool-saveBuild").onclick = () => this.save(true);
+        this.node.querySelector(".data-tool-openBuildDir").onclick = () => {
+            electron.shell.showItemInFolder(this.shrineEditor.getPackFilePath());
+        };
     }
 
     /**
