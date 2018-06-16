@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "license": "GPL-3.0",
   "main": "main.js",
+  "bin": {
+    "ice-spear": "./main.js"
+  },
   "scripts": {
     "start": "electron . --js-flags=\"--expose-gc\"",
     "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv",
