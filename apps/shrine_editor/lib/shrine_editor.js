@@ -17,14 +17,16 @@ module.exports = class Shrine_Editor
     /**
      * @param {Node} canvasNode 
      * @param {Node} uiNode
+     * @param {Project_Manager} project
      * @param {Loader} loader
      * @param {stringTable} stringTable optional string table object
      */
-    constructor(canvasNode, uiNode, loader, stringTable = undefined)
+    constructor(canvasNode, uiNode, project, loader, stringTable = undefined)
     {
         this.THREE = THREE;
         this.shrineDir  = "";
         this.shrineName = "";
+        this.project = project;
         this.loader = loader;
         this.stringTable  = stringTable;
         
@@ -37,7 +39,7 @@ module.exports = class Shrine_Editor
 
         this.actorHandler.actorEditor = this.actorEditor;
         
-        this.shrineCreator = new Shrine_Creator(this.actorHandler);
+        this.shrineCreator = new Shrine_Creator(this.actorHandler, this.project);
     }
 
     /**
@@ -60,6 +62,11 @@ module.exports = class Shrine_Editor
         if(this.loader)await this.loader.setStatus("Adding Actors to Scene");
 
         await this.actorLoader.load(this.shrineDir, this.shrineName);
+    }
+
+    getPackFilePath()
+    {
+        return this.shrineCreator.getPackFilePath();
     }
 
     /**

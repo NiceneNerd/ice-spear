@@ -6,6 +6,7 @@
 
 const fs   = require('fs-extra');
 const path = require('path');
+const dateformat = require("dateformat");
 
 const BYAML = require("byaml-lib");
 const SARC  = require("sarc-lib");
@@ -18,21 +19,37 @@ module.exports = class Shrine_Creator
 {
     /**
      * @param {Actor_Handler} actorHandler 
+     * @param {Project_Manager} project
      */
-    constructor(actorHandler)
+    constructor(actorHandler, project)
     {
         this.actorHandler = actorHandler;
+        this.project = project;
+    }
+    
+    /**
+     * returns the path to the packed .pack file
+     * note: a path is always returned, even if the file does not exist
+     * @param {string} shrineName shrine name
+     * @returns {string} full path
+     */
+    getPackFilePath(shrineName)
+    {
+        return path.join(this.project.getShrinePath("build"),  shrineName + ".pack");
     }
 
     /**
      * saves all shrine data, and optionally builds the .pack file
+     * if build, it also creates an backup
      * @param {string} shrineDir shrine base directory
      * @param {string} shrineName shrine name
      * @param {bool} packData if true, builds the .pack file
      */
     async save(shrineDir, shrineName, packData)
     {
-        const packPath = shrineDir.replace(".unpacked", "");
+        const packPath   = this.getPackFilePath(shrineName);
+        const backupName = `${shrineName}.${dateformat(new Date(), "yyyy-mm-dd_HH:MM:ss")}.pack`;
+        const backupPath = path.join(this.project.getShrinePath("backup"), backupName);
 
         await Promise.all([
             this.saveActors("Dynamic", shrineDir, shrineName),
@@ -44,6 +61,7 @@ module.exports = class Shrine_Creator
             const sarc = new SARC();
             await sarc.fromDirectory(shrineDir);
             await sarc.save(packPath);
+            await fs.copy(packPath, backupPath);
         }
     }
 
