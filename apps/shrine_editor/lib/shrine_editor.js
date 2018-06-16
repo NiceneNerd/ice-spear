@@ -78,14 +78,6 @@ module.exports = class Shrine_Editor
     }
 
     /**
-     * resets the editor and it's renderer
-     */
-    clear()
-    {
-        this.shrineRenderer.clear();
-    }
-
-    /**
      * saves all shrine related data
      * @param {bool} rebuild if true, it rebuilds the .pack file
      */

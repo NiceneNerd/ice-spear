@@ -53,9 +53,6 @@ module.exports = class App extends App_Base
             gutterSize: 12
         });
 
-        this.observerCanvas = new MutationObserver(mutations => this.shrineEditor.shrineRenderer.renderer.updateDrawSize());
-        this.observerCanvas.observe(document.querySelector("#main-sidebar-2"), {attributes: true});
-
         this.initTools();
     }
 
