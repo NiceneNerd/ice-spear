@@ -5,8 +5,9 @@
 node_modules/
 /db/
 
-# C/C++ build directories
+# C/C++ / electron build directories
 build/
+dist/
 
 # Visual Studio
 .vs/
