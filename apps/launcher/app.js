@@ -161,7 +161,7 @@ module.exports = class App extends App_Base
             let modelsHtml = "";
             let texHtml = "";
             files.forEach(file => {
-                if(!file.includes(".Tex1") && !file.includes(".Tex2"))
+               // if(!file.includes(".Tex1") && !file.includes(".Tex2")) // @TODO make that an option
                     modelsHtml += `<option value="${modelDir + "/" + file}">${file}</option>`;
             });
             this.selectModel.innerHTML = modelsHtml;

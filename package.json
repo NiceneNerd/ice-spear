@@ -14,7 +14,7 @@
   },
   "ice-spear": {
     "debug-mode": true,
-    "default-app": "botw_editor",
+    "default-app": "launcher",
     "app-icon": "assets/icons/icon_256.png",
     "default-size": [
       1024,
