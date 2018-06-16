@@ -10,6 +10,7 @@ build/
 
 # Visual Studio
 .vs/
+.vscode/
 
 # Intellij project settings
 .idea/

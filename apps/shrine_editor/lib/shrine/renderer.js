@@ -41,7 +41,7 @@ module.exports = class Shrine_Renderer
 
         this.htmlActorEntry = new HTML_Loader('./html/selected_actor.html');
 
-        this.updateDrawSize();
+        this.renderer.updateDrawSize();
     }
 
     /**
@@ -96,11 +96,6 @@ module.exports = class Shrine_Renderer
     {
         if(actor.gui)
             this.selectedActorList.removeChild(actor.gui.node);
-    }
-
-    updateDrawSize()
-    {
-        this.renderer.updateDrawSize();
     }
 
     start()

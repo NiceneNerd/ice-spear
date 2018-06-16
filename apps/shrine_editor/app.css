@@ -7,3 +7,9 @@
 {
     width: 90%;
 }
+
+.window canvas.shrine-canvas
+{
+    width: 100%;
+    height: 100%;
+}
