@@ -6,6 +6,7 @@
 
 const fs   = require('fs-extra');
 const path = require('path');
+const dateformat = require("dateformat");
 
 const BYAML = require("byaml-lib");
 const SARC  = require("sarc-lib");
@@ -18,10 +19,12 @@ module.exports = class Shrine_Creator
 {
     /**
      * @param {Actor_Handler} actorHandler 
+     * @param {Project_Manager} project
      */
-    constructor(actorHandler)
+    constructor(actorHandler, project)
     {
         this.actorHandler = actorHandler;
+        this.project = project;
     }
 
     /**
@@ -32,7 +35,10 @@ module.exports = class Shrine_Creator
      */
     async save(shrineDir, shrineName, packData)
     {
-        const packPath = shrineDir.replace(".unpacked", "");
+        const packPath = path.join(this.project.getShrinePath("build"),  shrineName + ".pack");
+
+        const backupName = `${shrineName}.${dateformat(new Date(), "yyyy-mm-dd_HH:MM:ss")}.pack`;
+        const backupPath = path.join(this.project.getShrinePath("backup"), backupName);
 
         await Promise.all([
             this.saveActors("Dynamic", shrineDir, shrineName),
@@ -44,6 +50,7 @@ module.exports = class Shrine_Creator
             const sarc = new SARC();
             await sarc.fromDirectory(shrineDir);
             await sarc.save(packPath);
+            await fs.copy(packPath, backupPath);
         }
     }
 

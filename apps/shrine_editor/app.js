@@ -44,7 +44,7 @@ module.exports = class App extends App_Base
 
         this.stringTable = new String_Table(this.project.getCachePath());
 
-        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.loader, this.stringTable);
+        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable);
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
             sizes     : [10, 70, 20],
@@ -97,7 +97,7 @@ module.exports = class App extends App_Base
                 global.gc();
                 
             let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
-            this.shrineDir = path.join(this.project.getShrinesPath(), fileName + ".unpacked");
+            this.shrineDir = path.join(this.project.getShrinePath("unpacked"), fileName + ".unpacked");
 
             this.shrineName = fileName.match(/Dungeon[0-9]+/);
 

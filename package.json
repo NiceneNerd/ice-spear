@@ -34,6 +34,7 @@
     "binary-file": "gitlab:ice-spear-tools/binary-file",
     "byaml-lib": "gitlab:ice-spear-tools/byaml-lib",
     "crc32": "^0.2.2",
+    "dateformat": "^3.0.3",
     "delete": "^1.1.0",
     "electron": "^2.0.0-beta.3",
     "electron-remote": "^1.2.0",
