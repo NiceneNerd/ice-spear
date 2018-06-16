@@ -20,27 +20,9 @@ To start the program use the following command:
 ```sh
 $ npm start
 ```
-<br />
-If you want to start a specific App/Editor, you can pass the name as the first parameter:
-```sh
-$ npm start [name]
-```
-The Apps are located inside the app directory, every directory name inside can be used for [name]
 
-<br />
-### Troubleshooting
-____
-
-##### Yaz0 / PNG export isn't working
-While installing, the script is also rebuilding some native Node C++ libraries for the current electron version.  
-If for whatever reason you can't complie them on your system, the following tools won't work:
-- unpacking of "Yaz0" files
-- PNG export of textures
-
-To manually rebuild native libraries run:
-```sh
-$ npm run postinstall
-```
+On your first start, please go to "Setting" to setup you ROM directory.
+After that restart the tool.
 
 <br />
 ### License
