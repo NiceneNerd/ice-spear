@@ -39,7 +39,7 @@ module.exports = class Shrine_Renderer
         this.actorGroup  = this.renderer.createObjectGroup("actors",  true);
         this.shrineGroup = this.renderer.createObjectGroup("shrine",  true);
 
-        this.htmlActorEntry = new HTML_Loader('./html/selected_actor.html');
+        this.htmlActorEntry = new HTML_Loader('html/selected_actor.html');
 
         this.renderer.updateDrawSize();
     }
