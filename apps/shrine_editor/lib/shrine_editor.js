@@ -69,6 +69,31 @@ module.exports = class Shrine_Editor
         return this.shrineCreator.getPackFilePath();
     }
 
+    getRenderer()
+    {
+        return this.shrineRenderer.renderer;
+    }
+
+    showInvisibleActors(isVisible)
+    {
+        this.shrineRenderer.actorGroup.children.forEach(model => {
+            if(!model.userData.actor.object.hasOwnModel)
+            {
+                model.visible = isVisible;
+            }
+        });
+    }
+
+    showVisibleActors(isVisible)
+    {
+        this.shrineRenderer.actorGroup.children.forEach(model => {
+            if(model.userData.actor.object.hasOwnModel)
+            {
+                model.visible = isVisible;
+            }
+        });
+    }
+
     /**
      * starts the editor and it's renderer
      */

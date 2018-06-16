@@ -38,6 +38,8 @@
         <script src="lib/3d_renderer/lib/shaders/UnpackDepthRGBAShader.js"></script>
         <script src="lib/3d_renderer/lib/shaders/FXAAShader.js"></script>
 
+        <script src="lib/3d_renderer/lib/libs/stats.min.js"></script>
+
     </head>
     <body>
 
@@ -127,6 +129,38 @@
                         </span>
                         <span class="nav-group-item">
                             <button class="btn btn btn-default data-tool-openBuildDir">Open Build Folder</button>
+                        </span>
+                    </nav>
+
+                    <h5 class="nav-group-title">Renderer</h5>
+                        
+                    <nav class="nav-group tool-group">
+                        <span class="nav-group-item">
+                            <label><input type="checkbox" checked class="data-tool-renderer-actorsVisible">
+                                <span>Show Visible Actors</span>
+                            </label>
+                        </span>
+                        <span class="nav-group-item">
+                            <label><input type="checkbox" checked class="data-tool-renderer-actorsInvisible">
+                                <span>Show Invisible Actors</span>
+                            </label>
+                        </span>
+                        
+                        <span class="nav-group-item">
+                            <label><input type="checkbox" checked class="data-tool-renderer-postProc">
+                                <span>Post-Processing (slower)</span>
+                            </label>
+                        </span>
+                        <span class="nav-group-item">
+                            <label><input type="checkbox" checked class="data-tool-renderer-camLight">
+                                <span>Camera Light</span>
+                            </label>
+                        </span>
+
+                        <span class="nav-group-item">
+                            <label><input type="checkbox" class="data-tool-renderer-showStats">
+                                <span>Show FPS/ms</span>
+                            </label>
                         </span>
                     </nav>
 
