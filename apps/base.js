@@ -106,6 +106,9 @@ module.exports = class App_Base
         {
             if(ev.key == "F5")
                 this.reload();
+
+            if(ev.key == "F12")
+                this.window.webContents.openDevTools();
         });
 
         await this.project.openCurrent();

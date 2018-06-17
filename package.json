@@ -11,7 +11,8 @@
     "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv",
     "test": "electron-mocha './{,!(node_modules)/**/}*.test.js'",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
   "repository": {
     "type": "git",
@@ -27,14 +28,14 @@
     ]
   },
   "build": {
-      "appId": "ice-spear-tools.ice-spear",
-      "npmRebuild": true
+    "appId": "ice-spear-tools.ice-spear",
+    "npmRebuild": true
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "electron-mocha": "^5.0.0",
     "electron": "^2.0.2",
     "electron-builder": "^20.15.1",
+    "electron-mocha": "^5.0.0",
     "mocha": "^5.0.4"
   },
   "dependencies": {
@@ -46,7 +47,6 @@
     "delete": "^1.1.0",
     "electron-remote": "^1.2.0",
     "fs-extra": "^5.0.0",
-    "int24": "0.0.1",
     "izitoast": "^1.3.0",
     "pako": "^1.0.6",
     "png-lib": "gitlab:ice-spear-tools/png-lib",

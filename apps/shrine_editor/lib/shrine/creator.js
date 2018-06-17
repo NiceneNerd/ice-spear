@@ -48,7 +48,7 @@ module.exports = class Shrine_Creator
     async save(shrineDir, shrineName, packData)
     {
         const packPath   = this.getPackFilePath(shrineName);
-        const backupName = `${shrineName}.${dateformat(new Date(), "yyyy-mm-dd_HH:MM:ss")}.pack`;
+        const backupName = `${shrineName}.${dateformat(new Date(), "yyyy-mm-dd_HH_MM_ss")}.pack`;
         const backupPath = path.join(this.project.getShrinePath("backup"), backupName);
 
         await Promise.all([

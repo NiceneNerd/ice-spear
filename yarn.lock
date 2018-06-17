@@ -143,10 +143,6 @@ bcrypt-pbkdf@^1.0.0:
     int24 "0.0.1"
     yaz0-lib "gitlab:ice-spear-tools/yaz0-lib"
 
-bindings@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.3.0.tgz#b346f6ecf6a95f5a815c5839fc7cdb22502f1ed7"
-
 bluebird-lst@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/bluebird-lst/-/bluebird-lst-1.0.5.tgz#bebc83026b7e92a72871a3dc599e219cbfb002a9"
@@ -693,7 +689,7 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@^2.0.0-beta.3:
+electron@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/electron/-/electron-2.0.2.tgz#b77e05f83419cc5ec921a2d21f35b55e4bfc3d68"
   dependencies:
@@ -1034,12 +1030,6 @@ ini@^1.3.4, ini@~1.3.0:
 int24@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/int24/-/int24-0.0.1.tgz#96cff1430a46557352edb406cd87b3082b369d84"
-
-int32@^2.5.5:
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/int32/-/int32-2.5.5.tgz#8352fd501a126ac01d2dd48a4c72a87c2b4f4c39"
-  dependencies:
-    bindings "^1.3.0"
 
 invert-kv@^1.0.0:
   version "1.0.0"
@@ -1455,6 +1445,10 @@ os-locale@^2.0.0:
     lcid "^1.0.0"
     mem "^1.1.0"
 
+overflow-js@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/overflow-js/-/overflow-js-1.0.0.tgz#1bc4bfff4420e5173966ebd677c480491ee984f0"
+
 p-finally@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
@@ -1778,12 +1772,12 @@ sanitize-filename@^1.6.1:
     truncate-utf8-bytes "^1.0.0"
 
 "sarc-lib@gitlab:ice-spear-tools/sarc-lib":
-  version "2.0.3"
-  resolved "https://gitlab.com/ice-spear-tools/sarc-lib/repository/archive.tar.gz?ref=ae4498f21bc22c220921ad73f083101c61d9acd2"
+  version "2.0.4"
+  resolved "https://gitlab.com/ice-spear-tools/sarc-lib/repository/archive.tar.gz?ref=7ab84c25e2116960202f6a1057557971607e769f"
   dependencies:
     binary-file "gitlab:ice-spear-tools/binary-file"
     fs-extra "^5.0.0"
-    int32 "^2.5.5"
+    overflow-js "^1.0.0"
     yaz0-lib "gitlab:ice-spear-tools/yaz0-lib"
 
 sax@^1.2.4:
@@ -2219,5 +2213,5 @@ yauzl@2.4.1:
     fd-slicer "~1.0.1"
 
 "yaz0-lib@gitlab:ice-spear-tools/yaz0-lib":
-  version "2.0.0"
-  resolved "https://gitlab.com/ice-spear-tools/yaz0-lib/repository/archive.tar.gz?ref=edf7bca82d02b6e14e97ef6a676aabeab12fd262"
+  version "2.0.1"
+  resolved "https://gitlab.com/ice-spear-tools/yaz0-lib/repository/archive.tar.gz?ref=825ff4cb5493b456ec0e5b24afa727969c9b1103"
