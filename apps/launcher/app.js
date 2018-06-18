@@ -27,6 +27,7 @@ module.exports = class App extends App_Base
         var that = this;
 
         let appButtons = this.node.querySelectorAll(".button-open-app");
+
         for(let btn of appButtons)
         {
             btn.onclick = () => 
