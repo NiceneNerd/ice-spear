@@ -4,15 +4,13 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const Shrine_Renderer     = require("./shrine/renderer.js");
-const Shrine_Model_Loader = require("./shrine/model_loader.js");
-const Shrine_Creator      = require("./shrine/creator.js")
+const path = require("path");
 
-const Actor_Handler = require("./actor/handler.js");
-const Actor_Editor  = require("./actor_editor/editor.js");
-const Actor_Loader  = require("./actor/loader.js");
+const Mubin_Editor = require("./../../../lib/mubin_editor/editor");
+const Shrine_Model_Loader = require("./shrine/model_loader");
+const Shrine_Creator = require("./shrine/creator");
 
-module.exports = class Shrine_Editor
+module.exports = class Shrine_Editor extends Mubin_Editor
 {
     /**
      * @param {Node} canvasNode 
@@ -23,23 +21,29 @@ module.exports = class Shrine_Editor
      */
     constructor(canvasNode, uiNode, project, loader, stringTable = undefined)
     {
-        this.THREE = THREE;
-        this.shrineDir  = "";
-        this.shrineName = "";
-        this.project = project;
-        this.loader = loader;
-        this.stringTable  = stringTable;
-        
-        this.shrineRenderer = new Shrine_Renderer(canvasNode, uiNode, this.loader);
+        super(canvasNode, uiNode, project, loader, stringTable = undefined);
+
         this.shrineModelLoader = new Shrine_Model_Loader();
-
-        this.actorHandler = new Actor_Handler(this.shrineRenderer, this.loader, this.stringTable);
-        this.actorEditor  = new Actor_Editor(this.shrineRenderer, this.actorHandler);
-        this.actorLoader  = new Actor_Loader(this.actorHandler);
-
-        this.actorHandler.actorEditor = this.actorEditor;
-        
         this.shrineCreator = new Shrine_Creator(this.actorHandler, this.project);
+    }
+
+    /**
+     * maps the actory type to the actual mubin location, this will differ between shrines and the main-field
+     * @param {string} actorType 
+     */
+    generateMubinPath(actorType)
+    {
+        return path.join(this.mubinDir, "Map", "CDungeon", this.mubinName, `${this.mubinName}_${actorType}.smubin`);
+    }
+
+    /**
+     * loads the map model (field or shrine)
+     */
+    async loadMapModel()
+    {
+        this.shrineModelLoader.loader = this.loader;
+        const shrineModels = await this.shrineModelLoader.load(this.mubinDir, this.mubinName);
+        this.mubinRenderer.setMapModels(shrineModels);
     }
 
     /**
@@ -49,57 +53,12 @@ module.exports = class Shrine_Editor
      */
     async load(directory, name)
     {
-        this.shrineDir = directory;
-        this.shrineName = name;
-
-        this.actorHandler.loader = this.loader;
-        await this.actorHandler.loadActorDatabase();
-
-        this.shrineModelLoader.loader = this.loader;
-        const shrineModels = await this.shrineModelLoader.load(this.shrineDir, this.shrineName);
-        this.shrineRenderer.setShrineModels(shrineModels);
-
-        if(this.loader)await this.loader.setStatus("Adding Actors to Scene");
-
-        await this.actorLoader.load(this.shrineDir, this.shrineName);
+        await super.load(directory, name);
     }
 
     getPackFilePath()
     {
         return this.shrineCreator.getPackFilePath();
-    }
-
-    getRenderer()
-    {
-        return this.shrineRenderer.renderer;
-    }
-
-    showInvisibleActors(isVisible)
-    {
-        this.shrineRenderer.actorGroup.children.forEach(model => {
-            if(!model.userData.actor.object.hasOwnModel)
-            {
-                model.visible = isVisible;
-            }
-        });
-    }
-
-    showVisibleActors(isVisible)
-    {
-        this.shrineRenderer.actorGroup.children.forEach(model => {
-            if(model.userData.actor.object.hasOwnModel)
-            {
-                model.visible = isVisible;
-            }
-        });
-    }
-
-    /**
-     * starts the editor and it's renderer
-     */
-    start()
-    {
-        this.shrineRenderer.start();
     }
 
     /**
@@ -108,6 +67,6 @@ module.exports = class Shrine_Editor
      */
     async save(rebuild = true)
     {
-        return await this.shrineCreator.save(this.shrineDir, this.shrineName, rebuild);
+        return await this.shrineCreator.save(this.mubinDir, this.mubinName, rebuild);
     }
 }
