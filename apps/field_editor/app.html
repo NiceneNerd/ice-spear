@@ -92,13 +92,13 @@
 
                 <div class="pane-sm sidebar" id="main-sidebar-1">
                   
-                    <h5 class="nav-group-title">Shrine</h5>
+                    <h5 class="nav-group-title">Field</h5>
 
                     <table class="table">
                         <tbody>
                             <tr>
                                 <td>Name</td>
-                                <td class="data-shrine-name">-</td>
+                                <td class="data-field-section">-</td>
                             </tr>
                         </tbody>
                     </table>
@@ -151,9 +151,18 @@
                         </span>
 
                         <span class="nav-group-item">
-                            <label><input type="checkbox" class="data-tool-renderer-showStats">
+                            <label>
+                                <input type="checkbox" class="data-tool-renderer-showStats">
                                 <span>Show FPS/ms</span>
                             </label>
+                        </span>
+
+
+                        <span class="nav-group-item">
+                                <label>Camera-Speed</label>
+                                <br/>
+                                <input type="range" min="0.0625" max="4" value="0.125" step="0.0625" class="data-tool-renderer-camSpeed">
+
                         </span>
                     </nav>
 

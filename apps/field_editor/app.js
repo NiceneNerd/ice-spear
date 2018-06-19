@@ -15,7 +15,7 @@ const Filter      = requireGlobal("lib/filter.js");
 
 const Binary_File_Loader = require("binary-file").Loader;
 const SARC          = require("sarc-lib");
-const Shrine_Editor = require("./lib/shrine_editor.js");
+const Field_Editor  = require("./lib/field_editor.js");
 const String_Table  = requireGlobal("lib/string_table/string_table.js");
 
 const {dialog} = electron.remote;
@@ -29,22 +29,15 @@ module.exports = class App extends App_Base
     {
         super(window, args);
 
-        this.dataActorDyn = {};
-
-        this.shrineDir  = null;
-        this.shrineFiles = null;
+        this.fieldGamePath = path.join(this.config.getValue("game.path"), "content", "Map", "MainField");
+        this.fieldSection  = null;
+        this.fieldDir      = null;
 
         this.footerNode = footer.querySelector(".data-footer");
         
-/*
-        this.actorDynList = this.node.querySelector(".data-actorDynList");
-        this.filterActorDyn = new Filter(this.actorDynList.querySelector(".list-group-header input"), this.actorDynList, ".list-group-item");
-*/
         this.fileLoader = new Binary_File_Loader();
-
         this.stringTable = new String_Table(this.project.getCachePath());
-
-        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable);
+        this.fieldEditor = new Field_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable);
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
             sizes     : [10, 70, 20],
@@ -65,22 +58,28 @@ module.exports = class App extends App_Base
         };
 
         const actorVisibleNode = this.node.querySelector(".data-tool-renderer-actorsVisible");
-        actorVisibleNode.onchange = () => this.shrineEditor.showVisibleActors(actorVisibleNode.checked);
+        actorVisibleNode.onchange = () => this.fieldEditor.showVisibleActors(actorVisibleNode.checked);
 
         const actorInvisibleNode = this.node.querySelector(".data-tool-renderer-actorsInvisible");
-        actorInvisibleNode.onchange = () => this.shrineEditor.showInvisibleActors(actorInvisibleNode.checked);
+        actorInvisibleNode.onchange = () => this.fieldEditor.showInvisibleActors(actorInvisibleNode.checked);
 
         const postProcNode = this.node.querySelector(".data-tool-renderer-postProc");
-        postProcNode.onchange = () => this.shrineEditor.getRenderer().usePostProcessing(postProcNode.checked);
+        postProcNode.onchange = () => this.fieldEditor.getRenderer().usePostProcessing(postProcNode.checked);
 
         const camLightNode = this.node.querySelector(".data-tool-renderer-camLight");
         camLightNode.onchange = () => {
-            this.shrineEditor.getRenderer().helper.lighting.cameraLight.visible = camLightNode.checked;
+            this.fieldEditor.getRenderer().helper.lighting.cameraLight.visible = camLightNode.checked;
         };
 
         const showStatsNode = this.node.querySelector(".data-tool-renderer-showStats");
-        showStatsNode.onchange = () => this.shrineEditor.getRenderer().useStats(showStatsNode.checked);
+        showStatsNode.onchange = () => this.fieldEditor.getRenderer().useStats(showStatsNode.checked);
+
+        const camSpeedNode = this.node.querySelector(".data-tool-renderer-camSpeed");
+        camSpeedNode.onchange = () => {
+            this.fieldEditor.getRenderer().helper.fpsControls.camSpeed = camSpeedNode.value;
+        };
     }
+
 
     /**
      * saves the shrine
@@ -93,19 +92,25 @@ module.exports = class App extends App_Base
         Notify.success(`Shrine '${this.shrineName}' saved`);
     }
 
-    async openShrine(shrineDirOrFile = null)
+    async openField(fieldSection)
     {
-        if(shrineDirOrFile == "" || shrineDirOrFile == null)
+        if(!fieldSection)
         {
+            /*
             let paths = dialog.showOpenDialog({properties: ['openDirectory']});
             if(paths != null)
                 shrineDirOrFile = path[0];
             else 
                 return false;
+                */
+               console.warn("TODO");
+               return false;
         }
 
+        this.fieldSection = fieldSection;
+
         await this.loader.show();
-        await this.loader.setStatus("Loading Shrine");
+        await this.loader.setStatus("Loading Field");
         try{
             this.stringTable.loader = this.loader;
             //await this.stringTable.load(); // not needed now, yay!
@@ -113,25 +118,21 @@ module.exports = class App extends App_Base
             if(typeof(global.gc) == "function") // free some memory after maybe loading the stringtable
                 global.gc();
                 
-            let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
-            this.shrineDir = path.join(this.project.getShrinePath("unpacked"), fileName + ".unpacked");
+            this.fieldDir = path.join(this.project.getFieldPath("data"), this.fieldSection);
+            const alreadyOpened = await fs.pathExists(this.fieldDir);
 
-            this.shrineName = fileName.match(/Dungeon[0-9]+/);
-
-            if(this.shrineName != null)
-                this.shrineName = this.shrineName[0];
-
-            const alreadyExtracted = await fs.pathExists(this.shrineDir);
+            await fs.ensureDir(this.fieldDir);
 
             // extract if it's not a directory
-            if(!alreadyExtracted && fs.lstatSync(shrineDirOrFile).isFile())
+            if(!alreadyOpened)
             {
-                let sarc = new SARC(this.stringTable);
-                this.shrineFiles = sarc.parse(shrineDirOrFile);
-                await sarc.extractFiles(this.shrineDir, true);
+                await fs.copy(
+                    path.join(this.fieldGamePath, this.fieldSection),
+                    this.fieldDir
+                );
             }
 
-            await this.shrineEditor.load(this.shrineDir, this.shrineName);
+            await this.fieldEditor.load(this.fieldDir, this.fieldSection);
 
             this.render();
 
@@ -146,51 +147,33 @@ module.exports = class App extends App_Base
     render()
     {
 
-        this.footerNode.innerHTML = "Loaded Shrine: " + this.shrineDir;
+        this.footerNode.innerHTML = "Loaded Field-Section: " + this.fieldDir;
 
-        this.node.querySelector(".data-shrine-name").innerHTML = this.shrineName;
+        this.node.querySelector(".data-field-section").innerHTML = this.fieldSection;
 
-        this.node.querySelector(".data-actors-staticCount").innerHTML  = this.shrineEditor.actorHandler.dataActorStatic.Objs.length;
-        this.node.querySelector(".data-actors-dynamicCount").innerHTML = this.shrineEditor.actorHandler.dataActorDyn.Objs.length;
+        if(this.fieldEditor.actorHandler.dataActorStatic)
+            this.node.querySelector(".data-actors-staticCount").innerHTML  = this.fieldEditor.actorHandler.dataActorStatic.Objs.length;
+            
+        if(this.fieldEditor.actorHandler.dataActorDyn)
+            this.node.querySelector(".data-actors-dynamicCount").innerHTML = this.fieldEditor.actorHandler.dataActorDyn.Objs.length;
 
-
-        /*
-        if(this.shrineEditor.dataActorDyn != null && this.shrineEditor.dataActorDyn.Objs != null)
-        {
-            for(let obj of this.shrineEditor.dataActorDyn.Objs)
-            {
-                let name = obj.UnitConfigName.value;
-
-                // render actor data
-                let entryNode = this.htmlListEntry.create();
-
-                entryNode.querySelector(".data-fileEntry-type").innerHTML = name;
-                entryNode.querySelector(".data-fileType-num").innerHTML = "";
-                entryNode.querySelector(".data-fileEntry-description").innerHTML = obj.HashId.value;
-
-                this.actorDynList.append(entryNode);
-            }
-        }
-        */
-        this.shrineEditor.start();
+        this.fieldEditor.start();
     }
 
     async run()
     {
         await super.run();
 
-        // 000 = ivy shrine
-        // 006 = physics + guardians
-        // 033 = water puzzle, missing polygon in corner
-        // 051 = has lava and spikeballs
-        // 099 = blessing
-        let filePath = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
-        //let filePath = "";
+        /**
+         * I-3 - the cool town + guardian field
+         */
+
+        let fieldSection = "J-8";
 
         if(this.args.file != null) {
-            filePath = this.args.file;
+            fieldSection = this.args.file;
         }
 
-        this.openShrine(filePath);
+        this.openField(fieldSection);
     }    
 };

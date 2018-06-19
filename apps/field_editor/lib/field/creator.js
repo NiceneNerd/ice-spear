@@ -13,9 +13,9 @@ const SARC  = require("sarc-lib");
 const yaz0  = require("yaz0-lib");
 
 /**
- * Class to cteate shrines and save/generate all its data
+ * Class to create field data and save/generate all its data
  */
-module.exports = class Shrine_Creator
+module.exports = class Field_Creator
 {
     /**
      * @param {Actor_Handler} actorHandler 
@@ -33,10 +33,10 @@ module.exports = class Shrine_Creator
      * @param {string} shrineName shrine name
      * @returns {string} full path
      */
-    getPackFilePath(shrineName)
+    /*getPackFilePath(shrineName)
     {
         return path.join(this.project.getShrinePath("build"),  shrineName + ".pack");
-    }
+    }*/
 
     /**
      * saves all shrine data, and optionally builds the .pack file
@@ -45,7 +45,7 @@ module.exports = class Shrine_Creator
      * @param {string} shrineName shrine name
      * @param {bool} packData if true, builds the .pack file
      */
-    async save(shrineDir, shrineName, packData)
+    /*async save(shrineDir, shrineName, packData)
     {
         const packPath   = this.getPackFilePath(shrineName);
         const backupName = `${shrineName}.${dateformat(new Date(), "yyyy-mm-dd_HH_MM_ss")}.pack`;
@@ -63,14 +63,14 @@ module.exports = class Shrine_Creator
             await sarc.save(packPath);
             await fs.copy(packPath, backupPath);
         }
-    }
+    }*/
 
     /**
      * @param {string} typeName "Dynamic" or "Static"
      * @param {string} shrineDir shrine base directory
      * @param {string} shrineName shrine name
      */
-    async saveActors(typeName, shrineDir, shrineName)
+    /*async saveActors(typeName, shrineDir, shrineName)
     {
         const actorPath = path.join(shrineDir, "Map", "CDungeon", shrineName, `${shrineName}_${typeName}.smubin`); 
         const byaml = new BYAML.Creator();
@@ -78,5 +78,5 @@ module.exports = class Shrine_Creator
         const actorYaz = yaz0.encode(actorBuffer);
 
         await fs.writeFile(actorPath, actorYaz);
-    }
+    }*/
 }
