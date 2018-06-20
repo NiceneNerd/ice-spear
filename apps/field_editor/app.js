@@ -133,11 +133,12 @@ module.exports = class App extends App_Base
             }
 
             await this.fieldEditor.load(this.fieldDir, this.fieldSection);
-
+        
             this.render();
 
         } catch(e) {
             await this.loader.hide();    
+            console.log(e);
             throw e;
         }
 
@@ -151,11 +152,17 @@ module.exports = class App extends App_Base
 
         this.node.querySelector(".data-field-section").innerHTML = this.fieldSection;
 
-        if(this.fieldEditor.actorHandler.dataActorStatic)
+        if(this.fieldEditor.actorHandler.dataActorStatic && this.fieldEditor.actorHandler.dataActorStatic.Objs)
             this.node.querySelector(".data-actors-staticCount").innerHTML  = this.fieldEditor.actorHandler.dataActorStatic.Objs.length;
             
-        if(this.fieldEditor.actorHandler.dataActorDyn)
+        if(this.fieldEditor.actorHandler.dataActorDyn && this.fieldEditor.actorHandler.dataActorDyn.Objs)
             this.node.querySelector(".data-actors-dynamicCount").innerHTML = this.fieldEditor.actorHandler.dataActorDyn.Objs.length;
+
+        let prodNum = 0;
+        for(const prodSection of this.fieldEditor.actorHandler.dataActorProd)
+        {
+            this.node.querySelector(".data-actors-prodCount-" + (prodNum++)).innerHTML = prodSection.length;
+        }
 
         this.fieldEditor.start();
     }
@@ -166,9 +173,9 @@ module.exports = class App extends App_Base
 
         /**
          * I-3 - the cool town + guardian field
+         * C-7 - some gerudo cliff area
          */
-
-        let fieldSection = "J-8";
+        let fieldSection = "J-3";
 
         if(this.args.file != null) {
             fieldSection = this.args.file;

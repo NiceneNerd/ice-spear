@@ -23,6 +23,9 @@ module.exports = class Field_Editor extends Mubin_Editor
     {
         super(canvasNode, uiNode, project, loader, stringTable = undefined);
 
+        this.loadActorData = true;
+        this.loadProdData  = true;
+
         //this.shrineModelLoader = new Shrine_Model_Loader();
         //this.shrineCreator = new Shrine_Creator(this.actorHandler, this.project);
     }
@@ -33,8 +36,22 @@ module.exports = class Field_Editor extends Mubin_Editor
      */
     generateMubinPath(actorType)
     {
-        return "";
-        //return path.join(this.mubinDir, `${this.mubinName}_${actorType}.smubin`);
+        return path.join(this.mubinDir, `${this.mubinName}_${actorType}.smubin`);
+    }
+
+    /**
+     * maps the prod type to the actual prod location, this will differ between shrines and the main-field
+     * @param {string} prodNum
+     * @returns {string|undefined} 
+     */
+    generateProdPath(prodNum)
+    {
+        const prodPrefixes = ["00", "01", "10", "11"];
+        if(prodNum < prodPrefixes.length)
+        {
+            return path.join(this.mubinDir, `${this.mubinName}.${prodPrefixes[prodNum]}_Clustering.sblwp`);
+        }
+        return undefined;
     }
 
     /**
@@ -55,7 +72,7 @@ module.exports = class Field_Editor extends Mubin_Editor
     async load(directory, name)
     {
         await super.load(directory, name);
-
+        
         // jump the camera to first actor
         const cam = this.getRenderer().camera;
         const midPos = this.calcMidPosition(name);

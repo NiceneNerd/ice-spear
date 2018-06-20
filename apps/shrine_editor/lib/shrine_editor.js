@@ -25,6 +25,9 @@ module.exports = class Shrine_Editor extends Mubin_Editor
 
         this.shrineModelLoader = new Shrine_Model_Loader();
         this.shrineCreator = new Shrine_Creator(this.actorHandler, this.project);
+
+        this.loadActorData = true;
+        this.loadProdData  = false;
     }
 
     /**
@@ -34,6 +37,20 @@ module.exports = class Shrine_Editor extends Mubin_Editor
     generateMubinPath(actorType)
     {
         return path.join(this.mubinDir, "Map", "CDungeon", this.mubinName, `${this.mubinName}_${actorType}.smubin`);
+    }
+
+    /**
+     * maps the prod type to the actual prod location, this will differ between shrines and the main-field
+     * @param {string} prodNum
+     * @returns {string|undefined} 
+     */
+    generateProdPath(prodNum)
+    {
+        if(prodNum < 1)
+        {
+            return path.join(this.mubinDir, "Map", "CDungeon", this.mubinName, `${this.mubinName}_Clustering.sblwp`);
+        }
+        return undefined;
     }
 
     /**
