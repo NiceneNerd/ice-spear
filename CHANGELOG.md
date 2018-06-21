@@ -12,6 +12,7 @@ The current released and prebuild version is: **1.0.0**
 
 **Field-Editor** <br/>
 #38 - first version of the editor, can load mubin/PrOD files
+#38 - can save mubin files
 
 **Misc**<br/>
 #38 - sub-models now also search for textures with a base name (.1.bfres files are still not checked however)
