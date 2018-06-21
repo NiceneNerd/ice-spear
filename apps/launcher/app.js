@@ -27,14 +27,32 @@ module.exports = class App extends App_Base
         var that = this;
 
         let appButtons = this.node.querySelectorAll(".button-open-app");
+
         for(let btn of appButtons)
         {
-            btn.onclick = () => 
+            btn.onclick = async () => 
             {
                 let appName = btn.getAttribute("data-appName");
                 if(appName != null)
                 {
-                    this.windowHandler.open(appName);
+                    // @TODO open a world map here
+                    if(appName == "field_editor")
+                    {
+                        const {value: section} = await swal({
+                            title: "Field Section (e.g. I-3)<br/>@TODO show world-map instead",
+                            type: 'question',
+                            input: 'text',
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            cancelButtonText: 'Cancel',
+                            confirmButtonText: 'Open',
+                        });
+
+                        if(section)
+                            this.windowHandler.open(appName, {section});
+                    }else{
+                        this.windowHandler.open(appName);
+                    }
                 }
             };
         }

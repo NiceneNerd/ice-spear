@@ -137,6 +137,7 @@ module.exports = class App extends App_Base
 
         } catch(e) {
             await this.loader.hide();    
+            console.error(e);
             throw e;
         }
 

@@ -85,6 +85,16 @@ module.exports = class App extends App_Base
             return false;
 
         let fileParts = this.filePath.split(".");
+        
+        if(fileParts.length >= 2)
+        {
+            const baseName = fileParts[fileParts.length-2];
+            if(baseName.substr(-3, 1) == "-")
+            {
+                fileParts[fileParts.length-2] = baseName.substr(0, baseName.length - 3);
+            }
+        }
+
         fileParts[fileParts.length-1] =  `Tex${num}.` + fileParts[fileParts.length-1];
         let texPath = fileParts.join(".");
 
