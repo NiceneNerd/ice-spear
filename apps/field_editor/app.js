@@ -7,19 +7,15 @@
 const electron = require('electron');
 const fs       = require('fs-extra');
 const path     = require('path');
-const url      = require('url');
 const Split    = require('split.js');
+const {dialog} = electron.remote;
 
 const Notify      = requireGlobal("lib/notify/notify.js");
 const Filter      = requireGlobal("lib/filter.js");
 
-const Binary_File_Loader = require("binary-file").Loader;
-const SARC          = require("sarc-lib");
 const Field_Editor  = require("./lib/field_editor.js");
 const String_Table  = requireGlobal("lib/string_table/string_table.js");
-
-const {dialog} = electron.remote;
-const BrowserWindow = electron.remote.BrowserWindow;
+const extractField  = require("./lib/field_extractor");
 
 const App_Base = requireGlobal("apps/base.js");
 
@@ -30,12 +26,13 @@ module.exports = class App extends App_Base
         super(window, args);
 
         this.fieldGamePath = path.join(this.config.getValue("game.path"), "content", "Map", "MainField");
-        this.fieldSection  = null;
-        this.fieldDir      = null;
+        this.fieldStaticGamePath = path.join(this.config.getValue("game.path"), "content", "Physics", "StaticCompound", "MainField");
+
+        this.fieldDir = null;
+        this.fieldSection = null;
 
         this.footerNode = footer.querySelector(".data-footer");
         
-        this.fileLoader = new Binary_File_Loader();
         this.stringTable = new String_Table(this.project.getCachePath());
         this.fieldEditor = new Field_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable);
 
@@ -51,10 +48,9 @@ module.exports = class App extends App_Base
 
     initTools()
     {
-        this.node.querySelector(".data-tool-save").onclick = () => this.save(false);
+        this.node.querySelector(".data-tool-save").onclick = () => this.save();
         this.node.querySelector(".data-tool-openFieldDir").onclick = () => {
-            //electron.shell.showItemInFolder(this.shrineEditor.getPackFilePath());
-            console.warn("WIP");
+            electron.shell.showItemInFolder(this.fieldEditor.getFieldFilePath());
         };
 
         const actorVisibleNode = this.node.querySelector(".data-tool-renderer-actorsVisible");
@@ -82,31 +78,21 @@ module.exports = class App extends App_Base
 
 
     /**
-     * saves the shrine
-     * @param {bool} repack if true, it rebuilds the .pack file
+     * saves the field
      */
-    async save(rebuild = true)
+    async save()
     {
-        await this.shrineEditor.save(rebuild);
+        await this.loader.setStatus("Saving Field");
+        await this.loader.show();
 
-        Notify.success(`Shrine '${this.shrineName}' saved`);
+        await this.fieldEditor.save();
+
+        await this.loader.hide();
+        Notify.success(`Field '${this.fieldSection}' saved`);
     }
 
     async openField(fieldSection)
     {
-        if(!fieldSection)
-        {
-            /*
-            let paths = dialog.showOpenDialog({properties: ['openDirectory']});
-            if(paths != null)
-                shrineDirOrFile = path[0];
-            else 
-                return false;
-                */
-               console.warn("TODO");
-               return false;
-        }
-
         this.fieldSection = fieldSection;
 
         await this.loader.show();
@@ -120,16 +106,11 @@ module.exports = class App extends App_Base
                 
             this.fieldDir = path.join(this.project.getFieldPath("data"), this.fieldSection);
             const alreadyOpened = await fs.pathExists(this.fieldDir);
-
             await fs.ensureDir(this.fieldDir);
 
-            // extract if it's not a directory
             if(!alreadyOpened)
             {
-                await fs.copy(
-                    path.join(this.fieldGamePath, this.fieldSection),
-                    this.fieldDir
-                );
+                await extractField(this.fieldGamePath, this.fieldStaticGamePath, this.fieldDir, this.fieldSection);
             }
 
             await this.fieldEditor.load(this.fieldDir, this.fieldSection);
@@ -175,10 +156,10 @@ module.exports = class App extends App_Base
          * I-3 - the cool town + guardian field
          * C-7 - some gerudo cliff area
          */
-        let fieldSection = "J-3";
+        let fieldSection = "C-7";
 
-        if(this.args.file != null) {
-            fieldSection = this.args.file;
+        if(this.args.section) {
+            fieldSection = this.args.section;
         }
 
         this.openField(fieldSection);

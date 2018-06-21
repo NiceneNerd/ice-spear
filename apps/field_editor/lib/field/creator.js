@@ -28,55 +28,28 @@ module.exports = class Field_Creator
     }
     
     /**
-     * returns the path to the packed .pack file
-     * note: a path is always returned, even if the file does not exist
-     * @param {string} shrineName shrine name
-     * @returns {string} full path
-     */
-    /*getPackFilePath(shrineName)
-    {
-        return path.join(this.project.getShrinePath("build"),  shrineName + ".pack");
-    }*/
-
-    /**
-     * saves all shrine data, and optionally builds the .pack file
+     * saves all field data
      * if build, it also creates an backup
-     * @param {string} shrineDir shrine base directory
-     * @param {string} shrineName shrine name
-     * @param {bool} packData if true, builds the .pack file
+     * @param {string} fieldDir field base directory
+     * @param {string} fieldSection section name
      */
-    /*async save(shrineDir, shrineName, packData)
+    async save(fieldDir, fieldSection)
     {
-        const packPath   = this.getPackFilePath(shrineName);
-        const backupName = `${shrineName}.${dateformat(new Date(), "yyyy-mm-dd_HH_MM_ss")}.pack`;
-        const backupPath = path.join(this.project.getShrinePath("backup"), backupName);
-
-        await Promise.all([
-            this.saveActors("Dynamic", shrineDir, shrineName),
-            this.saveActors("Static",  shrineDir, shrineName),
-        ]);
-
-        if(packData)
-        {
-            const sarc = new SARC();
-            await sarc.fromDirectory(shrineDir);
-            await sarc.save(packPath);
-            await fs.copy(packPath, backupPath);
-        }
-    }*/
+        await this.saveActors("Dynamic", fieldDir, fieldSection);
+    }
 
     /**
      * @param {string} typeName "Dynamic" or "Static"
-     * @param {string} shrineDir shrine base directory
-     * @param {string} shrineName shrine name
+     * @param {string} fieldDir field base directory
+     * @param {string} fieldSection section name
      */
-    /*async saveActors(typeName, shrineDir, shrineName)
+    async saveActors(typeName, fieldDir, fieldSection)
     {
-        const actorPath = path.join(shrineDir, "Map", "CDungeon", shrineName, `${shrineName}_${typeName}.smubin`); 
+        const actorPath = path.join(fieldDir, `${fieldSection}_${typeName}.smubin`); 
         const byaml = new BYAML.Creator();
         const actorBuffer = byaml.create(typeName == "Dynamic" ? this.actorHandler.dataActorDyn : this.actorHandler.dataActorStatic);
         const actorYaz = yaz0.encode(actorBuffer);
 
         await fs.writeFile(actorPath, actorYaz);
-    }*/
+    }
 }

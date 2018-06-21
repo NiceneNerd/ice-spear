@@ -8,7 +8,7 @@ const path = require("path");
 
 const Mubin_Editor = require("./../../../lib/mubin_editor/editor");
 const Field_Model_Loader = require("./field/model_loader");
-//const Shrine_Creator = require("./shrine/creator");
+const Field_Creator = require("./field/creator");
 
 module.exports = class Field_Editor extends Mubin_Editor
 {
@@ -26,8 +26,8 @@ module.exports = class Field_Editor extends Mubin_Editor
         this.loadActorData = true;
         this.loadProdData  = true;
 
-        //this.shrineModelLoader = new Shrine_Model_Loader();
-        //this.shrineCreator = new Shrine_Creator(this.actorHandler, this.project);
+        this.fieldModelLoader = new Field_Model_Loader();
+        this.fieldCreator = new Field_Creator(this.actorHandler, this.project);
     }
 
     /**
@@ -73,7 +73,7 @@ module.exports = class Field_Editor extends Mubin_Editor
     {
         await super.load(directory, name);
         
-        // jump the camera to first actor
+        // jump the camera to the mid-point
         const cam = this.getRenderer().camera;
         const midPos = this.calcMidPosition(name);
 
@@ -99,19 +99,21 @@ module.exports = class Field_Editor extends Mubin_Editor
         );
     }
 
-    getPackFilePath()
+    /**
+     * returns the project field path
+     * @returns {string}
+     */
+    getFieldFilePath()
     {
-        console.warn("TODO");
-        //return this.shrineCreator.getPackFilePath();
+        return path.join(this.mubinDir, this.mubinName);
     }
 
     /**
-     * saves all shrine related data
+     * saves all field related data
      * @param {bool} rebuild if true, it rebuilds the .pack file
      */
-    async save(rebuild = true)
+    async save()
     {
-        console.warn("TODO");
-        //return await this.shrineCreator.save(this.mubinDir, this.mubinName, rebuild);
+        return await this.fieldCreator.save(this.mubinDir, this.mubinName);
     }
 }
