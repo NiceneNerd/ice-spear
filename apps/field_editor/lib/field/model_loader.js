@@ -20,15 +20,15 @@ module.exports = class Field_Model_Loader
     }
 
     /**
-     * loads the shrine BFRES model, also tries to load the texture file
+     * loads an array of section meshes
      * @param {string} fieldPath shrine base directory
      * @param {string} fieldSection shrine name
-     * @returns {BFRES_Parser|undefined} the main model parser
+     * @param {Terrain} terrain terrain handler
+     * @returns {Array} the main model parser
      */
-    async load(fieldPath, fieldSection)
+    async load(fieldPath, fieldSection, terrain)
     {
-        console.log(fieldPath);
-        console.log(fieldSection);
-        return undefined;
+        terrain.loadTerrainTscb();
+        return terrain.loadSectionMesh(fieldSection) || [];
     }
 }

@@ -9,6 +9,7 @@ const path = require("path");
 const Mubin_Editor = require("./../../../lib/mubin_editor/editor");
 const Field_Model_Loader = require("./field/model_loader");
 const Field_Creator = require("./field/creator");
+const Terrain = require("./../../../lib/terrain/terrain");
 
 module.exports = class Field_Editor extends Mubin_Editor
 {
@@ -23,11 +24,12 @@ module.exports = class Field_Editor extends Mubin_Editor
     {
         super(canvasNode, uiNode, project, loader, stringTable = undefined);
 
-        this.loadActorData = true;
-        this.loadProdData  = true;
+        this.loadActorData = false;
+        this.loadProdData  = false;
 
         this.fieldModelLoader = new Field_Model_Loader();
         this.fieldCreator = new Field_Creator(this.actorHandler, this.project);
+        this.terrain = new Terrain(project.getConfig().getValue("game.path"));
     }
 
     /**
@@ -59,10 +61,13 @@ module.exports = class Field_Editor extends Mubin_Editor
      */
     async loadMapModel()
     {
-        //this.shrineModelLoader.loader = this.loader;
-        //const shrineModels = await this.shrineModelLoader.load(this.mubinDir, this.mubinName);
-        //this.mubinRenderer.setMapModels(shrineModels);
+        this.fieldModelLoader.loader = this.loader;
+        const fieldMeshArray = await this.fieldModelLoader.load(this.mubinDir, this.mubinName, this.terrain);
+
+        for(const mesh of fieldMeshArray)
+            this.mubinRenderer.setTerrainModel(mesh);
     }
+
 
     /**
      * Load a shrine and it's models, textures, actors and other stuff
@@ -75,28 +80,11 @@ module.exports = class Field_Editor extends Mubin_Editor
         
         // jump the camera to the mid-point
         const cam = this.getRenderer().camera;
-        const midPos = this.calcMidPosition(name);
+        const midPos = this.terrain.getSectionMidpoint(name);
 
         cam.position.x = midPos.x;
         cam.position.y = midPos.y;
         cam.position.z = midPos.z;
-    }
-
-    /**
-     * calculates the middle of the current section
-     * @param {string} name 
-     */
-    calcMidPosition(name)
-    {
-        let [letter, num] = name.split("-");
-        letter = letter.charCodeAt() - "A".charCodeAt();
-        num = parseInt(num);
-
-        return new this.THREE.Vector3(
-            (letter - 4.5) * 1000,
-            300,
-            (num - 4.5) * 1000
-        );
     }
 
     /**
