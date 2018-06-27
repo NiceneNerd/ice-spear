@@ -1,6 +1,7 @@
 {
     "magic" : {"type" : "string", "length": 4, "checkValue": "FSHP"},
     "polyNameOffset" : {"type" : "s32", "addValue": "@offset"},
+    "polyName" : {"type" : "string", "offset": "polyNameOffset"},
     "flags" : {"type" : "u32"},
 
     "fvtxIndex"      : {"type": "u16"},
