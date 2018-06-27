@@ -14,11 +14,6 @@ const Binary_File_Loader = require("binary-file").Loader;
  */
 module.exports = class Field_Model_Loader
 {
-    constructor()
-    {
-        this.fileLoader = new Binary_File_Loader();
-    }
-
     /**
      * loads an array of section meshes
      * @param {string} fieldPath shrine base directory
@@ -29,6 +24,6 @@ module.exports = class Field_Model_Loader
     async load(fieldPath, fieldSection, terrain)
     {
         terrain.loadTerrainTscb();
-        return terrain.loadSectionMesh(fieldSection) || [];
+        return await terrain.loadSectionMesh(fieldSection) || [];
     }
 }

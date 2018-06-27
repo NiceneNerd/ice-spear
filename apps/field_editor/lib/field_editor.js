@@ -24,12 +24,12 @@ module.exports = class Field_Editor extends Mubin_Editor
     {
         super(canvasNode, uiNode, project, loader, stringTable = undefined);
 
-        this.loadActorData = false;
-        this.loadProdData  = false;
+        this.loadActorData = true;
+        this.loadProdData  = true;
 
         this.fieldModelLoader = new Field_Model_Loader();
         this.fieldCreator = new Field_Creator(this.actorHandler, this.project);
-        this.terrain = new Terrain(project.getConfig().getValue("game.path"));
+        this.terrain = new Terrain(project.getConfig().getValue("game.path"), this.loader);
     }
 
     /**
