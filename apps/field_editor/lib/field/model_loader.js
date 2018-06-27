@@ -23,7 +23,8 @@ module.exports = class Field_Model_Loader
      */
     async load(fieldPath, fieldSection, terrain)
     {
+        const lodLevel = 6;
         terrain.loadTerrainTscb();
-        return await terrain.loadSectionMesh(fieldSection) || [];
+        return await terrain.loadSectionMesh(fieldSection, lodLevel) || [];
     }
 }
