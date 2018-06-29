@@ -26,6 +26,7 @@ module.exports = class Field_Editor extends Mubin_Editor
 
         this.loadActorData = true;
         this.loadProdData  = true;
+        this.loadMapMesh   = true;
 
         this.fieldModelLoader = new Field_Model_Loader();
         this.fieldCreator = new Field_Creator(this.actorHandler, this.project);
@@ -61,11 +62,14 @@ module.exports = class Field_Editor extends Mubin_Editor
      */
     async loadMapModel()
     {
-        this.fieldModelLoader.loader = this.loader;
-        const fieldMeshArray = await this.fieldModelLoader.load(this.mubinDir, this.mubinName, this.terrain);
+        if(this.loadMapMesh)
+        {
+            this.fieldModelLoader.loader = this.loader;
+            const fieldMeshArray = await this.fieldModelLoader.load(this.mubinDir, this.mubinName, this.terrain);
 
-        for(const mesh of fieldMeshArray)
-            this.mubinRenderer.setTerrainModel(mesh);
+            for(const mesh of fieldMeshArray)
+                this.mubinRenderer.setTerrainModel(mesh);
+        }
     }
 
 
@@ -76,7 +80,9 @@ module.exports = class Field_Editor extends Mubin_Editor
      */
     async load(directory, name)
     {
+        console.time("Editor-Load");
         await super.load(directory, name);
+        console.timeEnd("Editor-Load");
         
         // jump the camera to the mid-point
         const cam = this.getRenderer().camera;
