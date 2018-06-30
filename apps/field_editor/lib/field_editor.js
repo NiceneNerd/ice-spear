@@ -10,6 +10,7 @@ const Mubin_Editor = require("./../../../lib/mubin_editor/editor");
 const Field_Model_Loader = require("./field/model_loader");
 const Field_Creator = require("./field/creator");
 const Terrain = require("./../../../lib/terrain/terrain");
+const Section_Helper = require("./../../../lib/terrain/section_helper");
 
 module.exports = class Field_Editor extends Mubin_Editor
 {
@@ -24,8 +25,8 @@ module.exports = class Field_Editor extends Mubin_Editor
     {
         super(canvasNode, uiNode, project, loader, stringTable = undefined);
 
-        this.loadActorData = true;
-        this.loadProdData  = true;
+        this.loadActorData = false;
+        this.loadProdData  = false;
         this.loadMapMesh   = true;
 
         this.fieldModelLoader = new Field_Model_Loader();
@@ -86,7 +87,7 @@ module.exports = class Field_Editor extends Mubin_Editor
         
         // jump the camera to the mid-point
         const cam = this.getRenderer().camera;
-        const midPos = this.terrain.getSectionMidpoint(name);
+        const midPos = Section_Helper.getSectionMidpoint(name);
 
         cam.position.x = midPos.x;
         cam.position.y = midPos.y;
