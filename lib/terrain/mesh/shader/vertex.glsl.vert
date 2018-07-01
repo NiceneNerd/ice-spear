@@ -1,4 +1,10 @@
-in vec4 material;
+/**
+* @copyright 2018 - Max Bebök
+* @author Max Bebök
+* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
+*/
+
+in vec4 materialMap;
 
 out vec2 vUv;
 out vec3 vPos;
@@ -9,10 +15,9 @@ void main()
 {
     vUv = uv;
     vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-    vPos = mvPosition.xyz;
+    vPos = materialMap.rgb;
 
-    vPos = material.rgb;
-    texIndex = int(material.r);
+    texIndex = int(materialMap.r);
 
     gl_Position = projectionMatrix * mvPosition;
 }
