@@ -10,6 +10,12 @@ uniform sampler2D tex02;
 uniform sampler2D tex03;
 uniform sampler2D tex04;
 uniform sampler2D tex05;
+uniform sampler2D tex06;
+uniform sampler2D tex07;
+uniform sampler2D tex08;
+uniform sampler2D tex09;
+uniform sampler2D tex10;
+uniform sampler2D tex11;
 
 in vec2 vUv;
 in vec3 vPos;
@@ -31,6 +37,12 @@ void main(void)
         case 3: val = texture(tex03, vUv); break;
         case 4: val = texture(tex04, vUv); break;
         case 5: val = texture(tex05, vUv); break;
+        case 6: val = texture(tex06, vUv); break;
+        case 7: val = texture(tex07, vUv); break;
+        case 8: val = texture(tex08, vUv); break;
+        case 9: val = texture(tex09, vUv); break;
+        case 10: val = texture(tex10, vUv); break;
+        case 11: val = texture(tex11, vUv); break;
 
         default:
             val.r = float(texIndex) / 5.0;
