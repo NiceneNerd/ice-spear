@@ -24,7 +24,7 @@ The current released and prebuild version is: **1.0.0**
 #40 - bfres materials are now assigned using the correct index (e.g. trees now have correct textures)
 #40 - tuned down the SAO effect to make the field-editor look good
 #40 - any FTEX instance now uses a global cache for textures -> less RAM, shorter loading times
-#40 - general array-texture support (still a few small bugs)
+#40 - general array-texture support
 
 <hr/>
 
