@@ -47,6 +47,12 @@
                                 <p class="search-value">Project settings</p>
                             </div>
                         </li>
+                        <li class="list-group-item" data-tab="cache">
+                            <div class="media-body">
+                                <strong class="search-value">Cache</strong>
+                                <p class="search-value">Project/Global Caching</p>
+                            </div>
+                        </li>
                     </ul>
 
                 </div>
@@ -71,6 +77,18 @@
                             <button class="btn btn-large btn-default">Select</button>
                             <input type="text" data-dataType="path" data-configRef="projects.path" class="form-control" placeholder="Open or drag&drop a directory">
                         </div>
+                    </div>
+
+                    <div class="tab-content" data-tab="cache" hidden>
+
+                            <label>
+                                <input type="checkbox" data-autoSave="true" data-dataType="bool" data-configRef="cache.terrainTextures" />
+                                <span>Cache Terrain-Textures</span>
+                            </label>
+                            <br/>
+                            <span class="note-span" style="margin-left:0;">
+                                Note: <span class="small-info-text">Enabling this is way faster, but creates a 332MB cache-file per project</span>
+                            </span>
                     </div>
                 </div>
 

@@ -14,6 +14,7 @@ The current released and prebuild version is: **1.0.0**
 #38 - first version of the editor, can load mubin/PrOD files
 #38 - can save mubin files
 #40 - can load the actual map-mesh (tiles) dynamically
+#40 - added a global setting to cache terrain textures (default: on)
 
 **Model-Editor** <br/>
 #40 - array-textures can now be displayed and exported as PNG, a selectbox was added to select the index
