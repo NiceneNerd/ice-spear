@@ -31,7 +31,8 @@ module.exports = class Field_Editor extends Mubin_Editor
 
         this.fieldModelLoader = new Field_Model_Loader();
         this.fieldCreator = new Field_Creator(this.actorHandler, this.project);
-        this.terrain = new Terrain(project, this.loader);
+
+        this.terrain = new Terrain(project, this.getRenderer().renderer.context, this.loader);
     }
 
     /**

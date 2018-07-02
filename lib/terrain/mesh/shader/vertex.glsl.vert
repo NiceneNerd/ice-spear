@@ -4,12 +4,13 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-in vec4 materialMap;
+in vec3 materialMap;
 
 out vec2 vUv;
 out vec3 vPos;
 
-flat out int texIndex;
+out float weight;
+flat out vec2 texIndex;
 
 void main()
 {
@@ -17,7 +18,8 @@ void main()
     vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
     vPos = materialMap.rgb;
 
-    texIndex = int(materialMap.r);
+    texIndex = materialMap.rg;
+    weight   = materialMap.b / 255.0;
 
     gl_Position = projectionMatrix * mvPosition;
 }
