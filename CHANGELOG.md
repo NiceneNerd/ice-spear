@@ -13,7 +13,7 @@ The current released and prebuild version is: **1.0.0**
 **Field-Editor** <br/>
 #38 - first version of the editor, can load mubin/PrOD files
 #38 - can save mubin files
-#40 - can load the actual map-mesh (tiles) dynamically
+#40 - can load the actual map-mesh + water dynamically
 #40 - added a global setting to cache terrain textures (default: on)
 
 **Model-Editor** <br/>
