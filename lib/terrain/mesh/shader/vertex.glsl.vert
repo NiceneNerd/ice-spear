@@ -5,21 +5,21 @@
 */
 
 in vec3 materialMap;
+in vec4 uvMap;
 
-out vec2 vUv;
-out vec3 vPos;
-
+out vec4 vUv;
 out float weight;
 flat out vec2 texIndex;
 
+
 void main()
 {
-    vUv = uv;
     vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-    vPos = materialMap.rgb;
 
     texIndex = materialMap.rg;
     weight   = materialMap.b / 255.0;
+
+    vUv = uvMap;
 
     gl_Position = projectionMatrix * mvPosition;
 }
