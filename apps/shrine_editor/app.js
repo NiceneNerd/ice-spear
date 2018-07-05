@@ -44,16 +44,12 @@ module.exports = class App extends App_Base
 
         this.stringTable = new String_Table(this.project.getCachePath());
 
-        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable);
-
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
             sizes     : [10, 70, 20],
             minSize   : 0,
             snapOffset: 60,
             gutterSize: 12
         });
-
-        this.initTools();
     }
 
     initTools()
@@ -179,6 +175,9 @@ module.exports = class App extends App_Base
     async run()
     {
         await super.run();
+
+        this.shrineEditor = new Shrine_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable);
+        this.initTools();
 
         // 000 = ivy shrine
         // 006 = physics + guardians
