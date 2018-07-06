@@ -50,6 +50,13 @@ module.exports = class App extends App_Base
         document.addEventListener('drop',     e => e.preventDefault());
         document.addEventListener('dragover', e => e.preventDefault());
 
+        let autoSaveNodes = this.node.querySelectorAll("[data-autoSave=true]");
+        for(let node of autoSaveNodes)
+        {
+            node.onclick = () => this.save();
+            node.onchange = () => this.save();
+        }
+
         this.initDragDrop();
         this.initValues();
     }
@@ -68,7 +75,13 @@ module.exports = class App extends App_Base
         this.valueNodes = this.node.querySelectorAll("input[data-configRef]");
         for(let node of this.valueNodes)
         {
-            node.value = this.config.getValue(node.getAttribute("data-configRef"));
+            const nodeVal = this.config.getValue(node.getAttribute("data-configRef"));
+            const nodeType = node.getAttribute("data-dataType");
+
+            if(nodeType == "bool")
+                node.checked = nodeVal;
+            else
+                node.value = nodeVal;
         }
     }
 
@@ -78,12 +91,16 @@ module.exports = class App extends App_Base
         {
             const configRef = node.getAttribute("data-configRef");
             const dataType = node.getAttribute("data-dataType") || "text";
+            let configVal = null;
 
             if(dataType == "path") {
                 node.value = node.value.trim().replace(/[\/\\]+$/g, '');
+                configVal = node.value;
+            }else if(dataType == "bool"){
+                configVal = node.checked;
             }
 
-            this.config.setValue(configRef, node.value);
+            this.config.setValue(configRef, configVal);
         }
         this.config.save();
     }

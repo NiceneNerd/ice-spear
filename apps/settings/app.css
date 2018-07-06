@@ -16,7 +16,7 @@
 
 .small-info-text 
 {
-    font-size: 10px;
+    font-size: 12px;
     opacity: 0.6;
     margin-left: 4px;
 }
@@ -24,4 +24,18 @@
 .note-span
 {
     margin-left: 68px;
+}
+
+.settings-container
+{
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #40404a;
+}
+
+.settings-container:last-child
+{
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border: 0;
 }

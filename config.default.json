@@ -9,5 +9,9 @@
         "lastOpened" : [
             
         ]
+    },
+    "cache": {
+        "terrainTextures": true,
+        "actors": true
     }
 }
