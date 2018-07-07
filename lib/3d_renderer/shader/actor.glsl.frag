@@ -11,5 +11,7 @@ in vec2 vUv;
 void main()
 {
     fragmentColor = texture(texColor, vUv);
+
+    if(fragmentColor.a < 0.01)discard;
     //fragmentColor = vec4(1.0);
 }
