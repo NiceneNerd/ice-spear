@@ -27,8 +27,8 @@ module.exports = class Shrine_Editor extends Mubin_Editor
         this.shrineCreator = new Shrine_Creator(this.actorHandler, this.project);
 
         this.loadActorData = true;
-        this.loadProdData  = false;
-        this.loadMapMesh   = false;
+        this.loadProdData  = true;
+        this.loadMapMesh   = true;
     }
 
     /**
