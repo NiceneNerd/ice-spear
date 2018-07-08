@@ -7,11 +7,13 @@ uniform sampler2D texColor;
 uniform sampler2D texNormal;
 
 in vec2 vUv;
+//in mat4 testMatrix;
 
 void main()
 {
     fragmentColor = texture(texColor, vUv);
 
     if(fragmentColor.a < 0.01)discard;
+    
     //fragmentColor = vec4(1.0);
 }
