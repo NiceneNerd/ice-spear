@@ -26,8 +26,8 @@ module.exports = class Field_Editor extends Mubin_Editor
         super(canvasNode, uiNode, project, loader, stringTable = undefined);
 
         this.loadActorData = true;
-        this.loadProdData  = false;
-        this.loadMapMesh   = false;
+        this.loadProdData  = true;
+        this.loadMapMesh   = true;
 
         this.fieldModelLoader = new Field_Model_Loader();
         this.fieldCreator = new Field_Creator(this.actorHandler, this.project);
@@ -43,7 +43,7 @@ module.exports = class Field_Editor extends Mubin_Editor
     {
         return path.join(this.mubinDir, `${this.mubinName}_${actorType}.smubin`);
     }
-
+5
     /**
      * maps the prod type to the actual prod location, this will differ between shrines and the main-field
      * @param {string} prodNum
