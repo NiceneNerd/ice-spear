@@ -10,8 +10,9 @@ in vec4 objMatrix0;
 in vec4 objMatrix1;
 in vec4 objMatrix2;
 in vec4 objMatrix3;
+in vec4 objColor; // per object
 
-in vec4 color;
+in vec4 color; // per vertex
 
 // THREE.js uniforms
 uniform mat4 modelViewMatrix;
@@ -27,7 +28,7 @@ out vec4 vColor;
 void main() 
 {
     vUv = uv;
-    vColor = vec4(1.0);
+    vColor = objColor;
 
     if(colorBlendFactor > 0.0)
     {

@@ -13,7 +13,7 @@ void main()
 {
     fragmentColor = texture(texColor, vUv);
 
-    if(fragmentColor.a < 0.01)discard;
+    if(fragmentColor.a < 0.5)discard;
 
     fragmentColor *= vColor;
 

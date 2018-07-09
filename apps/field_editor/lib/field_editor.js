@@ -43,7 +43,7 @@ module.exports = class Field_Editor extends Mubin_Editor
     {
         return path.join(this.mubinDir, `${this.mubinName}_${actorType}.smubin`);
     }
-5
+
     /**
      * maps the prod type to the actual prod location, this will differ between shrines and the main-field
      * @param {string} prodNum
