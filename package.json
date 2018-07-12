@@ -1,6 +1,6 @@
 {
   "name": "ice-spear-editor",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "license": "GPL-3.0",
   "main": "main.js",
   "bin": {
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "electron": "^2.0.2",
+    "electron": "2.0.4",
     "electron-builder": "^20.15.1",
     "electron-mocha": "^5.0.0",
     "mocha": "^5.0.4"

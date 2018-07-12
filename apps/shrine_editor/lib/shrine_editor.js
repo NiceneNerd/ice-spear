@@ -28,6 +28,7 @@ module.exports = class Shrine_Editor extends Mubin_Editor
 
         this.loadActorData = true;
         this.loadProdData  = false;
+        this.loadMapMesh   = true;
     }
 
     /**
@@ -58,9 +59,12 @@ module.exports = class Shrine_Editor extends Mubin_Editor
      */
     async loadMapModel()
     {
-        this.shrineModelLoader.loader = this.loader;
-        const shrineModels = await this.shrineModelLoader.load(this.mubinDir, this.mubinName);
-        this.mubinRenderer.setMapModels(shrineModels);
+        if(this.loadMapMesh)
+        {
+            this.shrineModelLoader.loader = this.loader;
+            const shrineModels = await this.shrineModelLoader.load(this.mubinDir, this.mubinName);
+            this.mubinRenderer.setMapModels(shrineModels);
+        }
     }
 
     /**
