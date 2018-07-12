@@ -28,6 +28,7 @@ The current released and prebuild version is: **1.0.0**
 #40 - bfres materials are now assigned using the correct index (e.g. trees now have correct textures)<br/>
 #40 - tuned down the SAO effect to make the field-editor look good<br/>
 #40 - any FTEX instance now uses a global (RAM-only) cache for textures -> less RAM, shorter loading times<br/>
+#40 - FTEX parser now only creates color-channels it needs, and even removes unused alpha-channels -> less RAM usage, smaller cache
 #40 - general array-texture support<br/>
 #40 - actors (shrine/field) are now cached -> 8-10 times faster loading times, creates GBs of cache files <br/>
 
