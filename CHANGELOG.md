@@ -7,7 +7,7 @@ The current released and prebuild version is: **1.0.0**
 
 ### Version 2.0.0 - "Field-Editor" (WIP)
 **Shrine-Editor** <br/>
-#37 - fixed Actor dublication, byaml array-data is now correct (@byaml-lib)<br/>
+#37 - fixed Actor duplication bug, byaml array-data is now correct (@byaml-lib)<br/>
 #38 - PrOD files are now loaded
 
 **Field-Editor** <br/>
@@ -21,6 +21,7 @@ The current released and prebuild version is: **1.0.0**
 
 **Settings**<br/>
 #40 - added cache settings to enable/disable the terrain and actor cache
+#40 - added clear-cache function + info how big the cache is
 
 **Misc**<br/>
 #40 - rewritten renderer, performance is now waaaay better
@@ -30,7 +31,7 @@ The current released and prebuild version is: **1.0.0**
 #40 - any FTEX instance now uses a global (RAM-only) cache for textures -> less RAM, shorter loading times<br/>
 #40 - FTEX parser now only creates color-channels it needs, and even removes unused alpha-channels -> less RAM usage, smaller cache
 #40 - general array-texture support<br/>
-#40 - actors (shrine/field) are now cached -> 8-10 times faster loading times, creates GBs of cache files <br/>
+#40 - actors (shrine/field) are now cached -> 8-10 times faster loading times, but creates GBs of cache files <br/>
 
 <hr/>
 
