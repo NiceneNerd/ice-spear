@@ -417,12 +417,10 @@ h6 {
 }
 
 .btn-warning {
-  border-color: #fcaa0e;
-  border-bottom-color: #ee9d02;
-  background-color: #fece72;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fece72), color-stop(100%, #fcaa0e));
-  background-image: -webkit-linear-gradient(top, #fece72 0%, #fcaa0e 100%);
-  background-image: linear-gradient(to bottom, #fece72 0%, #fcaa0e 100%);
+  border-color: #181a1f;
+  border-left-color: #181a1f;
+  background-color: #bd861c;
+  background-image: linear-gradient(to bottom, #fece72 0%, #bd861c 100%);
 }
 .btn-warning:active {
   background-color: #fdbc40;

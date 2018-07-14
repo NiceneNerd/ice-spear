@@ -5,11 +5,15 @@
 */
 
 const electron = require('electron');
-const fs       = require('fs');
+const fs       = require('fs-extra');
 const path     = require('path');
 const url      = require('url');
 const Split    = require('split.js');
 const Filter   = requireGlobal("lib/filter.js");
+const Notify   = requireGlobal("lib/notify/notify.js");
+
+const getFolderSize = require('get-folder-size');
+const formatFilesize = require("filesize");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -56,6 +60,11 @@ module.exports = class App extends App_Base
             node.onclick = () => this.save();
             node.onchange = () => this.save();
         }
+    }
+
+    async run()
+    {
+        await super.run();
 
         this.initDragDrop();
         this.initValues();
@@ -83,6 +92,21 @@ module.exports = class App extends App_Base
             else
                 node.value = nodeVal;
         }
+
+        const cachePath = this.project.getCachePath();
+        const cacheSizeNode = this.node.querySelector(".data-info-projectCache");
+        console.log(cachePath);
+        getFolderSize(cachePath, (err, size) => 
+        {
+            cacheSizeNode.innerHTML = formatFilesize(size);
+        });
+
+        this.node.querySelector(".data-tool-clearCache").onclick = async () => {
+            await fs.remove(cachePath);
+            await fs.ensureDir(cachePath);
+            cacheSizeNode.innerHTML = formatFilesize(0);
+            Notify.success("Cache cleared!");
+        };
     }
 
     save()
