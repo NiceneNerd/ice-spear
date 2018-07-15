@@ -28,7 +28,8 @@ The current released and prebuild version is: **1.0.0**
 
 **Misc**<br/>
 #40 - rewritten renderer, performance is now waaaay better<br/>
-#43 - Camera speed is now independent from the FPS
+#43 - FPS can now be manually set to anything you want, by default 60<br/>
+#43 - Camera speed is now independent from the FPS<br/>
 #38 - sub-models now also search for textures with a base name (.1.bfres files are still not checked however)<br/>
 #40 - bfres materials are now assigned using the correct index (e.g. trees now have correct textures)<br/>
 #40 - tuned down the SAO effect to make the field-editor look good<br/>
