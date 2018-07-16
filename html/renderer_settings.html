@@ -13,8 +13,18 @@
             padding: 0px 3px;
             color: white;
             margin-left: 4px;
+            display: inline-block;
+        }
+
+        #renderSettings .nav-group-title
+        {
+            font-size: 11px;
+            width: 100%;
+            text-align: center;
         }
     </style>
+
+    <h5 class="nav-group-title">Objects</h5>
 
     <span class="nav-group-item">
         <label><input type="checkbox" checked class="data-tool-renderer-actorsVisible">
@@ -26,9 +36,16 @@
             <span>Show Invisible Actors</span>
         </label>
     </span>
-    
     <span class="nav-group-item">
-        <label><input type="checkbox" checked class="data-tool-renderer-postProc">
+        <label><input type="checkbox" checked class="data-tool-renderer-mapModel">
+            <span>Show Map Model</span>
+        </label>
+    </span>
+
+    <h5 class="nav-group-title">Renderer</h5>
+
+    <span class="nav-group-item">
+        <label><input type="checkbox" class="data-tool-renderer-postProc">
             <span>Post-Processing (slower)</span>
         </label>
     </span>
