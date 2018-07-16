@@ -97,7 +97,7 @@ module.exports = class App extends App_Base
             // some performance cuts
             this.fieldEditor.setRenderSetting("targetFPS", "number", 30);
             this.fieldEditor.setRenderSetting("camSpeed", "number", 2);
-            this.fieldEditor.setRenderSetting("accurateTimer", "bool", true);
+            //this.fieldEditor.setRenderSetting("accurateTimer", "bool", true);
 
         } catch(e) {
             await this.loader.hide();    
