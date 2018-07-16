@@ -16,6 +16,5 @@ void main()
     if(fragmentColor.a < 0.5)discard;
 
     fragmentColor *= vColor;
-
     //fragmentColor = vec4(1.0);
 }

@@ -51,28 +51,6 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-tool-openFieldDir").onclick = () => {
             electron.shell.showItemInFolder(this.fieldEditor.getFieldFilePath());
         };
-
-        const actorVisibleNode = this.node.querySelector(".data-tool-renderer-actorsVisible");
-        actorVisibleNode.onchange = () => this.fieldEditor.showVisibleActors(actorVisibleNode.checked);
-
-        const actorInvisibleNode = this.node.querySelector(".data-tool-renderer-actorsInvisible");
-        actorInvisibleNode.onchange = () => this.fieldEditor.showInvisibleActors(actorInvisibleNode.checked);
-
-        const postProcNode = this.node.querySelector(".data-tool-renderer-postProc");
-        postProcNode.onchange = () => this.fieldEditor.getRenderer().usePostProcessing(postProcNode.checked);
-
-        const camLightNode = this.node.querySelector(".data-tool-renderer-camLight");
-        camLightNode.onchange = () => {
-            this.fieldEditor.getRenderer().helper.lighting.cameraLight.visible = camLightNode.checked;
-        };
-
-        const showStatsNode = this.node.querySelector(".data-tool-renderer-showStats");
-        showStatsNode.onchange = () => this.fieldEditor.getRenderer().useStats(showStatsNode.checked);
-
-        const camSpeedNode = this.node.querySelector(".data-tool-renderer-camSpeed");
-        camSpeedNode.onchange = () => {
-            this.fieldEditor.getRenderer().helper.fpsControls.camSpeed = camSpeedNode.value;
-        };
     }
 
 
@@ -115,6 +93,11 @@ module.exports = class App extends App_Base
             await this.fieldEditor.load(this.fieldDir, this.fieldSection);
         
             this.render();
+
+            // some performance cuts
+            this.fieldEditor.setRenderSetting("targetFPS", "number", 30);
+            this.fieldEditor.setRenderSetting("camSpeed", "number", 2);
+            //this.fieldEditor.setRenderSetting("accurateTimer", "bool", true);
 
         } catch(e) {
             await this.loader.hide();    
@@ -163,6 +146,6 @@ module.exports = class App extends App_Base
             fieldSection = this.args.section;
         }
 
-        this.openField(fieldSection);
+        await this.openField(fieldSection);
     }    
 };

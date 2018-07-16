@@ -6,8 +6,11 @@ The current released and prebuild version is: **1.0.0**
 <hr/>
 
 ### Version 2.0.0 - "Field-Editor" (WIP)
-**Shrine-Editor** <br/>
+**Bugfixes** <br/>
 #37 - fixed Actor duplication bug, byaml array-data is now correct (@byaml-lib)<br/>
+#37 - fixed invalid SARC creation bug, file-table was sorted wrong (@sarc-lib)<br/>
+
+**Shrine-Editor** <br/>
 #38 - PrOD files are now loaded
 
 **Field-Editor** <br/>
@@ -15,21 +18,25 @@ The current released and prebuild version is: **1.0.0**
 #38 - can save mubin files<br/>
 #40 - can load the actual map-mesh + water dynamically<br/>
 #40 - terrain textures are cached now<br/>
+#43 - automat. sets the FPS to 30, uses the accurate timer, and speeds up the camera
 
 **Model-Editor** <br/>
 #40 - array-textures can now be displayed and exported as PNG, a selectbox was added to select the index
 
 **Settings**<br/>
-#40 - added cache settings to enable/disable the terrain and actor cache
+#40 - added cache settings to enable/disable the terrain and actor cache <br/>
 #40 - added clear-cache function + info how big the cache is
 
 **Misc**<br/>
-#40 - rewritten renderer, performance is now waaaay better
+#40 - rewritten renderer, performance is now waaaay better<br/>
+#43 - FPS can now be manually set to anything you want, by default 60<br/>
+#43 - a better frame time can be set in the render-settings -> more stable FPS, higher CPU usage <br/>
+#43 - Camera speed is now independent from the FPS<br/>
 #38 - sub-models now also search for textures with a base name (.1.bfres files are still not checked however)<br/>
 #40 - bfres materials are now assigned using the correct index (e.g. trees now have correct textures)<br/>
 #40 - tuned down the SAO effect to make the field-editor look good<br/>
 #40 - any FTEX instance now uses a global (RAM-only) cache for textures -> less RAM, shorter loading times<br/>
-#40 - FTEX parser now only creates color-channels it needs, and even removes unused alpha-channels -> less RAM usage, smaller cache
+#40 - FTEX parser now only creates color-channels it needs, and even removes unused alpha-channels -> less RAM usage, smaller cache <br/>
 #40 - general array-texture support<br/>
 #40 - actors (shrine/field) are now cached -> 8-10 times faster loading times, but creates GBs of cache files <br/>
 

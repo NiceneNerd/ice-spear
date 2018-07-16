@@ -36,10 +36,6 @@ module.exports = class App extends App_Base
 
         this.footerNode = footer.querySelector(".data-footer");
         
-/*
-        this.actorDynList = this.node.querySelector(".data-actorDynList");
-        this.filterActorDyn = new Filter(this.actorDynList.querySelector(".list-group-header input"), this.actorDynList, ".list-group-item");
-*/
         this.fileLoader = new Binary_File_Loader();
 
         this.stringTable = new String_Table(this.project.getCachePath());
@@ -59,23 +55,6 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-tool-openBuildDir").onclick = () => {
             electron.shell.showItemInFolder(this.shrineEditor.getPackFilePath());
         };
-
-        const actorVisibleNode = this.node.querySelector(".data-tool-renderer-actorsVisible");
-        actorVisibleNode.onchange = () => this.shrineEditor.showVisibleActors(actorVisibleNode.checked);
-
-        const actorInvisibleNode = this.node.querySelector(".data-tool-renderer-actorsInvisible");
-        actorInvisibleNode.onchange = () => this.shrineEditor.showInvisibleActors(actorInvisibleNode.checked);
-
-        const postProcNode = this.node.querySelector(".data-tool-renderer-postProc");
-        postProcNode.onchange = () => this.shrineEditor.getRenderer().usePostProcessing(postProcNode.checked);
-
-        const camLightNode = this.node.querySelector(".data-tool-renderer-camLight");
-        camLightNode.onchange = () => {
-            this.shrineEditor.getRenderer().helper.lighting.cameraLight.visible = camLightNode.checked;
-        };
-
-        const showStatsNode = this.node.querySelector(".data-tool-renderer-showStats");
-        showStatsNode.onchange = () => this.shrineEditor.getRenderer().useStats(showStatsNode.checked);
     }
 
     /**
