@@ -77,6 +77,24 @@
     width: calc(100% - 12px);
 }
 
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #151515;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #929292;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    position: absolute;
+    z-index: 100;
+}
+
+.tooltip:hover .tooltiptext 
+{
+    visibility: visible;
+}
+
 /** fluent transition between themes **/
 .window,
 .window table.table tbody,

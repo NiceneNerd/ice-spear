@@ -44,15 +44,31 @@
 
     <h5 class="nav-group-title">Renderer</h5>
 
-    <span class="nav-group-item">
-        <label><input type="checkbox" class="data-tool-renderer-postProc">
-            <span>Post-Processing (slower)</span>
+    <span class="nav-group-item tooltip">
+        <label><input type="checkbox" class="data-tool-renderer-accurateTimer">
+            <span>Accurate-Timer</span>
         </label>
+        <span class="tooltiptext">
+            more stable FPS, higher CPU usage<br/>
+            can be better in bigger scenes (field-editor)
+        </span>
     </span>
-    <span class="nav-group-item">
+    <span class="nav-group-item tooltip">
+        <label><input type="checkbox" class="data-tool-renderer-postProc">
+            <span>Post-Processing</span>
+        </label>
+        <span class="tooltiptext">
+            Enables SAO, is slower <br/>
+            and doesn't work on actors for now
+        </span>
+    </span>
+    <span class="nav-group-item tooltip">
         <label><input type="checkbox" checked class="data-tool-renderer-camLight">
             <span>Camera Light</span>
         </label>
+        <span class="tooltiptext">
+            Makes use of normal-maps, only works in shrines
+        </span>
     </span>
 
     <span class="nav-group-item">

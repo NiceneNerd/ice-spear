@@ -94,6 +94,11 @@ module.exports = class App extends App_Base
         
             this.render();
 
+            // some performance cuts
+            this.fieldEditor.setRenderSetting("targetFPS", "number", 30);
+            this.fieldEditor.setRenderSetting("camSpeed", "number", 2);
+            this.fieldEditor.setRenderSetting("accurateTimer", "bool", true);
+
         } catch(e) {
             await this.loader.hide();    
             console.log(e);
@@ -141,6 +146,6 @@ module.exports = class App extends App_Base
             fieldSection = this.args.section;
         }
 
-        this.openField(fieldSection);
+        await this.openField(fieldSection);
     }    
 };

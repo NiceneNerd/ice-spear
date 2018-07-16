@@ -18,6 +18,7 @@ The current released and prebuild version is: **1.0.0**
 #38 - can save mubin files<br/>
 #40 - can load the actual map-mesh + water dynamically<br/>
 #40 - terrain textures are cached now<br/>
+#43 - automat. sets the FPS to 30, uses the accurate timer, and speeds up the camera
 
 **Model-Editor** <br/>
 #40 - array-textures can now be displayed and exported as PNG, a selectbox was added to select the index
@@ -29,6 +30,7 @@ The current released and prebuild version is: **1.0.0**
 **Misc**<br/>
 #40 - rewritten renderer, performance is now waaaay better<br/>
 #43 - FPS can now be manually set to anything you want, by default 60<br/>
+#43 - a better frame time can be set in the render-settings -> more stable FPS, higher CPU usage <br/>
 #43 - Camera speed is now independent from the FPS<br/>
 #38 - sub-models now also search for textures with a base name (.1.bfres files are still not checked however)<br/>
 #40 - bfres materials are now assigned using the correct index (e.g. trees now have correct textures)<br/>
