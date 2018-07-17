@@ -1,11 +1,18 @@
 # Changelog
 
 This changelog contains the changes for Ice-Spear and all sub modules. <br/>
-The current released and prebuild version is: **1.0.0**
+The current released and prebuild version is: **2.0.0-r2**
 
 <hr/>
 
-### Version 2.0.0 - "Field-Editor" (WIP)
+### Version 2.1.0 - "Field-Editor" (WIP)
+#dev - fixed issue with electron build that would throw an error while reading textures <br/>
+#dev - fixed texture bug that would crash the app while loading unknown texture formats <br/>
+#dev - fixed model-parser bug for empty BFRES files that would result in an infinite loop (@ice-spear, @binary-file) <br/>
+
+<hr/>
+
+### Version 2.0.0 - "Field-Editor Beta"
 **Bugfixes** <br/>
 #37 - fixed Actor duplication bug, byaml array-data is now correct (@byaml-lib)<br/>
 #37 - fixed invalid SARC creation bug, file-table was sorted wrong (@sarc-lib)<br/>
