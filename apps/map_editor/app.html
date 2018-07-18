@@ -21,16 +21,23 @@
 
     <link rel="stylesheet" href="node_modules/izitoast/dist/css/iziToast.min.css" />
 
+    <link rel="stylesheet" href="css/loader.css">
     <link rel="stylesheet" href="css/split.css" />
     <link rel="stylesheet" href="css/style.css" />
 
 </head>
 
 <body>
+    <div id="loader-container" hidden>
+        <div id="loader"></div>
+        <span class="data-status"></span>
+        <span class="data-info"></span>
+    </div>
+
     <div class="window">
         <div class="pane-group">
             <div class="pane" id="main-sidebar-right">
-                <canvas id="mapCanvas">Well... you should not see this, do you even have a GPU?</canvas>
+                <canvas class="grabbable" width="1024" height="576" id="mapCanvas">Well... you should not see this, do you even have a GPU?</canvas>
             </div>
         </div>
     </div>
