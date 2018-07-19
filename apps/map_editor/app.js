@@ -110,6 +110,7 @@ module.exports = class App extends App_Base
     // HTML/JS EVENTS
         document.onwheel = ev => {
             const scaleLimitMin = 0.075;
+            const scaleLimitMax = 42.0;
 
             let scaleMulti = ev.deltaY < 0.0 ? 1.0 : -1.0;
             scaleMulti = (scaleMulti * 0.1) + 1.0;
@@ -119,6 +120,9 @@ module.exports = class App extends App_Base
 
             if(this.camScaleBuffer[0] < scaleLimitMin)this.camScaleBuffer[0] = scaleLimitMin;
             if(this.camScaleBuffer[1] < scaleLimitMin)this.camScaleBuffer[1] = scaleLimitMin;
+
+            if(this.camScaleBuffer[0] > scaleLimitMax)this.camScaleBuffer[0] = scaleLimitMax;
+            if(this.camScaleBuffer[1] > scaleLimitMax)this.camScaleBuffer[1] = scaleLimitMax;
 
             this.uniformBuffer.set(1, this.camScaleBuffer).update();
         };
