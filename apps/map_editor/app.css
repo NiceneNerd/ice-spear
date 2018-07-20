@@ -22,3 +22,8 @@ canvas
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
 }
+
+#mapWindow.window {
+    background: black;
+    background-image: none;
+}

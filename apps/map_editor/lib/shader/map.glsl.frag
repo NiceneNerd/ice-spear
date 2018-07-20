@@ -4,12 +4,12 @@ precision highp sampler2DArray;
 
 uniform sampler2DArray texColor;
 
-in vec3 vColor;
+in vec4 vColor;
 in vec3 vUV;
 
 out vec4 fragColor;
 
 void main() 
 {
-    fragColor = texture(texColor, vUV);
+    fragColor = texture(texColor, vUV) * vColor;
 }
