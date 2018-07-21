@@ -26,7 +26,11 @@ module.exports = class Ice_Engine
 {
     constructor(canvasNode, clearColor = DEFAULT_CLEAR_COLOR)
     {
-        this.glApp = PicoGL.createApp(canvasNode).clearColor(...clearColor);
+        this.glApp = PicoGL.createApp(canvasNode)
+            .blend()
+            .blendFunc(PicoGL.SRC_ALPHA, PicoGL.ONE_MINUS_SRC_ALPHA)
+            .clearColor(...clearColor)
+        ;
      
         this.canvasNode = canvasNode;
         this.canvasSize = [0,0];
@@ -34,6 +38,7 @@ module.exports = class Ice_Engine
 
         this.cbOnUpdate = undefined;
         this.cbOnDraw = undefined;
+        this.showStats = true;
         
         this.shaderHandler = new Shader_Handler(this.glApp);
 
@@ -49,6 +54,13 @@ module.exports = class Ice_Engine
     _init()
     {
         this.globalUniform = this.createUniformBuffer([this.aspectRatio]);
+
+        this.stats = new Stats();
+        this.stats.showPanel(0);
+        this.canvasNode.parentNode.appendChild(this.stats.dom);
+        this.stats.dom.style.position = "absolute";
+        this.stats.dom.style.left = null;
+        this.stats.dom.style.right = 0;
     }
 
     /**
@@ -99,7 +111,7 @@ module.exports = class Ice_Engine
     {
         if(size.z === undefined)
         {
-            console.warn("@TODO Ice_Engine.createTexture");
+            return this.glApp.createTexture2D(buffer, size.x, size.y, options);
         }else{
             return this.glApp.createTextureArray(buffer, size.x, size.y, size.z, options);
         }
@@ -214,6 +226,8 @@ module.exports = class Ice_Engine
      */
     _frame()
     {
+        if(this.showStats)this.stats.begin();
+
         this._checkCanvasSize();
 
         if(this.cbOnUpdate)this.cbOnUpdate();
@@ -224,6 +238,8 @@ module.exports = class Ice_Engine
             obj[1].draw();
 
         if(this.cbOnDraw)this.cbOnDraw();
+
+        if(this.showStats)this.stats.end();
     }
 
     _checkCanvasSize()

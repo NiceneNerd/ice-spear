@@ -13,9 +13,22 @@ const moveScale = 0.0002;
 
 const scaleLimitMin = 0.075;
 const scaleLimitMax = 42.0;
+const posLimit = {
+    x: [-5, 6],
+    y: [-5, 4.5]
+};
 
 const velocityMinVal = 0.00001;
 const velocityReduce = 0.85; // 0.75;
+
+const scaleBaseMulti = 0.025;
+const scaleVelocityMinVal = 0.00001;
+const scaleVelocityReduce = 0.85; // 0.75;
+
+function clamp(val, min, max)
+{
+    return Math.min(max, Math.max(min, val));
+}
 
 module.exports = class Camera
 {
@@ -23,11 +36,12 @@ module.exports = class Camera
     {
         this.engine = engine;
 
-        this.camPosBuffer   = new Float32Array([0.0, 0.0]);
-        this.camScaleBuffer = new Float32Array([0.125, 0.125]);
-        this.camVelocity = [0.0, 0.0];
+        this.posBuffer   = new Float32Array([0.0, 0.0]);
+        this.scaleBuffer = new Float32Array([0.125, 0.125]);
+        this.velocity = [0.0, 0.0];
+        this.scaleVelocity = 0.0;
 
-        this.cameraUniform = this.engine.createUniformBuffer([this.camPosBuffer, this.camScaleBuffer]);
+        this.cameraUniform = this.engine.createUniformBuffer([this.posBuffer, this.scaleBuffer]);
     }
 
     getUniformBuffer()
@@ -38,18 +52,7 @@ module.exports = class Camera
     onScroll(ev) 
     {
         let scaleMulti = ev.deltaY < 0.0 ? 1.0 : -1.0;
-        scaleMulti = (scaleMulti * 0.1) + 1.0;
-
-        this.camScaleBuffer[0] *= scaleMulti;
-        this.camScaleBuffer[1] *= scaleMulti;
-
-        if(this.camScaleBuffer[0] < scaleLimitMin)this.camScaleBuffer[0] = scaleLimitMin;
-        if(this.camScaleBuffer[1] < scaleLimitMin)this.camScaleBuffer[1] = scaleLimitMin;
-
-        if(this.camScaleBuffer[0] > scaleLimitMax)this.camScaleBuffer[0] = scaleLimitMax;
-        if(this.camScaleBuffer[1] > scaleLimitMax)this.camScaleBuffer[1] = scaleLimitMax;
-
-        this.cameraUniform.set(UNIFORM_INDEX_SCALE, this.camScaleBuffer).update();
+        this.scaleVelocity += scaleMulti * scaleBaseMulti;
     }
 
     onMove(ev)
@@ -61,21 +64,37 @@ module.exports = class Camera
             ev.movementY * -moveScale
         ];
 
-        this.camVelocity[0] += addCamVelocity[0] / this.camScaleBuffer[0];
-        this.camVelocity[1] += addCamVelocity[1] / this.camScaleBuffer[1];
+        this.velocity[0] += addCamVelocity[0] / this.scaleBuffer[0];
+        this.velocity[1] += addCamVelocity[1] / this.scaleBuffer[1];
     }
 
     update()
     {
-        if(Math.abs(this.camVelocity[0]) > velocityMinVal || Math.abs(this.camVelocity[1]) > velocityMinVal)
+        if(Math.abs(this.velocity[0]) > velocityMinVal || Math.abs(this.velocity[1]) > velocityMinVal)
         {
-            this.camVelocity[0] *= velocityReduce;
-            this.camVelocity[1] *= velocityReduce;
+            this.velocity[0] *= velocityReduce;
+            this.velocity[1] *= velocityReduce;
 
-            this.camPosBuffer[0] += this.camVelocity[0];
-            this.camPosBuffer[1] += this.camVelocity[1];
+            this.posBuffer[0] += this.velocity[0];
+            this.posBuffer[1] += this.velocity[1];
 
-            this.cameraUniform.set(UNIFORM_INDEX_POS, this.camPosBuffer).update();
+            this.posBuffer[0] = clamp(this.posBuffer[0], posLimit.x[0], posLimit.x[1]);
+            this.posBuffer[1] = clamp(this.posBuffer[1], posLimit.y[0], posLimit.y[1]);
+
+            this.cameraUniform.set(UNIFORM_INDEX_POS, this.posBuffer).update();
+        }
+
+        if(Math.abs(this.scaleVelocity) > scaleVelocityMinVal)
+        {
+            this.scaleBuffer[0] += this.scaleBuffer[0] * this.scaleVelocity;
+            this.scaleBuffer[1] += this.scaleBuffer[1] * this.scaleVelocity;
+    
+            this.scaleBuffer[0] = clamp(this.scaleBuffer[0], scaleLimitMin, scaleLimitMax);
+            this.scaleBuffer[1] = clamp(this.scaleBuffer[1], scaleLimitMin, scaleLimitMax);
+    
+            this.cameraUniform.set(UNIFORM_INDEX_SCALE, this.scaleBuffer).update();
+
+            this.scaleVelocity *= scaleVelocityReduce;
         }
     }
 };
