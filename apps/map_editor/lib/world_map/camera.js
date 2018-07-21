@@ -37,7 +37,7 @@ module.exports = class Camera
         this.engine = engine;
 
         this.posBuffer   = new Float32Array([0.0, 0.0]);
-        this.scaleBuffer = new Float32Array([0.125, 0.125]);
+        this.scaleBuffer = new Float32Array([0.1, 0.1]);
         this.velocity = [0.0, 0.0];
         this.scaleVelocity = 0.0;
 
@@ -47,6 +47,16 @@ module.exports = class Camera
     getUniformBuffer()
     {
         return this.cameraUniform;
+    }
+
+    getScale()
+    {
+        return this.scaleBuffer;
+    }
+
+    getPos()
+    {
+        return this.posBuffer;
     }
 
     onScroll(ev) 

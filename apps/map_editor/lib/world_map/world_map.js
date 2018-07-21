@@ -13,6 +13,7 @@ const createMapMesh = require('./mesh');
 const Camera = require("./camera");
 const Locations = require("./location");
 const Icon = require("./icon");
+const Selector = require("./select");
 
 const PicoGL = require("picogl");
 
@@ -37,13 +38,19 @@ module.exports = class World_Map
         this.locations = new Locations(this.gamePath, this.cachePath);
         this.icons = new Icon(this.engine);
 
+        this.selector = new Selector(mapCanvas, this.engine.aspectRatio, this.camera, this.icons);
+
         this.shaderPath = path.join(__BASE_PATH, "apps", "map_editor", "lib", "shader");
     }
 
     _addEvents()
     {
+        document.onclick     = ev => this.selector.onClick(ev);
         document.onwheel     = ev => this.camera.onScroll(ev);
-        document.onmousemove = ev => this.camera.onMove(ev);
+        document.onmousemove = ev => {
+            this.selector.onMove(ev);
+            this.camera.onMove(ev);
+        };
     }
 
     async load()
@@ -84,5 +91,6 @@ module.exports = class World_Map
     _update()
     {
         this.camera.update();
+        this.selector.update();
     }
 }
