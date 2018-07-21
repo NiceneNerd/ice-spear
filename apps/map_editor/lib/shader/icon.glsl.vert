@@ -21,7 +21,8 @@ void main()
     vColor = vec4(0.255, 0.631, 0.882, 1.0);
     vUV = uv;
 
-    vec2 posScaled = position / uScale * 0.025;
+    //vec2 posScaled = position * 0.025;
+    vec2 posScaled = position / uScale * 0.020;
     vec2 glPos = (posScaled + instPos + uPos) * uScale * uAspectRatio;
 
     gl_Position = vec4(glPos, 0.0, 1.0);

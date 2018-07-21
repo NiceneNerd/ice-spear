@@ -12,7 +12,7 @@ module.exports = (glApp, mapTilesX, mapTilesY) =>
     const mapTileOffsetY = ((mapTilesY-1) / 2.0);
 
     const positions = glApp.createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-        -0.5, -0.5,  0.5, -0.5,
+         -0.5, -0.5,  0.5, -0.5,
          0.5,  0.5, -0.5,  0.5,
     ]));
 

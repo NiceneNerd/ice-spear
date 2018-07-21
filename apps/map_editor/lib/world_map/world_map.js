@@ -4,7 +4,6 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
-const fs = require('fs-extra');
 const path = require('path');
 
 const Ice_Engine = require("./../ice_engine/engine");
@@ -12,6 +11,8 @@ const Ice_Engine = require("./../ice_engine/engine");
 const World_Map_Texture = require('./texture');
 const createMapMesh = require('./mesh');
 const Camera = require("./camera");
+const Locations = require("./location");
+const Icon = require("./icon");
 
 const PicoGL = require("picogl");
 
@@ -33,6 +34,8 @@ module.exports = class World_Map
         this.textureHandler = new World_Map_Texture(texBasePath, this.cachePath, mapTilesX, mapTilesY, this.loader);
 
         this.camera = new Camera(this.engine);
+        this.locations = new Locations(this.gamePath, this.cachePath);
+        this.icons = new Icon(this.engine);
 
         this.shaderPath = path.join(__BASE_PATH, "apps", "map_editor", "lib", "shader");
     }
@@ -45,6 +48,9 @@ module.exports = class World_Map
 
     async load()
     {
+        await this.loader.setStatus("Loading Locations");
+        await this.locations.load();
+
         await this.loader.setStatus("Loading Textures");
         const mapImageBuffer = await this.textureHandler.load();
 
@@ -64,43 +70,8 @@ module.exports = class World_Map
             .uniformBlock("globalUniforms", this.engine.getGlobalUniform())
             .uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
 
-    // ICONS
-
-    
-        const posBuffer = this.engine.getApp().createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-            -1.0, -1.0,  1.0, -1.0,
-            1.0,  1.0, -1.0,  1.0,
-        ]));
-
-        const uvBuffer = this.engine.getApp().createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-            0.0, 0.0, 1.0, 0.0,
-            1.0, 1.0, 0.0, 1.0,
-        ]));
-       
-        const instanceBuffer = this.engine.getApp().createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-            0.0, 0.0,
-            2.0, 2.0,
-        ]));
-
-        const idxBuffer = this.engine.getApp().createIndexBuffer(PicoGL.UNSIGNED_INT, 3, new Uint32Array([0, 1, 2, 2, 3, 0]));
-
-        const iconVertexArray = this.engine.getApp().createVertexArray()
-            .indexBuffer(idxBuffer)
-            .vertexAttributeBuffer(0, posBuffer)
-            .vertexAttributeBuffer(1, uvBuffer)
-            .instanceAttributeBuffer(2, instanceBuffer);
-
-        const iconShrineBuffer = await fs.readFile(path.join(__BASE_PATH, "assets", "img", "map", "shrine.bin"));
-        const iconShrineTexture =  this.engine.createTexture(iconShrineBuffer, {x: 128, y:128}, {
-            wrapS: PicoGL.CLAMP_TO_EDGE,
-            wrapT: PicoGL.CLAMP_TO_EDGE,
-            flipY: true
-        });
-
-        const iconDrawCall = this.engine.createDrawCall("icon", iconVertexArray, true)
-            .texture("texColor", iconShrineTexture)
-            .uniformBlock("globalUniforms", this.engine.getGlobalUniform())
-            .uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
+        const iconDrawCall = await this.icons.createDrawCall(this.locations.getLocations());
+        iconDrawCall.uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
 
         this._addEvents();
     }
