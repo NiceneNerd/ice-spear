@@ -45,7 +45,8 @@ module.exports = class World_Map
 
     _addEvents()
     {
-        document.onclick     = ev => this.selector.onClick(ev);
+        document.onmouseup   = ev => this.selector.onMouseUp(ev);
+        document.onmousedown = ev => this.selector.onMouseDown(ev);
         document.onwheel     = ev => this.camera.onScroll(ev);
         document.onmousemove = ev => {
             this.selector.onMove(ev);

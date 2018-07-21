@@ -92,19 +92,26 @@ module.exports = class Selector
 
     onMove(ev)
     {
+        this.hasMoved = true;
         this._updatePos(ev);
         this._checkIcons(ev);
     }
 
-    onClick(ev)
+    onMouseDown(ev)
     {
+        this.hasMoved = false;
+    }
+
+    onMouseUp(ev)
+    {
+        const hasMoved = this.hasMoved;
         this.onMove(ev);
 
         if(this.markedIcon)
         {
-            if(!this._checkIcons(ev)) {
+            if(!this._checkIcons(ev) && !hasMoved) {
                 this._deselect(); 
-                this.onClick(ev);
+                this.onMouseUp(ev);
             }
         }else if(this.selectedIcon)
         {
@@ -118,12 +125,14 @@ module.exports = class Selector
 
         if(this.markedIcon && this.markedAnimVal <= 1.0)
         {
-            this.icons.selectIcon(this.markedIcon, this.markedAnimVal, false);
             this.markedAnimVal = 1.0;
+            this.icons.selectIcon(this.markedIcon, this.markedAnimVal, false);
             iconsChanged = true;
         }
 
-        if(this.selectedIcon && (iconsChanged || this.selectedAnimVal <= 1.0))
+        if(this.selectedIcon
+            && this.selectedIcon != this.markedIcon
+            && (iconsChanged || this.selectedAnimVal <= 1.0))
         {
             this.icons.selectIcon(this.selectedIcon, this.selectedAnimVal, false);
             this.selectedAnimVal += (1.0 / 4.0);
@@ -135,5 +144,7 @@ module.exports = class Selector
             this.icons.updateSelectionBuffer();
             this.icons.deselectAll(false);
         }
+
+        this.canvas.style.cursor = this.selectedIcon ? 'pointer' : '';
     }
 }
