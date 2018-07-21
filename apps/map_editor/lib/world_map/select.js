@@ -21,6 +21,8 @@ module.exports = class Selector
 
         this.markedIcon = undefined;
         this.markedAnimVal = 0.0;
+
+        this.hasMoved = false;
     }
 
     _updatePos(ev)
@@ -92,7 +94,9 @@ module.exports = class Selector
 
     onMove(ev)
     {
-        this.hasMoved = true;
+        if(ev.movementX > 0 || ev.movementY > 0)
+            this.hasMoved = true;
+
         this._updatePos(ev);
         this._checkIcons(ev);
     }
@@ -104,12 +108,12 @@ module.exports = class Selector
 
     onMouseUp(ev)
     {
-        const hasMoved = this.hasMoved;
-        this.onMove(ev);
+        this._updatePos(ev);
+        this._checkIcons(ev);
 
         if(this.markedIcon)
         {
-            if(!this._checkIcons(ev) && !hasMoved) {
+            if(!this._checkIcons(ev) && !this.hasMoved) {
                 this._deselect(); 
                 this.onMouseUp(ev);
             }

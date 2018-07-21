@@ -110,14 +110,7 @@ module.exports = class Icon
         const drawCall = this.engine.createDrawCall("icon", iconVertexArray, true)
             .texture("texColor", iconShrineTexture)
             .uniformBlock("globalUniforms", this.engine.getGlobalUniform());
-/*
-        setInterval(() => {
-            const instanceBuffer = this.glApp.createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array(this.pos));
-            drawCall.currentVertexArray.instanceAttributeBuffer(2, instanceBuffer);
-            drawCall.currentVertexArray.numInstances = 1;
-            drawCall.numInstances = 1;
-        }, 50);
-*/
+
         console.log(drawCall);
 
         return drawCall;
