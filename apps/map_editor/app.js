@@ -6,6 +6,7 @@
 
 const App_Base = requireGlobal("./apps/base.js");
 const World_Map = require("./lib/world_map/world_map");
+const World_Map_UI = require("./lib/world_map/ui");
 
 module.exports = class App extends App_Base
 {
@@ -18,7 +19,10 @@ module.exports = class App extends App_Base
     {
         await super.run();
 
+        this.mapUi = new World_Map_UI(this.node);
+
         this.map = new World_Map(
+            this.mapUi,
             this.config.getValue("game.path"),
             this.project.getCachePath(),
             this.loader

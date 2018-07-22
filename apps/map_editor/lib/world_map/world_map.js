@@ -23,8 +23,9 @@ const mapTilesY = 10;
 
 module.exports = class World_Map
 {
-    constructor(gamePath, cachePath, loader)
+    constructor(ui, gamePath, cachePath, loader)
     {
+        this.ui = ui;
         this.gamePath = gamePath;
         this.cachePath = cachePath;
         this.loader = loader;
@@ -40,7 +41,10 @@ module.exports = class World_Map
         this.icons = new Icon(this.engine);
         this.marker = new Marker(this.engine);
 
-        this.selector = new Selector(mapCanvas, this.engine.aspectRatio, this.camera, this.marker, this.icons);
+        this.selector = new Selector(
+            mapCanvas, this.engine.aspectRatio, this.camera, this.marker, this.icons, 
+            (data) => this.ui.update(data)
+        );
 
         this.shaderPath = path.join(__BASE_PATH, "apps", "map_editor", "lib", "shader");
     }

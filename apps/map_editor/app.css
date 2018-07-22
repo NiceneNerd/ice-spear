@@ -27,3 +27,13 @@ canvas
     background: black;
     background-image: none;
 }
+
+#mapOverlay
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height: 100%;
+    background-color: rgba(0.0, 0.0, 0.0, 0.6);
+}

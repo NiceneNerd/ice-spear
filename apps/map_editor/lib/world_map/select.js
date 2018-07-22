@@ -4,9 +4,11 @@
 * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
 */
 
+const NUM_TO_LETTER = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
 module.exports = class Selector
 {
-    constructor(canvas, aspectRatio, camera, marker, icons)
+    constructor(canvas, aspectRatio, camera, marker, icons, changeCallback = () => {})
     {
         this.canvas = canvas;
         this.aspectRatio = aspectRatio;
@@ -14,6 +16,7 @@ module.exports = class Selector
 
         this.marker = marker;
         this.icons = icons;
+        this.changeCallback = changeCallback;
 
         this.pos = {x: 0, y: 0};
         this.gamePos = {x: 0, y: 0};
@@ -25,6 +28,25 @@ module.exports = class Selector
         this.markedAnimVal = 0.0;
 
         this.hasMoved = false;
+    }
+
+    _callChangeCallback()
+    {
+        const markerPos = this.marker.getPos();
+        const shrine = this.markedIcon ? this.markedIcon.MessageID.value : null;
+
+        this.changeCallback({
+            pos: this.gamePos,
+            marker: this._glToGameCoords({
+                x: markerPos[0], 
+                y: markerPos[1]
+            }),
+            fieldSection: this._glToFieldSection({
+                x: markerPos[0], 
+                y: markerPos[1]
+            }),
+            shrine: shrine
+        });
     }
 
     _updatePos(ev)
@@ -48,9 +70,30 @@ module.exports = class Selector
             this.pos.y = this.pos.y / (this.aspectRatio[1] * camScale[1]) - camPos[1];
 
             // convert to game coords
-            this.gamePos.x = this.pos.x * 1000;
-            this.gamePos.y = this.pos.y * 1000;
+            this.gamePos = this._glToGameCoords(this.pos);
         }
+    }
+
+    _glToGameCoords(pos)
+    {
+        return {
+            x: pos.x * 1000,
+            y: pos.y * 1000,
+        };
+    }
+
+    _glToFieldSection(pos)
+    {
+        let posXIndex = Math.ceil(pos.x + 4.0);
+        if(posXIndex < 0.0 || posXIndex >= NUM_TO_LETTER.length)
+            posXIndex = undefined;
+
+        let posY = Math.ceil(pos.y - 5.0) * -1.0;
+
+        return {
+            x: posXIndex === undefined ? undefined : NUM_TO_LETTER[posXIndex],
+            y: (posY < 1 || posY > 8) ? undefined : posY
+        };
     }
 
     _checkIcons()
@@ -101,6 +144,8 @@ module.exports = class Selector
 
         this._updatePos(ev);
         this._checkIcons(ev);
+
+        this._callChangeCallback();
     }
 
     onMouseDown(ev)
@@ -122,12 +167,15 @@ module.exports = class Selector
         }else if(this.selectedIcon)
         {
             this.markedIcon = this.selectedIcon;
+            console.log(this.markedIcon);
         }
 
         if(!this.hasMoved)
         {
             this.marker.setPos(this.pos.x, this.pos.y);
         }
+
+        this._callChangeCallback();
     }
 
     update()
