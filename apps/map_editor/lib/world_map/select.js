@@ -6,11 +6,13 @@
 
 module.exports = class Selector
 {
-    constructor(canvas, aspectRatio, camera, icons)
+    constructor(canvas, aspectRatio, camera, marker, icons)
     {
         this.canvas = canvas;
         this.aspectRatio = aspectRatio;
         this.camera = camera;
+
+        this.marker = marker;
         this.icons = icons;
 
         this.pos = {x: 0, y: 0};
@@ -94,7 +96,7 @@ module.exports = class Selector
 
     onMove(ev)
     {
-        if(ev.movementX > 0 || ev.movementY > 0)
+        if(Math.abs(ev.movementX) > 0 || Math.abs(ev.movementY) > 0)
             this.hasMoved = true;
 
         this._updatePos(ev);
@@ -120,6 +122,11 @@ module.exports = class Selector
         }else if(this.selectedIcon)
         {
             this.markedIcon = this.selectedIcon;
+        }
+
+        if(!this.hasMoved)
+        {
+            this.marker.setPos(this.pos.x, this.pos.y);
         }
     }
 

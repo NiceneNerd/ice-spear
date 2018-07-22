@@ -154,7 +154,14 @@ module.exports = class Ice_Engine
      */
     createDrawCall(shaderName, vertexArray, addToObjects = false)
     {
-        const drawCall = this.glApp.createDrawCall(this.shaderHandler.get(shaderName), vertexArray);
+        const shader = this.shaderHandler.get(shaderName);
+        if(!shader) 
+        {
+            console.error(`Unknown shader '${shaderName}'`);
+            return undefined;
+        }
+
+        const drawCall = this.glApp.createDrawCall(shader, vertexArray);
         if(addToObjects)
         {
             this.addObject(drawCall);

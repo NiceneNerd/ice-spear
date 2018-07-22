@@ -107,12 +107,8 @@ module.exports = class Icon
             flipY: true
         });
 
-        const drawCall = this.engine.createDrawCall("icon", iconVertexArray, true)
+        return this.engine.createDrawCall("icon", iconVertexArray, true)
             .texture("texColor", iconShrineTexture)
             .uniformBlock("globalUniforms", this.engine.getGlobalUniform());
-
-        console.log(drawCall);
-
-        return drawCall;
     }
 }

@@ -13,6 +13,7 @@ const createMapMesh = require('./mesh');
 const Camera = require("./camera");
 const Locations = require("./location");
 const Icon = require("./icon");
+const Marker = require("./marker");
 const Selector = require("./select");
 
 const PicoGL = require("picogl");
@@ -37,8 +38,9 @@ module.exports = class World_Map
         this.camera = new Camera(this.engine);
         this.locations = new Locations(this.gamePath, this.cachePath);
         this.icons = new Icon(this.engine);
+        this.marker = new Marker(this.engine);
 
-        this.selector = new Selector(mapCanvas, this.engine.aspectRatio, this.camera, this.icons);
+        this.selector = new Selector(mapCanvas, this.engine.aspectRatio, this.camera, this.marker, this.icons);
 
         this.shaderPath = path.join(__BASE_PATH, "apps", "map_editor", "lib", "shader");
     }
@@ -62,8 +64,9 @@ module.exports = class World_Map
         await this.loader.setStatus("Loading Textures");
         const mapImageBuffer = await this.textureHandler.load();
 
-        await this.engine.createShader("map",  path.join(this.shaderPath, "map.glsl.vert"),  path.join(this.shaderPath, "map.glsl.frag"));
-        await this.engine.createShader("icon", path.join(this.shaderPath, "icon.glsl.vert"), path.join(this.shaderPath, "icon.glsl.frag"));
+        await this.engine.createShader("map",    path.join(this.shaderPath, "map.glsl.vert"),    path.join(this.shaderPath, "map.glsl.frag"));
+        await this.engine.createShader("icon",   path.join(this.shaderPath, "icon.glsl.vert"),   path.join(this.shaderPath, "icon.glsl.frag"));
+        await this.engine.createShader("marker", path.join(this.shaderPath, "marker.glsl.vert"), path.join(this.shaderPath, "marker.glsl.frag"));
 
         const mapTexture = this.engine.createTexture(mapImageBuffer, this.textureHandler.getSize(), {
             format: PicoGL.RGB,
@@ -78,8 +81,8 @@ module.exports = class World_Map
             .uniformBlock("globalUniforms", this.engine.getGlobalUniform())
             .uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
 
-        const iconDrawCall = await this.icons.createDrawCall(this.locations.getLocations());
-        iconDrawCall.uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
+        (await this.marker.createDrawCall()).uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
+        (await this.icons.createDrawCall(this.locations.getLocations())).uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
 
         this._addEvents();
     }
