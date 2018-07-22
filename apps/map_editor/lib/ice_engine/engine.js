@@ -59,8 +59,10 @@ module.exports = class Ice_Engine
         this.stats.showPanel(0);
         this.canvasNode.parentNode.appendChild(this.stats.dom);
         this.stats.dom.style.position = "absolute";
-        this.stats.dom.style.left = null;
-        this.stats.dom.style.right = 0;
+        this.stats.dom.style.left = 0;
+        this.stats.dom.style.right = null;
+        this.stats.dom.style.top = 0;
+        this.stats.dom.style.bottom = null;
     }
 
     /**
