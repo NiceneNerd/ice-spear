@@ -78,7 +78,7 @@ module.exports = class Selector
     {
         return {
             x: pos.x * 1000,
-            y: pos.y * 1000,
+            y: pos.y * -1000,
         };
     }
 

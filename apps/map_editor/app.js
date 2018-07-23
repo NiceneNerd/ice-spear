@@ -19,7 +19,7 @@ module.exports = class App extends App_Base
     {
         await super.run();
 
-        this.mapUi = new World_Map_UI(this.node);
+        this.mapUi = new World_Map_UI(mapOverlay);
 
         this.map = new World_Map(
             this.mapUi,

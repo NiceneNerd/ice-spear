@@ -30,7 +30,8 @@ module.exports = class World_Map
         this.cachePath = cachePath;
         this.loader = loader;
 
-        this.engine = new Ice_Engine(mapCanvas);
+        this.mapCanvas = mapCanvas; // global node
+        this.engine = new Ice_Engine(this.mapCanvas);
         this.engine.onUpdate(() => this._update());
 
         const texBasePath = path.join(this.gamePath, "content", "UI", "MapTex", "MainField");
@@ -42,7 +43,7 @@ module.exports = class World_Map
         this.marker = new Marker(this.engine);
 
         this.selector = new Selector(
-            mapCanvas, this.engine.aspectRatio, this.camera, this.marker, this.icons, 
+            this.mapCanvas, this.engine.aspectRatio, this.camera, this.marker, this.icons, 
             (data) => this.ui.update(data)
         );
 
@@ -52,7 +53,7 @@ module.exports = class World_Map
     _addEvents()
     {
         document.onmouseup   = ev => this.selector.onMouseUp(ev);
-        document.onmousedown = ev => this.selector.onMouseDown(ev);
+        this.mapCanvas.onmousedown = ev => this.selector.onMouseDown(ev);
         document.onwheel     = ev => this.camera.onScroll(ev);
         document.onmousemove = ev => {
             this.selector.onMove(ev);

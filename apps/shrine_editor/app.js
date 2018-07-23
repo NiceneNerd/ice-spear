@@ -163,13 +163,10 @@ module.exports = class App extends App_Base
         // 033 = water puzzle, missing polygon in corner
         // 051 = has lava and spikeballs
         // 099 = blessing
-        let filePath = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
-        //let filePath = "";
 
-        if(this.args.file != null) {
-            filePath = this.args.file;
-        }
+        const shrineName = this.args.shrine ? this.args.shrine : "Dungeon000";
+        let shrinePath = path.join(this.config.getValue("game.path"), "content", "Pack", shrineName + ".pack");
 
-        this.openShrine(filePath);
+        this.openShrine(shrinePath);
     }    
 };
