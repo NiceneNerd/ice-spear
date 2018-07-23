@@ -1,7 +1,8 @@
 #version 300 es
     
 layout(location=0) in vec2 position;
-layout(location=1) in vec2 instPos;
+layout(location=1) in vec2 uv;
+layout(location=2) in vec2 instPos;
 
 layout(std140) uniform globalUniforms {
     vec2 uAspectRatio;
@@ -19,8 +20,7 @@ void main()
 {
     vColor = vec4(1.0);
 
-    vUV = vec3(position + vec2(0.5), float(gl_InstanceID));
-    vUV.y = 1.0 - vUV.y;
+    vUV = vec3(uv, float(gl_InstanceID));
 
     vec2 glPos = (position + instPos + uPos) * uScale * uAspectRatio;
 

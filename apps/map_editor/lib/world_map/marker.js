@@ -34,24 +34,6 @@ module.exports = class Marker
 
     async createDrawCall()
     {    
-        const posBuffer = this.glApp.createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-            -this.radius, -this.radius,  this.radius, -this.radius,
-             this.radius,  this.radius, -this.radius,  this.radius,
-        ]));
-
-        const uvBuffer = this.glApp.createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-            0.0, 0.0, 1.0, 0.0, 
-            1.0, 1.0, 0.0, 1.0
-        ]));
-
-        const idxBuffer = this.glApp.createIndexBuffer(PicoGL.UNSIGNED_INT, 3, new Uint32Array([0, 1, 2, 2, 3, 0]));
-
-        const iconVertexArray = this.glApp.createVertexArray()
-            .indexBuffer(idxBuffer)
-            .vertexAttributeBuffer(0, posBuffer)
-            .vertexAttributeBuffer(1, uvBuffer);
-        ;
-
         this.iconShrineBuffer = await fs.readFile(path.join(__BASE_PATH, "assets", "img", "map", "marker.bin"));
         const iconShrineTexture =  this.engine.createTexture(this.iconShrineBuffer, {x: 128, y:128}, {
             wrapS: PicoGL.CLAMP_TO_EDGE,
@@ -59,7 +41,7 @@ module.exports = class Marker
             flipY: true
         });
 
-        this.drawCall = this.engine.createDrawCall("marker", iconVertexArray, true)
+        this.drawCall = this.engine.createDrawCall("marker", this.engine.meshHelper.createQuad(this.radius), true)
             .texture("texColor", iconShrineTexture)
             .uniform("uObjectPos", this.pos)
             .uniformBlock("globalUniforms", this.engine.getGlobalUniform());

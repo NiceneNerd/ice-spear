@@ -79,7 +79,7 @@ module.exports = class World_Map
             wrapT: PicoGL.CLAMP_TO_EDGE,
         });
 
-        const mapVertexArray = createMapMesh(this.engine.getApp(), mapTilesX, mapTilesY);
+        const mapVertexArray = createMapMesh(this.engine, mapTilesX, mapTilesY);
         const mapDrawCall = this.engine.createDrawCall("map", mapVertexArray, true)
             .texture("texColor", mapTexture)
             .uniformBlock("globalUniforms", this.engine.getGlobalUniform())

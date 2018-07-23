@@ -9,6 +9,7 @@ const PicoGL = require("picogl");
 const NanoTimer = require('nanotimer');
 
 const Shader_Handler = require("./shader_handler");
+const Mesh_Helper = require("./mesh_helper");
 
 const DEFAULT_CLEAR_COLOR = [0.0, 0.0, 0.0, 1.0];
 
@@ -31,7 +32,9 @@ module.exports = class Ice_Engine
             .blendFunc(PicoGL.SRC_ALPHA, PicoGL.ONE_MINUS_SRC_ALPHA)
             .clearColor(...clearColor)
         ;
-     
+
+        this.meshHelper = new Mesh_Helper(this.getApp());
+
         this.canvasNode = canvasNode;
         this.canvasSize = [0,0];
         this.aspectRatio = new Float32Array([1.0, 1.0]);
@@ -47,6 +50,7 @@ module.exports = class Ice_Engine
         this.nanoTimer = new NanoTimer();
 
         this.objects = new Map();
+
 
         this._init();
     }

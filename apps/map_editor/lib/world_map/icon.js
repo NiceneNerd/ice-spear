@@ -57,16 +57,6 @@ module.exports = class Icon
     async createDrawCall(locations)
     {
         this.iconShrineBuffer = await fs.readFile(path.join(__BASE_PATH, "assets", "img", "map", "shrine.bin"));
-    
-        const posBuffer = this.glApp.createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-            -this.radius, -this.radius,  this.radius, -this.radius,
-             this.radius,  this.radius, -this.radius,  this.radius,
-        ]));
-
-        const uvBuffer = this.glApp.createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-            0.0, 0.0, 1.0, 0.0,
-            1.0, 1.0, 0.0, 1.0,
-        ]));
 
         const iconPosScale = 1.0 / 1000.0;
         const instPosArray = [];
@@ -91,12 +81,8 @@ module.exports = class Icon
         this.selectionVertexBuffer = this.glApp.createVertexBuffer(PicoGL.FLOAT, 1, this.selectionBuffer);
 
         const instanceBuffer = this.glApp.createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array(instPosArray));
-        const idxBuffer      = this.glApp.createIndexBuffer(PicoGL.UNSIGNED_INT, 3, new Uint32Array([0, 1, 2, 2, 3, 0]));
 
-        const iconVertexArray = this.glApp.createVertexArray()
-            .indexBuffer(idxBuffer)
-            .vertexAttributeBuffer(0, posBuffer)
-            .vertexAttributeBuffer(1, uvBuffer)
+        const iconVertexArray = this.engine.meshHelper.createQuad(this.radius)
             .instanceAttributeBuffer(2, instanceBuffer)
             .instanceAttributeBuffer(3, this.selectionVertexBuffer)
         ;

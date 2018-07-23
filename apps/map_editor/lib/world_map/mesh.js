@@ -6,19 +6,10 @@
 
 const PicoGL = require("picogl");
 
-module.exports = (glApp, mapTilesX, mapTilesY) =>
+module.exports = (engine, mapTilesX, mapTilesY) =>
 {
     const mapTileOffsetX = ((mapTilesX-1) / 2.0);
     const mapTileOffsetY = ((mapTilesY-1) / 2.0);
-
-    const positions = glApp.createVertexBuffer(PicoGL.FLOAT, 2, new Float32Array([
-         -0.5, -0.5,  0.5, -0.5,
-         0.5,  0.5, -0.5,  0.5,
-    ]));
-
-    const idxBuffer = glApp.createIndexBuffer(PicoGL.UNSIGNED_INT, 3, new Uint32Array([
-        0, 1, 2, 2, 3, 0
-    ]));
 
     const instancedPosBuff = new Float32Array(mapTilesX * mapTilesY * 2);
     let buffPos = 0;
@@ -31,10 +22,8 @@ module.exports = (glApp, mapTilesX, mapTilesY) =>
         }
     }
 
-    const instancedPos = glApp.createVertexBuffer(PicoGL.FLOAT, 2, instancedPosBuff);
+    const instancedPos = engine.getApp().createVertexBuffer(PicoGL.FLOAT, 2, instancedPosBuff);
 
-    return glApp.createVertexArray()
-        .indexBuffer(idxBuffer)
-        .vertexAttributeBuffer(0, positions)
-        .instanceAttributeBuffer(1, instancedPos);
+    return engine.meshHelper.createQuad(-0.5, true)
+        .instanceAttributeBuffer(2, instancedPos);
 }
