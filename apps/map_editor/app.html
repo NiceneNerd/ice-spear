@@ -41,32 +41,36 @@
     </div>
 
     <div id="mapOverlay">
-        <div>
-            <span>Position</span>
-            <br/>
-            X: <span class="data-pos-x">?</span>
-            <br/>
-            Z: <span class="data-pos-y">?</span>
+        <div class="dataColor-default size-numbers info-container">
+            <div>
+                <span class="dataLabel">X</span><span class="data-pos-x">0.0000</span>
+            </div>
+            <div>
+                <span class="dataLabel">Z</span><span class="data-pos-y">0.0000</span>
+            </div>
         </div>
 
-        <div>
-            <label>Marker</label>
-            <br/>
-            X: <span class="data-marker-x">?</span>
-            <br/>
-            Z: <span class="data-marker-y">?</span>
+        <div class="dataColor-marker size-numbers info-container">
+            <div>
+                <span class="dataLabel">X</span><span class="data-marker-x">0.0000</span>
+            </div>
+            <div>
+                <span class="dataLabel">Z</span><span class="data-marker-y">0.0000</span>
+            </div>
         </div>
 
-        <div>
-            <label>Field-Section</label>
-            <span class="data-fieldSection">?</span>
-            <button disabled class="tool-fieldSection-open btn btn-large btn-default">Open at Marker</button>
+        <div class="info-container size-numbers">
+            <div class="dataColor-marker">
+                <span class="dataLabel">Section</span><span class="data-fieldSection">?-?</span>
+            </div>
+            <div class="dataColor-shrine">
+                <span class="dataLabel">Shrine&nbsp;</span><span class="data-shrine">Dungeon???</span>
+            </div>
         </div>
 
-        <div>
-            <label>Shrine</label>
-            <span class="data-shrine">?</span>
-            <button disabled class="tool-shrine-open btn btn-large btn-default">Open</button>
+        <div class="info-container">
+            <div><button disabled class="tool-fieldSection-open btn btn-large btn-default">Open Section</button></div>
+            <div><button disabled class="tool-shrine-open btn btn-large btn-default">Open Shrine</button></div>
         </div>
     </div>
 </body>

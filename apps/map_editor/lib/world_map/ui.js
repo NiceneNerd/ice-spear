@@ -84,7 +84,7 @@ module.exports = class World_Map_UI
 
     updateShrine(shrineName)
     {
-        this.shrineName = shrineName;
+        this.shrineName = shrineName || "Dungeon???";
         this.nodeSelector.querySelector(".data-shrine").innerHTML = this.shrineName;
         this.nodeSelector.querySelector(".tool-shrine-open").disabled = !SHRINE_REGEX.test(this.shrineName);
     }
