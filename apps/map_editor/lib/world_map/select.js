@@ -167,7 +167,6 @@ module.exports = class Selector
         }else if(this.selectedIcon)
         {
             this.markedIcon = this.selectedIcon;
-            console.log(this.markedIcon);
         }
 
         if(!this.hasMoved)

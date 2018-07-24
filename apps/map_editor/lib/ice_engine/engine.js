@@ -46,7 +46,8 @@ module.exports = class Ice_Engine
         
         this.shaderHandler = new Shader_Handler(this.glApp);
 
-        this.targetFrameTime = 1000.0 / 60.0;
+        this.targetFPS = 60.0;
+        this.targetFrameTime = (1000.0 / this.targetFPS);
         this.timer = this.glApp.createTimer();
         this.nanoTimer = new NanoTimer();
 
@@ -221,16 +222,15 @@ module.exports = class Ice_Engine
      */
     start()
     {
-        this.nanoTimer.setInterval(() => {
+        //this.nanoTimer.setInterval(() => {
             try{
                 this._frame();
             } catch(e) {
                 console.error("Ice-Engine frame exception:");
                 console.log(e);
-                this.nanoTimer.clearInterval();
+                //this.nanoTimer.clearInterval();
             }
-        }, 
-        "", this.targetFrameTime + "m");
+        //}, "", this.targetFrameTime + "m");
 
         return this;
     }
@@ -240,6 +240,7 @@ module.exports = class Ice_Engine
      */
     _frame()
     {
+        const frameStart = performance.now();
         if(this.showStats)this.stats.begin();
 
         this._checkCanvasSize();
@@ -254,6 +255,10 @@ module.exports = class Ice_Engine
         if(this.cbOnDraw)this.cbOnDraw();
 
         if(this.showStats)this.stats.end();
+
+        const waitTime = Math.max(this.targetFrameTime - (performance.now() - frameStart), 1.0);
+        //setTimeout(() => this._frame(), waitTime);
+        requestAnimationFrame(() => this._frame());   
     }
 
     _checkCanvasSize()

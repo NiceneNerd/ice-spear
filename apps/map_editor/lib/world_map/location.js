@@ -44,8 +44,6 @@ module.exports = class Location
         }else{
             this.locationData = await fs.readJSON(cacheFile);
         }
-
-        console.log(this.locationData);
     }
 
     getLocations()
