@@ -12,6 +12,7 @@ const Shader_Handler = require("./shader_handler");
 const Mesh_Helper = require("./mesh_helper");
 
 const DEFAULT_CLEAR_COLOR = [0.0, 0.0, 0.0, 1.0];
+const SCREEN_SCALE = 0.0005;
 
 const BUFFER_TYPES_FLOAT = [
     undefined, PicoGL.FLOAT,
@@ -264,7 +265,14 @@ module.exports = class Ice_Engine
             this.canvasNode.width = this.canvasSize[0];
             this.canvasNode.height = this.canvasSize[1];
 
-            this.aspectRatio[1] = this.canvasSize[0] / this.canvasSize[1];
+            /*const screenLength = Math.sqrt(
+                (this.canvasSize[0] * this.canvasSize[0]) +
+                (this.canvasSize[1] * this.canvasSize[1])
+            );*/
+
+            this.aspectRatio[0] = 1.0 / (this.canvasSize[0] * SCREEN_SCALE);
+            this.aspectRatio[1] = 1.0 / (this.canvasSize[1] * SCREEN_SCALE);
+
             this.globalUniform.set(0, this.aspectRatio).update();
 
             this.glApp.resize(this.canvasSize[0], this.canvasSize[1]);

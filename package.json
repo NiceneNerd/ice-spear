@@ -23,8 +23,8 @@
     "default-app": "launcher",
     "app-icon": "assets/icons/icon_256.png",
     "default-size": [
-      1024,
-      768
+      1500,
+      820
     ]
   },
   "build": {

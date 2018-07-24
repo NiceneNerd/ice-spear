@@ -36,7 +36,7 @@ module.exports = class App extends App_Base
         this.stringTable = new String_Table(this.project.getCachePath());
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
-            sizes     : [10, 70, 20],
+            sizes     : [15, 65, 20],
             minSize   : 0,
             snapOffset: 60,
             gutterSize: 12

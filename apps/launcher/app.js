@@ -35,24 +35,7 @@ module.exports = class App extends App_Base
                 let appName = btn.getAttribute("data-appName");
                 if(appName != null)
                 {
-                    // @TODO open a world map here
-                    if(appName == "field_editor")
-                    {
-                        const {value: section} = await swal({
-                            title: "Field Section (e.g. I-3)<br/>@TODO show world-map instead",
-                            type: 'question',
-                            input: 'text',
-                            showCloseButton: true,
-                            showCancelButton: true,
-                            cancelButtonText: 'Cancel',
-                            confirmButtonText: 'Open',
-                        });
-
-                        if(section)
-                            this.windowHandler.open(appName, {section});
-                    }else{
-                        this.windowHandler.open(appName);
-                    }
+                    this.windowHandler.open(appName);
                 }
             };
         }

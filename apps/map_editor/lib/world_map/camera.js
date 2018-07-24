@@ -37,7 +37,7 @@ module.exports = class Camera
         this.engine = engine;
 
         this.posBuffer   = new Float32Array([0.0, 0.0]);
-        this.scaleBuffer = new Float32Array([0.1, 0.1]);
+        this.scaleBuffer = new Float32Array([scaleLimitMin, scaleLimitMin]);
         this.velocity = [0.0, 0.0];
         this.scaleVelocity = 0.0;
 
