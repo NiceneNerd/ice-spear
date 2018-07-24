@@ -42,9 +42,15 @@ module.exports = class World_Map
         this.icons = new Icon(this.engine);
         this.marker = new Marker(this.engine);
 
+        this.mapDrawCall = undefined;
+        this.highlightedSection = "?-?";
+
         this.selector = new Selector(
             this.mapCanvas, this.engine.aspectRatio, this.camera, this.marker, this.icons, 
-            (data) => this.ui.update(data)
+            (data) => {
+                this.highlightSection(data.fieldSection);
+                this.ui.update(data)
+            }
         );
 
         this.shaderPath = path.join(__BASE_PATH, "apps", "map_editor", "lib", "shader");
@@ -81,15 +87,36 @@ module.exports = class World_Map
         });
 
         const mapVertexArray = createMapMesh(this.engine, mapTilesX, mapTilesY);
-        const mapDrawCall = this.engine.createDrawCall("map", mapVertexArray, true)
+        this.mapDrawCall = this.engine.createDrawCall("map", mapVertexArray, true)
             .texture("texColor", mapTexture)
             .uniformBlock("globalUniforms", this.engine.getGlobalUniform())
-            .uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
+            .uniformBlock("cameraUniforms", this.camera.getUniformBuffer())
+            .uniform("uSelectedSection", 9999);
 
         (await this.marker.createDrawCall()).uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
         (await this.icons.createDrawCall(this.locations.getLocations())).uniformBlock("cameraUniforms", this.camera.getUniformBuffer());
 
+        this.selector.forceCallback();
+
         this._addEvents();
+    }
+
+    highlightSection(posData)
+    {
+        const highlightedSection = `${posData.x}-${posData.y}`;
+        if(highlightedSection != this.highlightedSection)
+        {
+            let tileNum = 9999;
+            if(posData.x !== undefined && posData.y !== undefined)
+            {
+                const tileX = posData.x.charCodeAt() - 65 + 1;
+                const tileY = 9 - posData.y;
+                tileNum = (tileY * mapTilesX) + tileX;
+            }
+
+            this.mapDrawCall.uniform("uSelectedSection", tileNum);
+            this.highlightedSection = highlightedSection;
+        }
     }
 
     start()

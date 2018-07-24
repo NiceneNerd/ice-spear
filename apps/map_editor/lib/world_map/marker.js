@@ -16,7 +16,7 @@ module.exports = class Marker
         this.engine = engine;
         this.glApp = this.engine.getApp();
 
-        this.pos = new Float32Array([0.0, 0.0]);
+        this.pos = new Float32Array([3.5, 1.5]);
         this.radius = 0.016;
     }
 

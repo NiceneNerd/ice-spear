@@ -13,14 +13,24 @@ layout(std140) uniform cameraUniforms {
     vec2 uScale;
 };
 
+uniform int uSelectedSection;
+
 out vec4 vColor;
 out vec3 vUV;
+out vec2 vSelectedPos;
 
 void main() 
 {
     vColor = vec4(1.0);
+    vSelectedPos = vec2(0.0);
 
     vUV = vec3(uv, float(gl_InstanceID));
+
+    if(gl_InstanceID == uSelectedSection) 
+    {
+        vSelectedPos = position;
+        vColor = vec4(1.2, 1.2, 1.2, 1.0);
+    }
 
     vec2 glPos = (position + instPos + uPos) * uScale * uAspectRatio;
 

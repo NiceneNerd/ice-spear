@@ -206,4 +206,9 @@ module.exports = class Selector
 
         this.canvas.style.cursor = this.selectedIcon ? 'pointer' : '';
     }
+
+    forceCallback()
+    {
+        this._callChangeCallback();
+    }
 }
