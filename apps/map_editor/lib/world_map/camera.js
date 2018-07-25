@@ -80,13 +80,15 @@ module.exports = class Camera
 
     update()
     {
+        const frameScalar = this.engine.getFrameScale();
+
         if(Math.abs(this.velocity[0]) > velocityMinVal || Math.abs(this.velocity[1]) > velocityMinVal)
         {
             this.velocity[0] *= velocityReduce;
             this.velocity[1] *= velocityReduce;
 
-            this.posBuffer[0] += this.velocity[0];
-            this.posBuffer[1] += this.velocity[1];
+            this.posBuffer[0] += this.velocity[0] * frameScalar;
+            this.posBuffer[1] += this.velocity[1] * frameScalar;
 
             this.posBuffer[0] = clamp(this.posBuffer[0], posLimit.x[0], posLimit.x[1]);
             this.posBuffer[1] = clamp(this.posBuffer[1], posLimit.y[0], posLimit.y[1]);
@@ -96,8 +98,8 @@ module.exports = class Camera
 
         if(Math.abs(this.scaleVelocity) > scaleVelocityMinVal)
         {
-            this.scaleBuffer[0] += this.scaleBuffer[0] * this.scaleVelocity;
-            this.scaleBuffer[1] += this.scaleBuffer[1] * this.scaleVelocity;
+            this.scaleBuffer[0] += this.scaleBuffer[0] * this.scaleVelocity * frameScalar;
+            this.scaleBuffer[1] += this.scaleBuffer[1] * this.scaleVelocity * frameScalar;
     
             this.scaleBuffer[0] = clamp(this.scaleBuffer[0], scaleLimitMin, scaleLimitMax);
             this.scaleBuffer[1] = clamp(this.scaleBuffer[1], scaleLimitMin, scaleLimitMax);

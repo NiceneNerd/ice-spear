@@ -42,12 +42,14 @@ module.exports = class Ice_Engine
 
         this.cbOnUpdate = undefined;
         this.cbOnDraw = undefined;
-        this.showStats = true;
+        this.showStats = false;
         
         this.shaderHandler = new Shader_Handler(this.glApp);
 
         this.targetFPS = 60.0;
         this.targetFrameTime = (1000.0 / this.targetFPS);
+        this.lastFrameTime = 0;
+
         this.timer = this.glApp.createTimer();
         this.nanoTimer = new NanoTimer();
 
@@ -61,14 +63,17 @@ module.exports = class Ice_Engine
     {
         this.globalUniform = this.createUniformBuffer([this.aspectRatio]);
 
-        this.stats = new Stats();
-        this.stats.showPanel(0);
-        this.canvasNode.parentNode.appendChild(this.stats.dom);
-        this.stats.dom.style.position = "absolute";
-        this.stats.dom.style.left = 0;
-        this.stats.dom.style.right = null;
-        this.stats.dom.style.top = 0;
-        this.stats.dom.style.bottom = null;
+        if(this.showStats)
+        {
+            this.stats = new Stats();
+            this.stats.showPanel(0);
+            this.canvasNode.parentNode.appendChild(this.stats.dom);
+            this.stats.dom.style.position = "absolute";
+            this.stats.dom.style.left = 0;
+            this.stats.dom.style.right = null;
+            this.stats.dom.style.top = 0;
+            this.stats.dom.style.bottom = null;
+        }
     }
 
     /**
@@ -87,6 +92,16 @@ module.exports = class Ice_Engine
     getGlobalUniform()
     {
         return this.globalUniform;
+    }
+
+    /**
+     * returns a scaling value relative to the time difference between actual and target frame time.
+     * multiplying any value with it makes it independent of the actual frame time
+     * @returns {number}
+     */
+    getFrameScale()
+    {
+        return this.frameScale;
     }
 
     /**
@@ -224,6 +239,7 @@ module.exports = class Ice_Engine
     {
         //this.nanoTimer.setInterval(() => {
             try{
+                this.lastFrameTime = performance.now() - this.targetFrameTime;
                 this._frame();
             } catch(e) {
                 console.error("Ice-Engine frame exception:");
@@ -241,6 +257,9 @@ module.exports = class Ice_Engine
     _frame()
     {
         const frameStart = performance.now();
+        this.frameScale = (frameStart - this.lastFrameTime) / this.targetFrameTime;
+
+        this.lastFrameTime = frameStart;
         if(this.showStats)this.stats.begin();
 
         this._checkCanvasSize();
