@@ -35,24 +35,7 @@ module.exports = class App extends App_Base
                 let appName = btn.getAttribute("data-appName");
                 if(appName != null)
                 {
-                    // @TODO open a world map here
-                    if(appName == "field_editor")
-                    {
-                        const {value: section} = await swal({
-                            title: "Field Section (e.g. I-3)<br/>@TODO show world-map instead",
-                            type: 'question',
-                            input: 'text',
-                            showCloseButton: true,
-                            showCancelButton: true,
-                            cancelButtonText: 'Cancel',
-                            confirmButtonText: 'Open',
-                        });
-
-                        if(section)
-                            this.windowHandler.open(appName, {section});
-                    }else{
-                        this.windowHandler.open(appName);
-                    }
+                    this.windowHandler.open(appName);
                 }
             };
         }
@@ -63,7 +46,7 @@ module.exports = class App extends App_Base
         this.selectShrine.ondblclick = function(a,b) 
         {
             if(this.value != null)
-                that.windowHandler.open("shrine_editor", {file: this.value});
+                that.windowHandler.open("shrine_editor", {shrine: this.value});
         };
 
         this.selectModel.ondblclick = function(a,b) 
@@ -154,14 +137,17 @@ module.exports = class App extends App_Base
         const shrineRegex = /^Dungeon[0-9]{3}\.pack$/;
         let shrineDir = this.config.getValue("game.path") + "/content/Pack";
         
-        let files = fs.readdir(shrineDir, (err, files) => 
+        fs.readdir(shrineDir, (err, files) => 
         {
             if(files == null)return;
             let shrinesHtml = "";
 
-            files.forEach(file => {
-                if(shrineRegex.test(file)){
-                    shrinesHtml += `<option value="${shrineDir + "/" + file}">${file}</option>`;
+            files.forEach(file => 
+            {
+                if(shrineRegex.test(file))// || file.startsWith("Remains")) <- 4 main dungeons
+                {
+                    const shrineName = file.replace(".pack", "");
+                    shrinesHtml += `<option value="${shrineName}">${shrineName}</option>`;
                 }
             });
             this.selectShrine.innerHTML = shrinesHtml;
@@ -172,7 +158,7 @@ module.exports = class App extends App_Base
     {
         let modelDir = this.config.getValue("game.path") + "/content/Model";
 
-        let files = fs.readdir(modelDir, (err, files) => 
+        fs.readdir(modelDir, (err, files) => 
         {
             if(files == null)return;
 

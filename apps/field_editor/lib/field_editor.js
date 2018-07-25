@@ -79,8 +79,9 @@ module.exports = class Field_Editor extends Mubin_Editor
      * Load a shrine and it's models, textures, actors and other stuff
      * @param {string} directory directory of the shrine
      * @param {string} name name of the field
+     * @param {Tuple<number,number>|undefined} fieldPos
      */
-    async load(directory, name)
+    async load(directory, name, fieldPos = undefined)
     {
         console.time("Editor-Load");
         await super.load(directory, name);
@@ -93,6 +94,12 @@ module.exports = class Field_Editor extends Mubin_Editor
         cam.position.x = midPos.x;
         cam.position.y = midPos.y;
         cam.position.z = midPos.z;
+
+        if(fieldPos)
+        {
+            cam.position.x = fieldPos[0];
+            cam.position.z = fieldPos[1];
+        }
     }
 
     /**

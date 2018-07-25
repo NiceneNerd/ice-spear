@@ -41,7 +41,7 @@ module.exports = class App extends App_Base
         this.stringTable = new String_Table(this.project.getCachePath());
 
         Split(['#main-sidebar-1', '#main-sidebar-2', '#main-sidebar-3'], {
-            sizes     : [10, 70, 20],
+            sizes     : [15, 65, 20],
             minSize   : 0,
             snapOffset: 60,
             gutterSize: 12
@@ -163,13 +163,10 @@ module.exports = class App extends App_Base
         // 033 = water puzzle, missing polygon in corner
         // 051 = has lava and spikeballs
         // 099 = blessing
-        let filePath = this.config.getValue("game.path") + "/content/Pack/Dungeon000.pack";
-        //let filePath = "";
 
-        if(this.args.file != null) {
-            filePath = this.args.file;
-        }
+        const shrineName = this.args.shrine ? this.args.shrine : "Dungeon000";
+        let shrinePath = path.join(this.config.getValue("game.path"), "content", "Pack", shrineName + ".pack");
 
-        this.openShrine(filePath);
+        this.openShrine(shrinePath);
     }    
 };

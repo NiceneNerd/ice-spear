@@ -12,6 +12,14 @@
     font-style: normal;
 }
 
+@font-face 
+{
+    font-family: "overpass-mono";
+    src: url("../fonts/overpass_mono/OverpassMono-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 .hidden
 {
     display: none;
