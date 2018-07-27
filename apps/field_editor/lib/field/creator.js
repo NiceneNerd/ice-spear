@@ -21,10 +21,11 @@ module.exports = class Field_Creator
      * @param {Actor_Handler} actorHandler 
      * @param {Project_Manager} project
      */
-    constructor(actorHandler, project)
+    constructor(actorHandler, project, titleBgHandler)
     {
         this.actorHandler = actorHandler;
         this.project = project;
+        this.titleBgHandler = titleBgHandler;
     }
     
     /**
@@ -36,6 +37,11 @@ module.exports = class Field_Creator
     async save(fieldDir, fieldSection)
     {
         await this.saveActors("Dynamic", fieldDir, fieldSection);
+
+        if(this.actorHandler.dataActorStatic)
+        {
+            await this.saveActors("Static", fieldDir, fieldSection);
+        }
     }
 
     /**
@@ -51,5 +57,11 @@ module.exports = class Field_Creator
         const actorYaz = yaz0.encode(actorBuffer);
 
         await fs.writeFile(actorPath, actorYaz);
+
+        if(typeName == "Static")
+        {
+            const titleStaticPath = this.titleBgHandler.getStaticFieldMubin(fieldSection);
+            await fs.writeFile(titleStaticPath, actorYaz);
+        }
     }
 }

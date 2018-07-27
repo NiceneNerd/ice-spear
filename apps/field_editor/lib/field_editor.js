@@ -21,16 +21,18 @@ module.exports = class Field_Editor extends Mubin_Editor
      * @param {Loader} loader
      * @param {stringTable} stringTable optional string table object
      */
-    constructor(canvasNode, uiNode, project, loader, stringTable = undefined)
+    constructor(canvasNode, uiNode, project, loader, stringTable, titleBgHandler)
     {
-        super(canvasNode, uiNode, project, loader, stringTable = undefined);
+        super(canvasNode, uiNode, project, loader, stringTable);
+
+        this.titleBgHandler = titleBgHandler;
 
         this.loadActorData = true;
         this.loadProdData  = true;
         this.loadMapMesh   = true;
 
         this.fieldModelLoader = new Field_Model_Loader();
-        this.fieldCreator = new Field_Creator(this.actorHandler, this.project);
+        this.fieldCreator = new Field_Creator(this.actorHandler, this.project, this.titleBgHandler);
 
         this.terrain = new Terrain(project, this.getRenderer().renderer.context, this.loader);
     }
@@ -76,8 +78,8 @@ module.exports = class Field_Editor extends Mubin_Editor
 
 
     /**
-     * Load a shrine and it's models, textures, actors and other stuff
-     * @param {string} directory directory of the shrine
+     * Load a field and it's models, textures, actors and other stuff
+     * @param {string} directory directory of the field
      * @param {string} name name of the field
      * @param {Tuple<number,number>|undefined} fieldPos
      */

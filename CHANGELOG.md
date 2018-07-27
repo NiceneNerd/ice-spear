@@ -6,6 +6,15 @@ The current released and prebuild version is: **2.0.0-r2**
 <hr/>
 
 ### Version 2.1.0 - "Field-Editor" (WIP)
+
+**Map-Viewer**<br/>
+#48 - map viewer (in the launcher, click on the shrines/overworld icon), can be used to open field-sections and shrines<br/>
+
+**Field-Editor** <br/>
+#45 - automatically extracts static actors files from the TitleBG.pack <br/>
+#45 - can now save static actors (and re-pack the TitleBG) <br/>
+
+**Bugfixes**<br/>
 #dev - fixed issue with electron build that would throw an error while reading textures <br/>
 #dev - fixed texture bug that would crash the app while loading unknown texture formats <br/>
 #dev - fixed model-parser bug for empty BFRES files that would result in an infinite loop (@ice-spear, @binary-file) <br/>
