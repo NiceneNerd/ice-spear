@@ -16,6 +16,8 @@ const Filter      = requireGlobal("lib/filter.js");
 const Field_Editor  = require("./lib/field_editor.js");
 const String_Table  = requireGlobal("lib/string_table/string_table.js");
 const extractField  = require("./lib/field_extractor");
+const extractStaticMubins = require("./lib/static_mubin_extractor");
+const TitleBG_Handler = require("./../../lib/titlebg_handler");
 
 const App_Base = requireGlobal("apps/base.js");
 
@@ -51,6 +53,11 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-tool-openFieldDir").onclick = () => {
             electron.shell.showItemInFolder(this.fieldEditor.getFieldFilePath());
         };
+
+        this.node.querySelector(".data-tool-packTitleBg").onclick = () => this.packTitleBg();
+        this.node.querySelector(".data-tool-openTitleBgDir").onclick = () => {
+            electron.shell.showItemInFolder(path.join(this.project.getPath(), "TitleBG.pack"));
+        };
     }
 
 
@@ -68,6 +75,17 @@ module.exports = class App extends App_Base
         Notify.success(`Field '${this.fieldSection}' saved`);
     }
 
+    async packTitleBg()
+    {
+        await this.loader.setStatus("Packing TitleBG");
+        await this.loader.show();
+
+        await this.fieldEditor.titleBgHandler.pack();
+
+        await this.loader.hide();
+        Notify.success(`TitleBG packed`);
+    }
+
     async openField(fieldSection, fieldPos = undefined)
     {
         this.fieldSection = fieldSection;
@@ -80,16 +98,20 @@ module.exports = class App extends App_Base
 
             if(typeof(global.gc) == "function") // free some memory after maybe loading the stringtable
                 global.gc();
-                
+            
             this.fieldDir = path.join(this.project.getFieldPath("data"), this.fieldSection);
             const alreadyOpened = await fs.pathExists(this.fieldDir);
             await fs.ensureDir(this.fieldDir);
+
+            await this.loader.setStatus("Extracting TitleBG and Mubins");
+            await extractStaticMubins(this.config.getValue("game.path"), this.project.getPath(), this.fieldDir, this.fieldSection);
 
             if(!alreadyOpened)
             {
                 await extractField(this.fieldGamePath, this.fieldStaticGamePath, this.fieldDir, this.fieldSection);
             }
 
+            await this.loader.setStatus("Loading Field");
             await this.fieldEditor.load(this.fieldDir, this.fieldSection, fieldPos);
         
             this.render();
@@ -134,7 +156,8 @@ module.exports = class App extends App_Base
     {
         await super.run();
 
-        this.fieldEditor = new Field_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable);
+        const titleBgHandler = new TitleBG_Handler(this.config.getValue("game.path"), this.project.getPath());
+        this.fieldEditor = new Field_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable, titleBgHandler);
 
         let fieldSection = this.args.section ? this.args.section : "J-8";
         let fieldPos = this.args.pos ? this.args.pos : undefined;
