@@ -5,6 +5,7 @@
 */
 
 const App_Base = requireGlobal("./apps/base.js");
+const JSON_IPC = require("./../../lib/json_ipc/json_ipc");
 
 module.exports = class App extends App_Base
 {
@@ -123,14 +124,15 @@ module.exports = class App extends App_Base
         }]);
     }
 
-    async run()
+    async load(data)
     {
-        await super.run();
-
+        console.log(data);
         const fs = require("fs-extra");
 
-        const actorsDyn    = await fs.readJSON("C:/Users/Max/.ice-spear-projects/test/actorDynamic.json");
-        const actorsStatic = await fs.readJSON("C:/Users/Max/.ice-spear-projects/test/actorStatic.json");
+        //const actorsDyn    = await fs.readJSON("C:/Users/Max/.ice-spear-projects/test/actorDynamic.json");
+        //const actorsStatic = await fs.readJSON("C:/Users/Max/.ice-spear-projects/test/actorStatic.json");
+        const actorsDyn = data.actorsDyn.Objs;
+        const actorsStatic = data.actorsStatic.Objs;
 
         this._createIdMap(actorsDyn, "Dynamic");
         this._createIdMap(actorsStatic, "Static");
@@ -206,6 +208,24 @@ module.exports = class App extends App_Base
         }
 
         this._buildGraph(objects, links);
+    }
+
+    async run()
+    {
+        await super.run();
+
+        this.mapName = this.args.mapName;
+        document.title = "Ice-Spear - Logic Editor - " + this.mapName;
+
+        this.jsonIpc = new JSON_IPC("logic-editor-" + this.mapName);
+        await this.jsonIpc.createServer((name, type, data) => {
+            if(type == "actor-data")
+            {
+                this.load(data);
+            }
+        });        
+
+        this.jsonIpc.send("shrine-editor-Dungeon002", "logic-editor-ready", {a:7});
     }
 };
 
