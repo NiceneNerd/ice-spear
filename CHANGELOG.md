@@ -14,6 +14,7 @@ The current released and prebuilt stable version is: **2.1.0**
 #45 - automatically extracts static actors files from the TitleBG.pack <br/>
 #45 - can now save static actors (and re-pack the TitleBG) <br/>
 #49 - added global setting to disable map-model loading <br/>
+#50 - added render setting to show/hide "_Far" LOD models <br/>
 
 **Bugfixes**<br/>
 #dev - fixed issue with electron build that would throw an error while reading textures <br/>
