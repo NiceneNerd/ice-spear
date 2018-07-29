@@ -49,6 +49,12 @@
                                 <p class="search-value">Project settings</p>
                             </div>
                         </li>
+                        <li class="list-group-item" data-tab="field_editor">
+                            <div class="media-body">
+                                <strong class="search-value">Field-Editor</strong>
+                                <p class="search-value">Field-Editor settings</p>
+                            </div>
+                        </li>
                         <li class="list-group-item" data-tab="cache">
                             <div class="media-body">
                                 <strong class="search-value">Cache</strong>
@@ -72,12 +78,27 @@
                         </div>
 
                     </div>
+
                     <div class="tab-content" data-tab="projects" hidden>
                         <div class="form-group drag-drop-dir">
                             <label>Directory to put Projects in</label>
                             <br/>
                             <button class="btn btn-large btn-default">Select</button>
                             <input type="text" data-dataType="path" data-configRef="projects.path" class="form-control" placeholder="Open or drag&drop a directory">
+                        </div>
+                    </div>
+
+                    <div class="tab-content" data-tab="field_editor" hidden>
+                        <div class="settings-container">
+                            <label>
+                                <input type="checkbox" data-autoSave="true" data-dataType="bool" data-configRef="fieldEditor.loadModel" />
+                                <span>Load Map-Model</span>
+                            </label>
+                            
+                            <br/>
+                            <span class="note-span" style="margin-left:0;">
+                                Note: <span class="small-info-text">Disabling this will result in faster loading times and less RAM usage,<br/>you will however have no map-model</span>
+                            </span>
                         </div>
                     </div>
 
