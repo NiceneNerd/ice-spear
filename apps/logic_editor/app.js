@@ -53,6 +53,7 @@ module.exports = class App extends App_Base
         cytoscape.use(coseBilkent);
         nodeHtmlLabel(cytoscape);
 
+        const style = require("./lib/style.json");
         this.cy = cytoscape({
             container: cytoscapeContainer,
             boxSelectionEnabled: false,
@@ -68,45 +69,8 @@ module.exports = class App extends App_Base
                 idealEdgeLength: 50,
                 padding: 50
             },
-            style: [
-                {
-                  selector: 'node',
-                  style: {
-                    shape: "roundrectangle",
-                    width: "label",
-                    height: "label",
-                    padding: 5,
-                    label: "data(labelName)",
-                    'color': 'white',
-                    'text-outline-width': 2,
-                    'text-outline-color': '#222',
-                    "font-size": 12,
-
-                    "text-valign": "center",
-                    "text-halign": "center",
-
-                    'background-color': 'data(bgColor)'
-                  }
-                },        
-                {
-                  selector: 'edge',
-                  style: {
-                    label: "data(labelName)",
-                    'color': 'white',
-                    'text-outline-width': 2,
-                    'text-outline-color': '#333',
-                    "font-size": 8,
-
-                    'curve-style': 'bezier',
-                    'width': 3,
-                    'line-color': '#b1ceb4',
-                    'target-arrow-color': '#43ba4e',
-                    'target-arrow-shape': 'triangle',
-                    'arrow-scale': 1.2,
-                  }
-                }
-              ],
-              elements: {
+            style,
+            elements: {
                 nodes: objects,
                 edges: links
             }
@@ -161,17 +125,79 @@ module.exports = class App extends App_Base
 
             objects.push({
                 "data": {
-                    id,
-                    parent: "actors",
+                    id: id,
                     labelId: id,
-                    labelName: actorName,
+                    labelName: actorName + "\n" + id,
                     bgColor: actorColor
                 },
                 "group": "nodes",
                 "selectable": true,
                 "grabbable": true,
-                "classes": "_labelActor"
+                "classes": "actor-name"
             });
+
+            if(actor["!Parameters"])
+            {
+                for(let paramName in actor["!Parameters"])
+                {
+                    if(["SharpWeaponJudgeType", "DropTable"].includes(paramName))
+                        continue;
+
+                    const param = actor["!Parameters"][paramName];
+                    const val = (param.value === undefined) ? "<complex>" : param.value;
+                    //console.log(`Param ${paramName} = ${val}`);
+
+                    const paramNameId  = `${id}-${paramName}-name`;
+                    const paramValueId = `${id}-${paramName}-value`;
+
+                    objects.push({
+                        data: {
+                            id: paramNameId,
+                            labelName: paramName
+                        },
+                        group: "nodes",
+                        selectable: true,
+                        grabbable: true,
+                        classes: "param-name"
+                    });
+
+                    objects.push({
+                        data: {
+                            id: paramValueId,
+                            labelValue: val
+                        },
+                        group: "nodes",
+                        selectable: true,
+                        grabbable: true,
+                        classes: "param-value"
+                    });
+
+                    links.push({
+                        "data": {
+                          id: `link-${id}:${paramNameId}`,
+                          source: id,
+                          target: paramNameId,
+                        },
+                        "group": "edges",
+                        "selectable": true,
+                        "grabbable": true,
+                        "classes": "param-edge"
+                    });
+
+                    links.push({
+                        "data": {
+                          id: `link-${paramNameId}:${paramValueId}`,
+                          source: paramNameId,
+                          target: paramValueId,
+                          labelName: param.type,
+                        },
+                        "group": "edges",
+                        "selectable": true,
+                        "grabbable": true,
+                        "classes": "param-edge"
+                    });
+                }
+            }   
 
             if(actor.LinksToObj)
             {
@@ -194,12 +220,11 @@ module.exports = class App extends App_Base
                           source: id,
                           target: destId,
                           labelName: destName,
+                          color: actorColor
                         },
-                        "position": {},
                         "group": "edges",
                         "selectable": true,
                         "grabbable": true,
-                        "classes": ""
                       });
 
                     //console.log(`Link: ${id} -> ${destId} (${destName})`);
@@ -216,6 +241,8 @@ module.exports = class App extends App_Base
 
         this.mapName = this.args.mapName;
         document.title = "Ice-Spear - Logic Editor - " + this.mapName;
+
+        //this.load();
 
         this.jsonIpc = new JSON_IPC("logic-editor-" + this.mapName);
         await this.jsonIpc.createServer((name, type, data) => {
