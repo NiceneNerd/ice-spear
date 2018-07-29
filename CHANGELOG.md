@@ -1,11 +1,11 @@
 # Changelog
 
 This changelog contains the changes for Ice-Spear and all sub modules. <br/>
-The current released and prebuild version is: **2.0.0-r2**
+The current released and prebuilt stable version is: **2.1.0**
 
 <hr/>
 
-### Version 2.1.0 - "Field-Editor" (WIP)
+### Version 2.1.0 - "Field-Editor + Map"
 
 **Map-Viewer**<br/>
 #48 - map viewer (in the launcher, click on the shrines/overworld icon), can be used to open field-sections and shrines<br/>
