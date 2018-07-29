@@ -13,6 +13,7 @@ The current released and prebuild version is: **2.0.0-r2**
 **Field-Editor** <br/>
 #45 - automatically extracts static actors files from the TitleBG.pack <br/>
 #45 - can now save static actors (and re-pack the TitleBG) <br/>
+#49 - added global setting to disable map-model loading <br/>
 
 **Bugfixes**<br/>
 #dev - fixed issue with electron build that would throw an error while reading textures <br/>
