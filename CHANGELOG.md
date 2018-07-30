@@ -1,11 +1,11 @@
 # Changelog
 
 This changelog contains the changes for Ice-Spear and all sub modules. <br/>
-The current released and prebuild version is: **2.0.0-r2**
+The current released and prebuilt stable version is: **2.1.0**
 
 <hr/>
 
-### Version 2.1.0 - "Field-Editor" (WIP)
+### Version 2.1.0 - "Field-Editor + Map"
 
 **Map-Viewer**<br/>
 #48 - map viewer (in the launcher, click on the shrines/overworld icon), can be used to open field-sections and shrines<br/>
@@ -13,6 +13,8 @@ The current released and prebuild version is: **2.0.0-r2**
 **Field-Editor** <br/>
 #45 - automatically extracts static actors files from the TitleBG.pack <br/>
 #45 - can now save static actors (and re-pack the TitleBG) <br/>
+#49 - added global setting to disable map-model loading <br/>
+#50 - added render setting to show/hide "_Far" LOD models <br/>
 
 **Bugfixes**<br/>
 #dev - fixed issue with electron build that would throw an error while reading textures <br/>
