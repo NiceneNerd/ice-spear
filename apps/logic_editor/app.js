@@ -7,12 +7,19 @@
 const App_Base = requireGlobal("./apps/base.js");
 const JSON_IPC = require("./../../lib/json_ipc/json_ipc");
 
+const Graph = require("./lib/graph");
+
+const COLOR_DEFAULT = "#d8b05f";
+const COLOR_LINK    = "#2d7dc4";
+const COLOR_EVENT   = "#1f9b2b";
+
 module.exports = class App extends App_Base
 {
     constructor(window, args)
     {
         super(window, args);
 
+        this.graph = new Graph();
         this.actorIdMap = {};
     }
 
@@ -44,57 +51,9 @@ module.exports = class App extends App_Base
         }
     }
 
-    _buildGraph(objects, links)
-    {
-        const cytoscape = require("cytoscape");
-        const coseBilkent = require('cytoscape-cose-bilkent');
-        const nodeHtmlLabel = require('cytoscape-node-html-label');
-
-        cytoscape.use(coseBilkent);
-        nodeHtmlLabel(cytoscape);
-
-        const style = require("./lib/style.json");
-        this.cy = cytoscape({
-            container: cytoscapeContainer,
-            boxSelectionEnabled: false,
-            autounselectify: true,
-            wheelSensitivity: 0.125,
-            layout: {
-                //name: 'dagre',
-                name: 'cose-bilkent',
-                animate: "end",
-                nodeDimensionsIncludeLabels: true,
-                tilingPaddingVertical: 30,
-                tilingPaddingHorizontal: 30,
-                idealEdgeLength: 50,
-                padding: 50
-            },
-            style,
-            elements: {
-                nodes: objects,
-                edges: links
-            }
-        });
-
-        this.cy.nodeHtmlLabel([{
-            query: '.labelActor',
-            valign: "center",
-            halign: "center",
-            valignBox: "center",
-            halignBox: "center",
-            tpl: function(data) {
-                return `<p>${data.labelName}</p><p>${data.labelId}</p>`;
-            }
-        }]);
-    }
 
     async load(data)
     {
-        console.log(data);
-        const fs = require("fs-extra");
-
-        //const actorsDyn    = await fs.readJSON("C:/Users/Max/.ice-spear-projects/test/actorDynamic.json");
-        //const actorsStatic = await fs.readJSON("C:/Users/Max/.ice-spear-projects/test/actorStatic.json");
         const actorsDyn = data.actorsDyn.Objs;
         const actorsStatic = data.actorsStatic.Objs;
 
@@ -104,24 +63,18 @@ module.exports = class App extends App_Base
         const links = [];
         const objects = [];
 
-        const colorDefault = "#d8b05f";
-        const colorLink = "#2d7dc4";
-        const colorEvent = "#1f9b2b";
-
-        let posX = 0.0;
-        let posY = 0.0;
         for(const id in this.actorIdMap)
         {
             const actor = this.actorIdMap[id];
             const actorName = actor.UnitConfigName.value;
 
-            let actorColor = colorDefault;
+            let actorColor = COLOR_DEFAULT;
 
             if(actorName.startsWith("LinkTag"))
-                actorColor = colorLink;
+                actorColor = COLOR_LINK;
 
             if(actorName.startsWith("Event"))
-                actorColor = colorEvent;
+                actorColor = COLOR_EVENT;
 
             objects.push({
                 "data": {
@@ -131,8 +84,6 @@ module.exports = class App extends App_Base
                     bgColor: actorColor
                 },
                 "group": "nodes",
-                "selectable": true,
-                "grabbable": true,
                 "classes": "actor-name"
             });
 
@@ -156,8 +107,7 @@ module.exports = class App extends App_Base
                             labelName: paramName
                         },
                         group: "nodes",
-                        selectable: true,
-                        grabbable: true,
+                        visibility: "hidden",
                         classes: "param-name"
                     });
 
@@ -167,8 +117,6 @@ module.exports = class App extends App_Base
                             labelValue: val
                         },
                         group: "nodes",
-                        selectable: true,
-                        grabbable: true,
                         classes: "param-value"
                     });
 
@@ -179,8 +127,6 @@ module.exports = class App extends App_Base
                           target: paramNameId,
                         },
                         "group": "edges",
-                        "selectable": true,
-                        "grabbable": true,
                         "classes": "param-edge"
                     });
 
@@ -216,39 +162,42 @@ module.exports = class App extends App_Base
 
                     links.push({
                         "data": {
-                          id: `link-${id}:${destId}`,
-                          source: id,
-                          target: destId,
-                          labelName: destName,
-                          color: actorColor
+                            id: `link-${id}:${destId}`,
+                            source: id,
+                            target: destId,
+                            labelName: destName,
+                            color: actorColor
                         },
                         "group": "edges",
                         "selectable": true,
                         "grabbable": true,
-                      });
-
-                    //console.log(`Link: ${id} -> ${destId} (${destName})`);
+                    });
                 }
             }
         }
 
-        this._buildGraph(objects, links);
+        this.graph.build(objects, links);
     }
 
     async run()
     {
         await super.run();
 
+        await this.loader.setStatus("Connecting to the Editor");
+        await this.loader.show();
+
         this.mapName = this.args.mapName;
         document.title = "Ice-Spear - Logic Editor - " + this.mapName;
 
-        //this.load();
-
         this.jsonIpc = new JSON_IPC("logic-editor-" + this.mapName);
-        await this.jsonIpc.createServer((name, type, data) => {
+        await this.jsonIpc.createServer(async (name, type, data) => {
             if(type == "actor-data")
             {
-                this.load(data);
+                await this.loader.setStatus("Process Data");
+                setTimeout(async () => {
+                    this.load(data);
+                    await this.loader.hide();
+                }, 50);
             }
         });        
 
