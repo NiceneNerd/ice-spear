@@ -7,16 +7,23 @@
 const cytoscape = require("cytoscape");
 const coseBilkent = require('cytoscape-cose-bilkent');
 
-const Layout = require("./layout");
-
-const CY_STYLE = require("./style.json");
+const Layout = require("./layout/layout");
+const Layout_Save = require("./layout/save");
+const Node_Creator = require("./nodes/create");
+const CY_STYLE = require("./layout/style.json");
 
 module.exports = class Graph
 {
-    constructor()
+    constructor(logicName, saveDirectory)
     {
+        this.logicName = logicName;
+        this.saveDirectory = saveDirectory;
+
         cytoscape.use(coseBilkent);
+
         this.layout = new Layout();
+        this.layoutSave = new Layout_Save(this.saveDirectory);
+        this.nodeCreator = new Node_Creator();
     }
 
     _toggleChildren(node, originNode, hide)
@@ -30,9 +37,16 @@ module.exports = class Graph
         hide ? node.hide() : node.show();
     }
 
-    build(objects, links)
+    async build(actorsDyn, actorsStatic)
     {
         const that = this;
+
+        this.nodeCreator.addActors(actorsDyn, "Dynamic");
+        this.nodeCreator.addActors(actorsStatic, "Static");
+
+        const savedLogic = await this.layoutSave.load(this.logicName);
+
+        const {objects, links} = this.nodeCreator.create(savedLogic);
 
         this.cy = cytoscape({
             container: cytoscapeContainer,
@@ -80,7 +94,7 @@ module.exports = class Graph
             if(this.hasClass("param-value"))
                 return;
 
-            const pos = this.modelPosition();
+            const pos = this.position();
             const lastPos = this.data("lastPos") || {...pos};
             const posDiff = {x: pos.x - lastPos.x, y: pos.y - lastPos.y };
 
@@ -101,5 +115,10 @@ module.exports = class Graph
                 }
             });
         }); 
+    }
+
+    async save()
+    {
+        return await this.layoutSave.save(this.cy, this.logicName);
     }
 }
