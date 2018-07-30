@@ -23,6 +23,7 @@ module.exports = class Layout
     {
         const children = mainNode.connectedEdges().connectedNodes(".param-name");
         const nodePos = mainNode.position();
+        mainNode.data("lastPos", {...nodePos});
         const paramCount = children.length;
 
         if(paramCount == 0)
@@ -44,7 +45,8 @@ module.exports = class Layout
         {
             if(childNode.hasClass("param-name"))
             {
-                childNode.positions(childNamePos[idx]);
+                childNode.position(childNamePos[idx]);
+
                 const valueNodes = childNode.connectedEdges().targets();
                 valueNodes.forEach(valueNode => 
                 {
@@ -57,6 +59,7 @@ module.exports = class Layout
                         valueNode.positions(valPos);
                     }
                 });
+
                 //this._toggleChildren(childNode, mainNodes, !childNode.hidden());
             }
         }); 

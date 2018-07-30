@@ -6,6 +6,7 @@
 
 const cytoscape = require("cytoscape");
 const coseBilkent = require('cytoscape-cose-bilkent');
+
 const Layout = require("./layout");
 
 const CY_STYLE = require("./style.json");
@@ -36,7 +37,8 @@ module.exports = class Graph
         this.cy = cytoscape({
             container: cytoscapeContainer,
             boxSelectionEnabled: false,
-            autounselectify: true,
+            animate: false,
+            //autounselectify: true,
             wheelSensitivity: 0.125,
             layout: {
                 name: 'cose-bilkent',
@@ -63,7 +65,6 @@ module.exports = class Graph
 
         this.cy.on('click', 'node', function(ev)
         {
-            console.log(this);
             const children = this.connectedEdges().targets();
             children.forEach((childNode, idx) => 
             {
@@ -73,5 +74,32 @@ module.exports = class Graph
                 }
             }); 
         });
+
+        this.cy.on('drag', 'node', function(ev) {
+
+            if(this.hasClass("param-value"))
+                return;
+
+            const pos = this.modelPosition();
+            const lastPos = this.data("lastPos") || {...pos};
+            const posDiff = {x: pos.x - lastPos.x, y: pos.y - lastPos.y };
+
+            this.data("lastPos", {...pos});
+
+            const children = this.connectedEdges().connectedNodes().filter(".param-name,.param-value")
+                                 .connectedEdges().connectedNodes().filter(".param-name,.param-value");
+
+            children.forEach(childNode => 
+            {
+                if(childNode != this)
+                {
+                    const childPos = childNode.position();
+                    childNode.position({
+                        x: childPos.x + posDiff.x,
+                        y: childPos.y + posDiff.y,
+                    });
+                }
+            });
+        }); 
     }
 }
