@@ -37,8 +37,24 @@
     </div>
 
     <div class="window" id="logicWindow"> 
-        <!--canvas class="grabbable" width="1024" height="576" id="logicCanvas">Hmmm... no fancy triangles for you</canvas-->
-        <div id="cytoscapeContainer"></div>
+
+        <div class="window-content">
+            <div class="pane-group">
+                <div class="pane-sm sidebar" id="main-sidebar-1">
+                        
+                    <h5 class="nav-group-title">Tools</h5>
+
+                    <nav class="nav-group tool-group">
+                        <span class="nav-group-item">
+                            <button class="btn btn btn-default data-tool-saveLayout">Save Layout</button>
+                        </span>
+                    </nav>
+                </div>
+                <div class="pane" id="main-sidebar-2">
+                    <div id="cytoscapeContainer"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

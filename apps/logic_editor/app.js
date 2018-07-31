@@ -17,6 +17,8 @@ module.exports = class App extends App_Base
 
         this.graph = undefined;
         this.mapName = "";
+
+        this._addActions();
     }
 
     async load(data)
@@ -25,6 +27,16 @@ module.exports = class App extends App_Base
         const actorsStatic = data.actorsStatic.Objs;
 
         await this.graph.build(actorsDyn, actorsStatic);
+    }
+
+    _addActions()
+    {
+        const saveLayoutBtn = this.node.querySelector(".data-tool-saveLayout");
+        saveLayoutBtn.onclick = async () => {
+            saveLayoutBtn.disabled = true;
+            await this.graph.save();
+            saveLayoutBtn.disabled = false;
+        };
     }
 
     async run()
