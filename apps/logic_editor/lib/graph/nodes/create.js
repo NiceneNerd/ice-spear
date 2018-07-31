@@ -43,9 +43,8 @@ module.exports = class Graph_Node_Creator
         }   
     }
 
-    create(savedLogic = {})
+    create(layoutSave)
     {
-        const savedNodes = savedLogic.nodes || {};
         const links = [];
         const objects = [];
 
@@ -69,8 +68,7 @@ module.exports = class Graph_Node_Creator
                     labelName: actorName + "\n" + id,
                     bgColor: actorColor
                 },
-                position: savedNodes[id] ? savedNodes[id].pos : undefined,
-                locked: savedNodes[id] ? true : false,
+                ...layoutSave.getNodeParams(id),
                 "group": "nodes",
                 "classes": "actor-name"
             });
@@ -94,8 +92,7 @@ module.exports = class Graph_Node_Creator
                             id: paramNameId,
                             labelName: paramName
                         },
-                        position: savedNodes[paramNameId] ? savedNodes[paramNameId].pos : undefined,
-                        locked: savedNodes[paramNameId] ? true : false,
+                        ...layoutSave.getNodeParams(paramNameId),
                         group: "nodes",
                         visibility: "hidden",
                         classes: "param-name"
@@ -106,8 +103,7 @@ module.exports = class Graph_Node_Creator
                             id: paramValueId,
                             labelValue: val
                         },
-                        position: savedNodes[paramValueId] ? savedNodes[paramValueId].pos : undefined,
-                        locked: savedNodes[paramValueId] ? true : false,
+                        ...layoutSave.getNodeParams(paramValueId),
                         group: "nodes",
                         classes: "param-value"
                     });

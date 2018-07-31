@@ -26,17 +26,6 @@ module.exports = class Graph
         this.nodeCreator = new Node_Creator();
     }
 
-    _toggleChildren(node, originNode, hide)
-    {
-        const children = node.connectedEdges().targets();
-        children.forEach((childNode, idx) => 
-        {
-            if(childNode != originNode) 
-                this._toggleChildren(childNode, node, hide);
-        }); 
-        hide ? node.hide() : node.show();
-    }
-
     async build(actorsDyn, actorsStatic)
     {
         const that = this;
@@ -44,9 +33,9 @@ module.exports = class Graph
         this.nodeCreator.addActors(actorsDyn, "Dynamic");
         this.nodeCreator.addActors(actorsStatic, "Static");
 
-        const savedLogic = await this.layoutSave.load(this.logicName);
+        await this.layoutSave.load(this.logicName);
 
-        const {objects, links} = this.nodeCreator.create(savedLogic);
+        const {objects, links} = this.nodeCreator.create(this.layoutSave);
 
         this.cy = cytoscape({
             container: cytoscapeContainer,
@@ -73,20 +62,20 @@ module.exports = class Graph
         this.cy.on('layoutstop', () => {
             const mainNodes = this.cy.nodes(".actor-name");
             mainNodes.forEach(mainNode => {
-                this.layout.alignValueNodes(mainNode);
+                this.layout.alignValueNodes(mainNode, this.layoutSave);
             });
         });
 
         this.cy.on('click', 'node', function(ev)
         {
-            const children = this.connectedEdges().targets();
-            children.forEach((childNode, idx) => 
+            const nodes = this.connectedEdges().connectedNodes(".param-name,.param-value")
+                              .connectedEdges().connectedNodes(".param-name,.param-value");
+
+            if(nodes.length > 0)
             {
-                if(childNode.hasClass("param-name"))
-                {
-                    that._toggleChildren(childNode, this, !childNode.hidden());
-                }
-            }); 
+                const isHidden = nodes[0].hidden();
+                isHidden ? nodes.show() : nodes.hide();
+            }
         });
 
         this.cy.on('drag', 'node', function(ev) {
@@ -100,8 +89,8 @@ module.exports = class Graph
 
             this.data("lastPos", {...pos});
 
-            const children = this.connectedEdges().connectedNodes().filter(".param-name,.param-value")
-                                 .connectedEdges().connectedNodes().filter(".param-name,.param-value");
+            const children = this.connectedEdges().connectedNodes(".param-name,.param-value")
+                                 .connectedEdges().connectedNodes(".param-name,.param-value");
 
             children.forEach(childNode => 
             {

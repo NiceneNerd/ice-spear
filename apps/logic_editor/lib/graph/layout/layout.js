@@ -19,7 +19,7 @@ module.exports = class Layout
         return posArray;
     };
 
-    alignValueNodes(mainNode)
+    alignValueNodes(mainNode, layoutSave)
     {
         const children = mainNode.connectedEdges().connectedNodes(".param-name");
         const nodePos = mainNode.position();
@@ -46,6 +46,8 @@ module.exports = class Layout
         {
             if(childNode.hasClass("param-name"))
             {
+                const id = childNode.data("id");
+
                 if(!childNode.locked())
                     childNode.position(childNamePos[idx]);
                 else
@@ -64,7 +66,10 @@ module.exports = class Layout
                     valueNode.unlock();
                 });
 
-                //this._toggleChildren(childNode, mainNodes, !childNode.hidden());
+                if(!layoutSave.hasSave() || layoutSave.isNodeHidden(id))
+                {
+                    childNode.connectedEdges().connectedNodes(".param-name,.param-value").hide();
+                }
             }
         }); 
     }
