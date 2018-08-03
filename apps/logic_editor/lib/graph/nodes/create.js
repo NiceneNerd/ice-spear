@@ -65,7 +65,7 @@ module.exports = class Graph_Node_Creator
                 "data": {
                     id: id,
                     labelId: id,
-                    labelName: actorName + "\n" + id,
+                    labelName: actorName + "\n" + (actor._type == "Dynamic" ? "D-" : "S-") + id,
                     bgColor: actorColor
                 },
                 ...layoutSave.getNodeParams(id),

@@ -9,6 +9,25 @@ const JSON_IPC = require("./../../lib/json_ipc/json_ipc");
 
 const Graph = require("./lib/graph/graph");
 
+/*
+LinkTagNAnd
+LinkTagNOr
+LinkTagCount
+LinkTagNAnd
+LinkTagNone
+LinkTagOr
+LinkTagNOr
+LinkTagXOr
+LinkTagAnd
+LinkTagCount
+LinkTagPulse
+
+SoleTag
+ComplexTag
+EventTag
+SpotBgmTag
+ */
+
 module.exports = class App extends App_Base
 {
     constructor(window, args)

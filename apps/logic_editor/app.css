@@ -3,6 +3,11 @@ html, body, .window .pane-group .pane
     overflow: hidden;
 }
 
+#main-sidebar-1
+{
+    width: 200px;
+}
+
 canvas
 {
     width: 100%;
