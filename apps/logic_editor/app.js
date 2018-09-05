@@ -82,7 +82,7 @@ module.exports = class App extends App_Base
             }
         });        
 
-        this.jsonIpc.send("shrine-editor-Dungeon002", "logic-editor-ready", {a:7});
+        this.jsonIpc.send("shrine-editor-" + this.mapName, "logic-editor-ready", {a:7});
     }
 };
 
