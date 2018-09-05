@@ -17,6 +17,7 @@ const Binary_File_Loader = require("binary-file").Loader;
 const SARC          = require("sarc-lib");
 const Shrine_Editor = require("./lib/shrine_editor.js");
 const String_Table  = requireGlobal("lib/string_table/string_table.js");
+const JSON_IPC      = require("./../../lib/json_ipc/json_ipc");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -37,6 +38,7 @@ module.exports = class App extends App_Base
         this.footerNode = footer.querySelector(".data-footer");
         
         this.fileLoader = new Binary_File_Loader();
+        this.shrineName = "";
 
         this.stringTable = new String_Table(this.project.getCachePath());
 
@@ -54,6 +56,26 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-tool-saveBuild").onclick = () => this.save(true);
         this.node.querySelector(".data-tool-openBuildDir").onclick = () => {
             electron.shell.showItemInFolder(this.shrineEditor.getPackFilePath());
+        };
+
+        this.node.querySelector(".data-tool-openLogicEditor").onclick = async () => 
+        {
+            if(!this.jsonIpc)
+            {
+                this.jsonIpc = new JSON_IPC("shrine-editor-" + this.shrineName);
+                await this.jsonIpc.createServer((name, type, data) => 
+                {
+                    if(type == "logic-editor-ready")
+                    {
+                        this.jsonIpc.send(name, "actor-data", {
+                            actorsDyn   : this.shrineEditor.actorHandler.dataActorDyn,
+                            actorsStatic: this.shrineEditor.actorHandler.dataActorStatic,
+                        });
+                    }
+                });
+            }
+
+            this.windowHandler.open("logic_editor", {mapName: this.shrineName});
         };
     }
 
@@ -164,8 +186,8 @@ module.exports = class App extends App_Base
         // 051 = has lava and spikeballs
         // 099 = blessing
 
-        const shrineName = this.args.shrine ? this.args.shrine : "Dungeon000";
-        let shrinePath = path.join(this.config.getValue("game.path"), "content", "Pack", shrineName + ".pack");
+        this.shrineName = this.args.shrine ? this.args.shrine : "Dungeon000";
+        let shrinePath = path.join(this.config.getValue("game.path"), "content", "Pack", this.shrineName + ".pack");
 
         this.openShrine(shrinePath);
     }    
