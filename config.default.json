@@ -16,5 +16,11 @@
     "cache": {
         "terrainTextures": true,
         "actors": true
+    },
+    "mubinEditor": {
+        "keys": {
+            "selectRight": true,
+            "selectMiddle": false
+        }
     }
 }

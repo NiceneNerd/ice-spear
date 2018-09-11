@@ -49,6 +49,12 @@
                                 <p class="search-value">Project settings</p>
                             </div>
                         </li>
+                        <li class="list-group-item" data-tab="mubin_editor">
+                            <div class="media-body">
+                                <strong class="search-value">Editor (General)</strong>
+                                <p class="search-value">Field/Shrine-Editor settings</p>
+                            </div>
+                        </li>
                         <li class="list-group-item" data-tab="field_editor">
                             <div class="media-body">
                                 <strong class="search-value">Field-Editor</strong>
@@ -85,6 +91,28 @@
                             <br/>
                             <button class="btn btn-large btn-default">Select</button>
                             <input type="text" data-dataType="path" data-configRef="projects.path" class="form-control" placeholder="Open or drag&drop a directory">
+                        </div>
+                    </div>
+
+                    <div class="tab-content" data-tab="mubin_editor" hidden>
+                        <h4>Controls</h4>
+                        <h5>Object-Selection</h5>
+                        <div class="settings-container">
+                            <label>
+                                <input type="checkbox" data-autoSave="true" data-dataType="bool" data-configRef="mubinEditor.keys.selectRight" />
+                                <span>Select with right mouse-button</span>
+                            </label>
+                            <br/>
+
+                            <label>
+                                <input type="checkbox" data-autoSave="true" data-dataType="bool" data-configRef="mubinEditor.keys.selectMiddle" />
+                                <span>Select with middle mouse-click</span>
+                            </label>
+                            <br/>
+                            
+                            <span class="note-span" style="margin-left:0;">
+                                Note: <span class="small-info-text">You can safely enable both</span>
+                            </span>
                         </div>
                     </div>
 
