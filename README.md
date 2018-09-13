@@ -4,7 +4,11 @@
 For any information on how to use this, please see the Wiki: <br/>
 https://gitlab.com/ice-spear-tools/ice-spear/wikis/home
 
-<br />
+Issues for bugs and features are inside the issue-repo: <br/>
+https://gitlab.com/ice-spear-tools/issue-tracker/issues
+
+
+
 ### License
 ___
 Licensed under GNU GPLv3.  
