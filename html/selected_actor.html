@@ -8,22 +8,34 @@
 
         .selected-actor-item table
         {
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .selected-actor-item table tr:first-child td
         {
-            padding-top: 10px;
+            padding-top: 8px;
         }
 
         .selected-actor-item table tr:last-child td
         {
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
 
         .selected-actor-item button.btn
         {
             min-width: 130px;
+        }
+
+        .selected-actor-item button.btn.btn-img
+        {
+            min-width: 63px;
+            text-align: center;
+            height: 24px;
+        }
+
+        .selected-actor-item button.btn.btn-img img 
+        {
+            height: 16px;
         }
 
         .selected-actor-item button.btn.byaml-buttons
@@ -34,6 +46,11 @@
         .selected-actor-item .nav-group-item.param-tools button.btn
         {
             min-width: 80px;
+        }
+
+        .selected-actor-item input.form-control 
+        {
+            height: 28px;
         }
 
         .selected-actor-item .byaml-editor
@@ -87,8 +104,19 @@
                 <nav class="nav-group tool-group">
                     
                     <span class="nav-group-item">
-                        <button class="btn btn-default data-tool-copy">Duplicate</button>
-                        <button class="btn btn-default data-tool-delete">Delete</button>
+                        <button class="btn btn-default btn-img data-tool-deselect" title="Deselect Actor">
+                            <img class="img" src="assets/img/icons/select.png">
+                        </button>
+                        <button class="btn btn-default btn-img data-tool-focus" title="Focus Actor">
+                            <img class="img" src="assets/img/icons/video-camera.png">
+                        </button>
+
+                        <button class="btn btn-default btn-img data-tool-copy" title="Duplicate Actor">
+                            <img class="img" src="assets/img/icons/copy.png">
+                        </button>
+                        <button class="btn btn-default btn-img data-tool-delete" title="Delete Actor">
+                            <img class="img" src="assets/img/icons/cancel-button.png">
+                        </button>
                     </span>
                     <span class="nav-group-item">
                         <button class="btn btn-default data-tool-copyJSON">Copy JSON</button>

@@ -5,6 +5,16 @@ The current released and prebuilt stable version is: **2.1.0**
 
 <hr/>
 
+### Version 2.2.0 - "Convenience Update"
+
+**Field+Shrine Editor** <br/>
+#36 - actors can now be selected with right and/or middle click (see global settings) <br/>
+
+**Mubin-Logic Viewer** <br/>
+#dev - added very experimental mubin-logic viewer, right now it only view data
+
+<hr/>
+
 ### Version 2.1.0 - "Field-Editor + Map"
 
 **Map-Viewer**<br/>

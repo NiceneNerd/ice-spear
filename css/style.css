@@ -87,6 +87,7 @@
 
 .tooltip .tooltiptext {
     visibility: hidden;
+    opacity: 0.0;
     background-color: #151515;
     color: #fff;
     text-align: center;
@@ -96,11 +97,13 @@
     font-size: 12px;
     position: absolute;
     z-index: 100;
+    transition: opacity 0.25s 0.5s ease;
 }
 
 .tooltip:hover .tooltiptext 
 {
     visibility: visible;
+    opacity: 1.0;
 }
 
 /** fluent transition between themes **/
