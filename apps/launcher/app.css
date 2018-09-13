@@ -169,7 +169,7 @@ body
 .open-app-mainDiv .settings-nav-container
 {
     position: relative;
-    top: calc(50% - 50px);
+    top: calc(50% - 70px);
 }
 
 .open-app-mainDiv.settings nav hr {
