@@ -15,7 +15,7 @@ The current released and prebuilt stable version is: **2.1.0**
 #36 - added a button in the launcher to open the Wiki <br/>
 
 **Mubin-Logic Viewer** <br/>
-#dev - added very experimental mubin-logic viewer, right now it only view data
+#dev - added very experimental mubin-logic viewer, right now it only views data
 
 <hr/>
 
