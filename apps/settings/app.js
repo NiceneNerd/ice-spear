@@ -6,17 +6,11 @@
 
 const electron = require('electron');
 const fs       = require('fs-extra');
-const path     = require('path');
-const url      = require('url');
-const Split    = require('split.js');
 const Filter   = requireGlobal("lib/filter.js");
 const Notify   = requireGlobal("lib/notify/notify.js");
 
-const getFolderSize = require('get-folder-size');
+const getFolderSize = require("./../../lib/folder_size.js");
 const formatFilesize = require("filesize");
-
-const {dialog} = electron.remote;
-const BrowserWindow = electron.remote.BrowserWindow;
 
 const App_Base = requireGlobal("./apps/base.js");
 const File_Drop = requireGlobal("./lib/file_drop.js");
@@ -95,9 +89,8 @@ module.exports = class App extends App_Base
 
         const cachePath = this.project.getCachePath();
         const cacheSizeNode = this.node.querySelector(".data-info-projectCache");
-        console.log(cachePath);
-        getFolderSize(cachePath, (err, size) => 
-        {
+
+        getFolderSize(cachePath).then(size => {
             cacheSizeNode.innerHTML = formatFilesize(size);
         });
 

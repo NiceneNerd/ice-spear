@@ -65,6 +65,11 @@ module.exports = class App extends App_Base
     {
     }
 
+    openWiki()
+    {
+        electron.shell.openExternal("https://gitlab.com/ice-spear-tools/ice-spear/wikis/home");
+    }
+
     async openProject()
     {
         let projectNames;

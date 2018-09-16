@@ -5,6 +5,20 @@ The current released and prebuilt stable version is: **2.1.0**
 
 <hr/>
 
+### Version 2.2.0 - "Convenience Update"
+
+**Field+Shrine Editor** <br/>
+#36 - actor-tools: the actor type (Dynamic/Static) can now be changed <br/>
+#36 - actor tools: added focus button that positions the camera near the actor and looks at it <br/>
+#36 - actor tools: added de-select button <br/>
+#36 - actors can now be selected with right and/or middle click (see global settings) <br/>
+#36 - added a button in the launcher to open the Wiki <br/>
+
+**Mubin-Logic Viewer** <br/>
+#dev - added very experimental mubin-logic viewer, right now it only views data
+
+<hr/>
+
 ### Version 2.1.0 - "Field-Editor + Map"
 
 **Map-Viewer**<br/>
