@@ -74,12 +74,25 @@
             width: 60px;
             vertical-align: middle;
         }
+
+        .selected-actor-item select
+        {
+            background-color: #1e2425;
+            color: #ececec;
+            padding: 1px;
+            border: 1px solid #616161;
+        }
     </style>
     <span>
         <img class="img __img-circle media-object pull-left actor-model-type" src="assets/img/icons/unknown.png" width="32" height="32">
         <div class="media-body">
             <strong class="search-value data-actor-name">????</strong>
-            <p class="search-value data-actor-type">????</p>
+            <p>
+                <select class="data-actor-type">
+                    <option value="Dynamic">Dynamic</option>
+                    <option value="Static">Static</option>
+                </select>
+            </p>
         </div>
     </span>
     <div>
