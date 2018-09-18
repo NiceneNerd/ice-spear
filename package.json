@@ -10,7 +10,7 @@
   "scripts": {
     "start": "electron . --js-flags=\"--expose-gc\"",
     "update-license-csv": "license-checker --csv > MODULES_LICENSE.csv",
-    "test": "electron-mocha './{,!(node_modules)/**/}*.test.js'",
+    "test": "electron-mocha --recursive",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
