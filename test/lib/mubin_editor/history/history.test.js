@@ -8,7 +8,7 @@ const assert = require('assert');
 global.requireGlobal = path => require("./../../../../" + path);
 global.__BASE_PATH = process.cwd() + "/";
 
-const History = requireGlobal("lib/mubin_editor/actor_editor/history");
+const History = requireGlobal("lib/mubin_editor/history/history");
 
 describe('MubinEditor', () => {
 describe('ActorEditor', () => {
@@ -44,6 +44,17 @@ describe('History', () =>
             assert.equal(history.getPosition(), 0);
             history.setPosition(2);
             assert.equal(history.getPosition(), 0);
+        });
+
+        it('should always save a number', () =>
+        {
+            const history = new History(() => 42, () => {});
+            history.add();
+            history.add();
+
+            history.setPosition("1");
+            assert.equal(history.getPosition(), 1);
+            assert.equal(typeof history.getPosition(), "number");
         });
     });
 
@@ -195,6 +206,115 @@ describe('History', () =>
 
             assert.equal(history.count(), 1);
             assert.equal(history.getPosition(), 0);
+        });
+    });
+
+    describe('clear history', () => {
+        it('should reset the history and pos. without restoring', () =>
+        {
+            const history = new History(() => 42, () => {});
+
+            history.add();
+            history.add();
+            history.clear();
+            
+            assert.equal(history.history.length, 0);
+            assert.equal(history.historyPos, 0);
+        });
+    });
+    
+    describe('change callback', () => {
+        it('should be called 1 time while adding an entry', () =>
+        {
+            let changeCount = 0;
+            const history = new History(() => 42, () => {}, () => ++changeCount);
+
+            assert.equal(changeCount, 0);
+            history.add();
+            assert.equal(changeCount, 1);
+        });
+
+        it('should be called while setting a new pos.', () =>
+        {
+            let changeCount = 0;
+            const history = new History(() => 42, () => {}, () => ++changeCount);
+
+            assert.equal(changeCount, 0);
+            history.add();
+            history.add();
+            assert.equal(changeCount, 2);
+            history.setPosition(0);
+            assert.equal(changeCount, 3);
+        });
+
+        it('should be at undo (if it actually does something)', () =>
+        {
+            let changeCount = 0;
+            const history = new History(() => 42, () => {}, () => ++changeCount);
+
+            assert.equal(changeCount, 0);
+            history.undo();
+            assert.equal(changeCount, 0);
+
+            history.add();
+            history.add();
+            assert.equal(changeCount, 2);
+            history.undo();
+            assert.equal(changeCount, 3);
+        });
+
+        it('should called on a restore (if it actually does something)', () =>
+        {
+            let changeCount = 0;
+            const history = new History(() => 42, () => {}, () => ++changeCount);
+
+            assert.equal(changeCount, 0);
+            history.restore();
+            assert.equal(changeCount, 0);
+
+            history.add();
+            history.add();
+            assert.equal(changeCount, 2);
+
+            history.setPosition(0);
+            assert.equal(changeCount, 3);
+
+            history.restore();
+            assert.equal(changeCount, 4);
+        });
+
+        it('should be called while dropping history (if it actually does something)', () =>
+        {
+            let changeCount = 0;
+            const history = new History(() => 42, () => {}, () => ++changeCount);
+
+            assert.equal(changeCount, 0);
+            history.drop();
+            assert.equal(changeCount, 0);
+
+            history.add();
+            history.add();
+            assert.equal(changeCount, 2);
+            history.setPosition(0);
+            assert.equal(changeCount, 3);
+
+            history.drop();
+            assert.equal(changeCount, 4);
+        });
+        
+        it('should call at reset', () =>
+        {
+            let changeCount = 0;
+            const history = new History(() => 42, () => {}, () => ++changeCount);
+
+            history.add();
+            history.add();
+
+            assert.equal(changeCount, 2);
+
+            history.clear();
+
+            assert.equal(changeCount, 3);
         });
     });
 
