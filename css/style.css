@@ -147,3 +147,7 @@
     background: #e2c08d; /* Green background */
     cursor: pointer; /* Cursor on hover */
 }
+
+.window .btn-group.ui-history-controls {
+    margin-left: 32px;
+}
