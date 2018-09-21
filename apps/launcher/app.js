@@ -10,14 +10,15 @@ const electron = require('electron');
 const fs       = require('fs');
 const path     = require('path');
 const url      = require('url');
-const swal     = require('sweetalert2')
+const swal     = require('sweetalert2');
 const Filter   = requireGlobal("lib/filter.js");
 const Notify   = requireGlobal("lib/notify/notify.js");
 
 const {dialog} = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
 
-const App_Base = requireGlobal("./apps/base.js");
+const checkRenderer = require("./../../lib/3d_renderer/check");
+const App_Base = require("./../base.js");
 
 module.exports = class App extends App_Base
 {
@@ -181,6 +182,8 @@ module.exports = class App extends App_Base
     {
         await super.run();
         
+        checkRenderer();
+
         this.scanShrineDir();
         this.scanModelTextureDir();
     }
