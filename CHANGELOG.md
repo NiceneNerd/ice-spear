@@ -7,7 +7,8 @@ The current released and prebuilt stable version is: **2.1.0**
 
 ### Version 2.2.0 - "Convenience Update"
 
-**Field+Shrine Editor** <br/>
+**Field + Shrine Editor** <br/>
+#53 - added history, use the controls at the top or CTRL+Z / CTRL+Y to undo/redo changes <br/>
 #36 - actor-tools: the actor type (Dynamic/Static) can now be changed <br/>
 #36 - actor tools: added focus button that positions the camera near the actor and looks at it <br/>
 #36 - actor tools: added de-select button <br/>
