@@ -18,6 +18,9 @@ The current released and prebuilt stable version is: **2.1.0**
 **Mubin-Logic Viewer** <br/>
 #dev - added very experimental mubin-logic viewer, right now it only views data
 
+**Launcher** <br/>
+#55 - right after starting, support for WebGL2 is checked to avoid later errors, if unsupported a message is shown <br/>
+
 <hr/>
 
 ### Version 2.1.0 - "Field-Editor + Map"
