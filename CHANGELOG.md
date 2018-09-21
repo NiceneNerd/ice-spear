@@ -5,7 +5,7 @@ The current released and prebuilt stable version is: **2.1.0**
 
 <hr/>
 
-### Version 2.2.0 - "Convenience Update"
+### WIP - Version 2.2.0 - "Convenience Update"
 
 **Field + Shrine Editor** <br/>
 #53 - added history, use the controls at the top or CTRL+Z / CTRL+Y to undo/redo changes <br/>
