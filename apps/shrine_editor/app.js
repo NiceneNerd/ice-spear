@@ -151,25 +151,6 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-actors-staticCount").innerHTML  = this.shrineEditor.actorHandler.dataActorStatic.Objs.length;
         this.node.querySelector(".data-actors-dynamicCount").innerHTML = this.shrineEditor.actorHandler.dataActorDyn.Objs.length;
 
-
-        /*
-        if(this.shrineEditor.dataActorDyn != null && this.shrineEditor.dataActorDyn.Objs != null)
-        {
-            for(let obj of this.shrineEditor.dataActorDyn.Objs)
-            {
-                let name = obj.UnitConfigName.value;
-
-                // render actor data
-                let entryNode = this.htmlListEntry.create();
-
-                entryNode.querySelector(".data-fileEntry-type").innerHTML = name;
-                entryNode.querySelector(".data-fileType-num").innerHTML = "";
-                entryNode.querySelector(".data-fileEntry-description").innerHTML = obj.HashId.value;
-
-                this.actorDynList.append(entryNode);
-            }
-        }
-        */
         this.shrineEditor.start();
     }
 

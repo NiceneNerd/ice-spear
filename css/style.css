@@ -130,3 +130,24 @@
 {
     transition: border-color .5s cubic-bezier(0.5,0.5, 1,1);
 }
+
+.slider
+{
+    -webkit-appearance: none;
+    border: 1px solid #1b1b1b;
+    background-color: #2f2f2f;
+    height: 16px;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 10px; /* Set a specific slider handle width */
+    height: 16px; /* Slider handle height */
+    background: #e2c08d; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.window .btn-group.ui-history-controls {
+    margin-left: 32px;
+}

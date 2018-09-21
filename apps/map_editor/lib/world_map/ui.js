@@ -31,7 +31,7 @@ module.exports = class World_Map_UI
             ev.stopPropagation();
         };
 
-        this.nodeSelector.querySelector(".tool-fieldSection-open").onclick = () => {
+        this.nodeSelector.get(".tool-fieldSection-open").onclick = () => {
             if(!FIELD_SECTION_REGEX.test(this.fieldSection))return;
 
             mainApp.windowHandler.open("field_editor", {
@@ -40,7 +40,7 @@ module.exports = class World_Map_UI
             });
         };
 
-        this.nodeSelector.querySelector(".tool-shrine-open").onclick = () => {
+        this.nodeSelector.get(".tool-shrine-open").onclick = () => {
             if(!SHRINE_REGEX.test(this.shrineName))return;
             
             mainApp.windowHandler.open("shrine_editor", {
@@ -64,28 +64,28 @@ module.exports = class World_Map_UI
 
     updatePos(x, y)
     {
-        this.nodeSelector.querySelector(".data-pos-x").innerHTML = this._formatFloat(x);
-        this.nodeSelector.querySelector(".data-pos-y").innerHTML = this._formatFloat(y);
+        this.nodeSelector.get(".data-pos-x").innerHTML = this._formatFloat(x);
+        this.nodeSelector.get(".data-pos-y").innerHTML = this._formatFloat(y);
     }
 
     updateMarker(x, y)
     {
         this.fieldPos = [x,y];
-        this.nodeSelector.querySelector(".data-marker-x").innerHTML = this._formatFloat(x);
-        this.nodeSelector.querySelector(".data-marker-y").innerHTML = this._formatFloat(y);
+        this.nodeSelector.get(".data-marker-x").innerHTML = this._formatFloat(x);
+        this.nodeSelector.get(".data-marker-y").innerHTML = this._formatFloat(y);
     }
 
     updateFieldSection(sectionData)
     {
         this.fieldSection = `${sectionData.x || '?'}-${sectionData.y || '?'}`;
-        this.nodeSelector.querySelector(".data-fieldSection").innerHTML = this.fieldSection;
-        this.nodeSelector.querySelector(".tool-fieldSection-open").disabled = !FIELD_SECTION_REGEX.test(this.fieldSection);
+        this.nodeSelector.get(".data-fieldSection").innerHTML = this.fieldSection;
+        this.nodeSelector.get(".tool-fieldSection-open").disabled = !FIELD_SECTION_REGEX.test(this.fieldSection);
     }
 
     updateShrine(shrineName)
     {
         this.shrineName = shrineName || "Dungeon???";
-        this.nodeSelector.querySelector(".data-shrine").innerHTML = this.shrineName;
-        this.nodeSelector.querySelector(".tool-shrine-open").disabled = !SHRINE_REGEX.test(this.shrineName);
+        this.nodeSelector.get(".data-shrine").innerHTML = this.shrineName;
+        this.nodeSelector.get(".tool-shrine-open").disabled = !SHRINE_REGEX.test(this.shrineName);
     }
 };
