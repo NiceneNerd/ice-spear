@@ -5,9 +5,9 @@
 */
 
 const Binary_File_Loader = require("binary-file").Loader;
-const BFRES_Parser       = requireGlobal('./lib/bfres/parser.js');
-const BFRES_Renderer     = requireGlobal('./lib/bfres/renderer.js');
-const Tab_Manager        = requireGlobal('./lib/tab_manager.js');
+const BFRES_Parser       = require('./../../lib/bfres/parser');
+const BFRES_Renderer     = require('./../../lib/bfres/renderer');
+const Tab_Manager        = require('./../../lib/tab_manager');
 
 const electron = require('electron');
 const fs       = require('fs');
@@ -15,7 +15,9 @@ const Split    = require('split.js');
 
 const {dialog} = electron.remote;
 
-const App_Base = requireGlobal("./apps/base.js");
+const App_Base = require("./../base");
+
+const SESSION_FILE_PATH_KEY = "bfresEditor-filePath";
 
 module.exports = class App extends App_Base
 {
@@ -29,6 +31,10 @@ module.exports = class App extends App_Base
         this.fileLoader = new Binary_File_Loader();
         this.footerNode = footer.querySelector(".data-fileName");
 
+        this.bfresParser    = null;
+        this.bfresTexParser = null;
+        this.bfresRenderer  = null;
+
         Split(['#main-sidebar-left', '#main-sidebar-right'], {
             sizes     : [50, 50],
             minSize   : 0,
@@ -37,7 +43,6 @@ module.exports = class App extends App_Base
         });
 
         this.init();
-        this.clear();
     }
 
     init()
@@ -53,25 +58,9 @@ module.exports = class App extends App_Base
         }
     }
 
-    clear()
-    {
-        if(this.bfresRenderer != null)
-            this.bfresRenderer.clear();
-
-        if(this.tabManager != null)
-            this.tabManager.clear();
-
-        this.bfresParser    = null;
-        this.bfresTexParser = null;
-        this.bfresRenderer  = null;
-    }
-
     openFileDialog()
     {
-        let path = dialog.showOpenDialog({
-            //properties: ['openDirectory']
-            properties: ['openFile']
-        });
+        let path = dialog.showOpenDialog({properties: ['openFile']});
 
         if(path != null)
             return path[0];
@@ -120,17 +109,22 @@ module.exports = class App extends App_Base
         this.bfresTexParser = new BFRES_Parser(true);
         this.bfresTexParser.setLoader(this.loader);
 
-        if(await this.bfresTexParser.parse(buffer))
-        {
-        }
+        await this.bfresTexParser.parse(buffer);
     }
 
     async openFile(filePath)
     {
-        if(filePath == "" || filePath == null)
-            filePath = this.openFileDialog();
+        if(!filePath)
+        {
+            if(filePath = this.openFileDialog())
+            {
+                sessionStorage.setItem(SESSION_FILE_PATH_KEY, filePath);
+                location.reload();
+                return false;
+            }
+        }
 
-        if(filePath == "")
+        if(!filePath)
             return false;
             
         await this.loader.show();
@@ -170,16 +164,20 @@ module.exports = class App extends App_Base
         this.tabManager = new Tab_Manager(tab_tabContainer_bfres, tab_contentContainer_bfres);
         this.tabManager.init();
 
-        let filePath = "";
+        // default path
+        let filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.sbfres"; // TEST
 
-        filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.sbfres"; // TEST
-
+        // check if an argument was set
         if(this.args.file != null) {
             filePath = this.args.file;
         }
 
-        if(filePath != "")
-            await this.openFile(filePath);
+        // check if a session var is set (done after manually opening a file)
+        if(sessionStorage.getItem(SESSION_FILE_PATH_KEY)) {
+            filePath = sessionStorage.getItem(SESSION_FILE_PATH_KEY);
+        }
+
+        await this.openFile(filePath);
     }
 
 };

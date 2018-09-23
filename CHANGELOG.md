@@ -21,6 +21,9 @@ The current released and prebuilt stable version is: **2.1.0**
 **Launcher** <br/>
 #55 - right after starting, support for WebGL2 is checked to avoid later errors, if unsupported a message is shown <br/>
 
+**Model-Viewer** <br/>
+#11 - opening new BFRES file reloads the window instead on manually deleting old stuff (less RAM usage) <br/>
+
 <hr/>
 
 ### Version 2.1.0 - "Field-Editor + Map"
@@ -56,7 +59,7 @@ The current released and prebuilt stable version is: **2.1.0**
 #40 - terrain textures are cached now<br/>
 #43 - automat. sets the FPS to 30, uses the accurate timer, and speeds up the camera
 
-**Model-Editor** <br/>
+**Model-Viewer** <br/>
 #40 - array-textures can now be displayed and exported as PNG, a selectbox was added to select the index
 
 **Settings**<br/>
