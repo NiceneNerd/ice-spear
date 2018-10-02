@@ -150,7 +150,7 @@ module.exports = class App extends App_Base
 
             files.forEach(file => 
             {
-                if(shrineRegex.test(file))// || file.startsWith("Remains")) <- 4 main dungeons
+                if(shrineRegex.test(file))// || file.startsWith("Remains"))  // <- 4 main dungeons
                 {
                     const shrineName = file.replace(".pack", "");
                     shrinesHtml += `<option value="${shrineName}">${shrineName}</option>`;
@@ -168,13 +168,10 @@ module.exports = class App extends App_Base
         {
             if(files == null)return;
 
-            let modelsHtml = "";
-            let texHtml = "";
-            files.forEach(file => {
+            this.selectModel.innerHTML = files.reduce((modelsHtml, file) => {
                // if(!file.includes(".Tex1") && !file.includes(".Tex2")) // @TODO make that an option
-                    modelsHtml += `<option value="${modelDir + "/" + file}">${file}</option>`;
-            });
-            this.selectModel.innerHTML = modelsHtml;
+                    return modelsHtml + `<option value="${modelDir + "/" + file}">${file}</option>`;
+            }, "");
         });
     }
 
