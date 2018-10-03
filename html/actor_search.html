@@ -64,6 +64,7 @@
         }
 
         #searchWindow-actor .data-searchValue {
+            width: calc(100% - 60px);
             margin-bottom: 5px;
         }
 
@@ -93,6 +94,12 @@
             border-style: solid;
             color: #73c990;
         }
+
+        #searchWindow-actor .btn-regex {
+            margin-top: 1px;
+            height: 29px;
+        }
+
     </style>
     <div>
         <div class="search-header">
@@ -100,7 +107,10 @@
                 Actor-Search
             </div>
             <div>
-                <input type="text" class="form-control data-searchValue" placeholder="Search for actors..." />
+                <input type="text" class="form-control data-searchValue" placeholder='Search...' />
+                <div class="btn-group">
+                    <button class="btn btn-default btn-regex" data-filter="regex">Regex</button>
+                </div>
             </div>
             <div>
                 <div class="btn-group">
