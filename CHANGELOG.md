@@ -8,6 +8,7 @@ The current released and prebuilt stable version is: **2.1.0**
 ### WIP - Version 2.2.0 - "Convenience Update"
 
 **Field + Shrine Editor** <br/>
+#54 - actor-search, use Ctrl+F to open a window to search for actors by name, IDs and params <br/>
 #53 - added history, use the controls at the top or CTRL+Z / CTRL+Y to undo/redo changes <br/>
 #36 - actor-tools: the actor type (Dynamic/Static) can now be changed <br/>
 #36 - actor tools: added focus button that positions the camera near the actor and looks at it <br/>
