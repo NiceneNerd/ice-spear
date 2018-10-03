@@ -68,6 +68,12 @@
             margin-bottom: 5px;
         }
 
+        #searchWindow-actor .data-limit {
+            width: 80px;
+            height: 25px;
+            margin-right: 6px;
+        }
+
         #searchWindow-actor .btn-group:last-child {
             float: right;
         }
@@ -142,6 +148,7 @@
         <div class="search-footer">
             <button class="btn btn btn-default data-tool-selectAll">Select All</button>
             <span>
+                Limit: <input type="number" class="form-control data-limit" placeholder='∞' value="100" />
                 Actors found: <span class="data-resultCount">0</span>
             </span>
         </div>
