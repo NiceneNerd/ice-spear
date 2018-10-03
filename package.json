@@ -53,6 +53,7 @@
     "cytoscape-cose-bilkent": "^4.0.0",
     "dateformat": "^3.0.3",
     "delete": "^1.1.0",
+    "draggable": "^4.2.0",
     "electron-remote": "^1.2.0",
     "filesize": "^3.6.1",
     "find-free-port": "^2.0.0",
