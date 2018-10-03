@@ -49,14 +49,26 @@
 
         #searchWindow-actor .drag-bar {
             width: 100%;
-            height: 24px;
-            _background-color: #ffbb3c;
+            font-size: 14px;
+            height: 26px;
             background-color: #353b45;
             border: 1px solid #000000;
             cursor: move;
-            color: #929292;
+            color: #d0a774;
             padding-left: 4px;
             margin-bottom: 5px;
+        }
+
+        #searchWindow-actor .window-buttons
+        {
+            position: absolute; 
+            right: 5px;
+        }
+
+        #searchWindow-actor .window-buttons button
+        {
+            height: 24px;
+            border-width: 0 1px;
         }
 
         #searchWindow-actor h5 {
@@ -111,6 +123,11 @@
         <div class="search-header">
             <div class="drag-bar">
                 Actor-Search
+                <div class="btn-group window-buttons">
+                    <button class="btn btn-default data-tool-close" title="Close">
+                        <span class="icon icon-cancel-squared"></span>
+                    </button>
+                </div>
             </div>
             <div>
                 <input type="text" class="form-control data-searchValue" placeholder='Search...' />
