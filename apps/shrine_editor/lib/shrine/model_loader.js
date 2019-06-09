@@ -56,7 +56,12 @@ module.exports = class Shrine_Model_Loader
      */
     async _loadShrineTexture(filesBasePath)
     {
-        const shrineTexPath = filesBasePath + ".Tex2.sbfres";
+        //return undefined;
+        let shrineTexPath = filesBasePath + ".Tex1.sbfres";
+        if(!fs.existsSync(shrineTexPath)) {
+            shrineTexPath = filesBasePath + ".Tex2.sbfres";
+        }
+
         if(fs.existsSync(shrineTexPath))
         {
             const texBuffer = this.fileLoader.buffer(shrineTexPath);

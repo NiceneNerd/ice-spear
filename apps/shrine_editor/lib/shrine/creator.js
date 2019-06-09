@@ -56,6 +56,12 @@ module.exports = class Shrine_Creator
             this.saveActors("Static",  shrineDir, shrineName),
         ]);
 
+        const cemuPackPath = "/home/mbeboek/graphicPacks/BreathOfTheWild_EventTest/content/Pack/Dungeon059";
+        await Promise.all([
+            this.saveActors("Dynamic", cemuPackPath, shrineName),
+            this.saveActors("Static",  cemuPackPath, shrineName),
+        ]);
+
         if(packData)
         {
             const sarc = new SARC();
@@ -74,6 +80,11 @@ module.exports = class Shrine_Creator
     {
         const actorPath = path.join(shrineDir, "Map", "CDungeon", shrineName, `${shrineName}_${typeName}.smubin`); 
         const byaml = new BYAML.Creator();
+        
+        const byamlData = {...(typeName == "Dynamic" ? this.actorHandler.dataActorDyn : this.actorHandler.dataActorStatic)};
+        byamlData.Objs = byamlData.Objs.sort((a, b) => a.HashId.value - b.HashId.value);
+
+        this.actorHandler.dataActorDyn.Objs
         const actorBuffer = byaml.create(typeName == "Dynamic" ? this.actorHandler.dataActorDyn : this.actorHandler.dataActorStatic);
         const actorYaz = yaz0.encode(actorBuffer);
 

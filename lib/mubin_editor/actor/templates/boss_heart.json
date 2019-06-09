@@ -1,0 +1,229 @@
+{
+    "ids": 4,
+    "actors": [
+        {
+            "!Parameters": {
+                "DropTable": {
+                    "type": 160,
+                    "value": "Normal"
+                },
+                "FieldBodyGroup": {
+                    "type": 209,
+                    "value": 0
+                },
+                "SharpWeaponJudgeType": {
+                    "type": 209,
+                    "value": 0
+                },
+                "TraversePos": {
+                    "X": {
+                        "type": 210,
+                        "value": 0
+                    },
+                    "Y": {
+                        "type": 210,
+                        "value": 26.75
+                    },
+                    "Z": {
+                        "type": 210,
+                        "value": 0
+                    }
+                },
+                "TraverseRadiusXZ": {
+                    "type": 210,
+                    "value": 35.35533905029297
+                },
+                "UniqueNameMessageLabel": {
+                    "type": 160,
+                    "value": "Pa_BossGauge_FantomGanonFire"
+                }
+            },
+            "HashId": {
+                "type": 211,
+                "value": 674596187
+            },
+            "LinksToObj": [
+                {
+                    "DefinitionName": {
+                        "type": 160,
+                        "value": "Reference"
+                    },
+                    "DestUnitHashId": {
+                        "type": 211,
+                        "value": 3992196830
+                    }
+                },
+                {
+                    "!Parameters": {
+                        "NoAutoDemoMember": {
+                            "type": 208,
+                            "value": false
+                        }
+                    },
+                    "DefinitionName": {
+                        "type": 160,
+                        "value": "BasicSig"
+                    },
+                    "DestUnitHashId": {
+                        "type": 211,
+                        "value": 2308274967
+                    }
+                },
+                {
+                    "DefinitionName": {
+                        "type": 160,
+                        "value": "SyncLink"
+                    },
+                    "DestUnitHashId": {
+                        "type": 211,
+                        "value": 1821846322
+                    }
+                }
+            ],
+            "LinksToRail": [
+                {
+                    "DefinitionName": {
+                        "type": 160,
+                        "value": "GuideRef"
+                    },
+                    "DestUnitHashId": {
+                        "type": 211,
+                        "value": 3281567353
+                    }
+                }
+            ],
+            "OnlyOne": {
+                "type": 208,
+                "value": true
+            },
+            "Rotate": {
+                "type": 210,
+                "value": -3.1415927410125732
+            },
+            "SRTHash": {
+                "type": 209,
+                "value": -416180424
+            },
+            "Translate": [
+                {
+                    "type": 210,
+                    "value": 8.74227794156468e-7
+                },
+                {
+                    "type": 210,
+                    "value": 23.5
+                },
+                {
+                    "type": 210,
+                    "value": 15
+                }
+            ],
+            "UniqueName": {
+                "type": 160,
+                "value": "0"
+            },
+            "UnitConfigName": {
+                "type": 160,
+                "value": "Enemy_SiteBoss_Lsword"
+            }
+        },
+        {
+            "!Parameters": {
+                "FieldBodyGroup": {
+                    "type": 209,
+                    "value": 0
+                },
+                "IncrementSave": {
+                    "type": 208,
+                    "value": false
+                },
+                "MakeSaveFlag": {
+                    "type": 209,
+                    "value": 0
+                },
+                "NoChangeSignal": {
+                    "type": 208,
+                    "value": false
+                },
+                "SaveFlagOnOffType": {
+                    "type": 209,
+                    "value": 0
+                }
+            },
+            "HashId": {
+                "type": 211,
+                "value": 4203676317
+            },
+            "LinksToObj": [
+                {
+                    "!Parameters": {
+                        "AppearFade": {
+                            "type": 208,
+                            "value": false
+                        }
+                    },
+                    "DefinitionName": {
+                        "type": 160,
+                        "value": "Create"
+                    },
+                    "DestUnitHashId": {
+                        "type": 211,
+                        "value": 674596187
+                    }
+                },
+                {
+                    "!Parameters": {
+                        "NoAutoDemoMember": {
+                            "type": 208,
+                            "value": false
+                        }
+                    },
+                    "DefinitionName": {
+                        "type": 160,
+                        "value": "BasicSig"
+                    },
+                    "DestUnitHashId": {
+                        "type": 211,
+                        "value": 2027592768
+                    }
+                },
+                {
+                    "DefinitionName": {
+                        "type": 160,
+                        "value": "SyncLink"
+                    },
+                    "DestUnitHashId": {
+                        "type": 211,
+                        "value": 1821846322
+                    }
+                }
+            ],
+            "Rotate": {
+                "type": 210,
+                "value": -3.1415927410125732
+            },
+            "SRTHash": {
+                "type": 209,
+                "value": 1062672513
+            },
+            "Translate": [
+                {
+                    "type": 210,
+                    "value": 3.0000009536743164
+                },
+                {
+                    "type": 210,
+                    "value": 22.5
+                },
+                {
+                    "type": 210,
+                    "value": 15.5
+                }
+            ],
+            "UnitConfigName": {
+                "type": 160,
+                "value": "LinkTagAnd"
+            }
+        }
+    ]
+}

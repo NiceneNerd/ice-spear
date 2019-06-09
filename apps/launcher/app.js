@@ -150,7 +150,7 @@ module.exports = class App extends App_Base
 
             files.forEach(file => 
             {
-                if(shrineRegex.test(file))// || file.startsWith("Remains"))  // <- 4 main dungeons
+                if(shrineRegex.test(file) || file.startsWith("Remains"))  // <- 4 main dungeons
                 {
                     const shrineName = file.replace(".pack", "");
                     shrinesHtml += `<option value="${shrineName}">${shrineName}</option>`;

@@ -5,6 +5,13 @@ The current released and prebuilt stable version is: **2.1.0**
 
 <hr/>
 
+### WIP - Version 2.3.0 - "Convenience Update"
+
+**General** <br/>
+#dev - Clone / Add now generates a new HashId
+
+<hr/>
+
 ### WIP - Version 2.2.0 - "Convenience Update"
 
 **Field + Shrine Editor** <br/>
