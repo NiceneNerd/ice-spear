@@ -7,7 +7,7 @@
 const QuerySelector_Cache = require("./../../../../lib/queryselector_chache");
 
 const FIELD_SECTION_REGEX = /[A-J]-[1-9]/;
-const SHRINE_REGEX = /Dungeon[0-9]{3}/;
+const SHRINE_REGEX = /(Dungeon[0-9]{3})|(Remains.+)/;
 
 module.exports = class World_Map_UI
 {
