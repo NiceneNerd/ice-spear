@@ -58,7 +58,7 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-tool-openBuildDir").onclick = () => {
             electron.shell.showItemInFolder(this.shrineEditor.getPackFilePath());
         };
-
+/*
         this.node.querySelector(".data-tool-openLogicEditor").onclick = async () => 
         {
             if(!this.jsonIpc)
@@ -78,7 +78,7 @@ module.exports = class App extends App_Base
 
             this.windowHandler.open("logic_editor", {mapName: this.shrineName});
         };
-
+*/
         this.node.querySelector(".data-tool-addActorStatic").onclick = async () => {
             this.shrineEditor.actorHandler.addFromData(ActorParams.createTemplate("FldObj_HugeMazeTorchStand_A_01"), "Static");
         };

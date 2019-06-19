@@ -20,9 +20,7 @@ The current released and prebuilt stable version is: **2.2.0**
 #dev - Actor templates added (left side), allow easy creation of event systems like doors
 #dev - experimental visualization of actor links in 3d-view (render-settings on the left, very slow in field editor)
 #dev - experimental support for the 4 main dungeons (aka "remains") via the shrine list or map
-
-**Mubin-Logic Viewer** <br/>
-#dev - added very experimental mubin-logic viewer, right now it only views data <br/>
+#dev - (WIP) special event actors have custom textures
 
 **Launcher** <br/>
 #55 - right after starting, support for WebGL2 is checked to avoid later errors, if unsupported a message is shown <br/>
@@ -32,6 +30,7 @@ The current released and prebuilt stable version is: **2.2.0**
 
 **Bug-Fixes** <br/>
 #dev - Actors are now correctly sorted when saved as a mubin <br/>
+#dev - Area actors are now sized correctly and half-transparent
 
 <hr/>
 
