@@ -1,11 +1,11 @@
 # Changelog
 
 This changelog contains the changes for Ice-Spear and all sub modules. <br/>
-The current released and prebuilt stable version is: **2.1.0**
+The current released and prebuilt stable version is: **2.2.0**
 
 <hr/>
 
-### WIP - Version 2.2.0 - "Convenience Update"
+### WIP - Version 2.2.0 - "I never heard of rolling releases Release"
 
 **Field + Shrine Editor** <br/>
 #54 - actor-search, use Ctrl+F to open a window to search for actors by name, IDs and params <br/>
@@ -19,6 +19,7 @@ The current released and prebuilt stable version is: **2.1.0**
 #dev - Adding actors (buttons on the left side in shrine/field editor) <br/>
 #dev - Actor templates added (left side), allow easy creation of event systems like doors
 #dev - experimental visualization of actor links in 3d-view (render-settings on the left, very slow in field editor)
+#dev - experimental support for the 4 main dungeons (aka "remains") via the shrine list or map
 
 **Mubin-Logic Viewer** <br/>
 #dev - added very experimental mubin-logic viewer, right now it only views data <br/>
