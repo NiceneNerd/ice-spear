@@ -17,6 +17,7 @@ const Binary_File_Loader = require("binary-file").Loader;
 const SARC          = require("sarc-lib");
 const Shrine_Editor = require("./lib/shrine_editor.js");
 const ActorParams   = require('../../lib/mubin_editor/actor/params');
+const Actor_Templates = require('../../lib/mubin_editor/actor/template');
 const String_Table  = requireGlobal("lib/string_table/string_table.js");
 const JSON_IPC      = require("./../../lib/json_ipc/json_ipc");
 
@@ -86,6 +87,8 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-tool-addActorDyn").onclick = async () => {
             this.shrineEditor.actorHandler.addFromData(ActorParams.createTemplate("FldObj_HugeMazeTorchStand_A_01"), "Dynamic");
         };
+
+        Actor_Templates.getHtmlSelect().then(html => this.node.querySelector(".data-tool-actorTemplate").innerHTML = html);
 
         this.node.querySelector(".data-tool-addActorTemplate").onclick = async () => {
             const templateName = this.node.querySelector(".data-tool-actorTemplate").value;

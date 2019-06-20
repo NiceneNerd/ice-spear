@@ -5,7 +5,7 @@ The current released and prebuilt stable version is: **2.2.0**
 
 <hr/>
 
-### WIP - Version 2.2.0 - "I never heard of rolling releases Release"
+### WIP - Version 2.2.0 - "'I never heard of rolling releases' Release"
 
 **Field + Shrine Editor** <br/>
 #54 - actor-search, use Ctrl+F to open a window to search for actors by name, IDs and params <br/>
@@ -15,12 +15,13 @@ The current released and prebuilt stable version is: **2.2.0**
 #36 - actor tools: added de-select button <br/>
 #36 - actors can now be selected with right and/or middle click (see global settings) <br/>
 #36 - added a button in the launcher to open the Wiki <br/>
-#dev - Clone / Add now generates a new HashId <br/>
+#dev - Clone / Add now generates a new HashId (by using the biggest one + 1) <br/>
+#dev - Cloning an actor will not put the new one in focus (allows for multi-click on that button) <br/>
 #dev - Adding actors (buttons on the left side in shrine/field editor) <br/>
-#dev - Actor templates added (left side), allow easy creation of event systems like doors
-#dev - experimental visualization of actor links in 3d-view (render-settings on the left, very slow in field editor)
-#dev - experimental support for the 4 main dungeons (aka "remains") via the shrine list or map
-#dev - (WIP) special event actors have custom textures
+#dev - Actor templates added (left side), allow easy creation of event systems like doors  <br/>
+#dev - experimental visualization of actor links in 3d-view (render-settings on the left, very slow in field editor)  <br/>
+#dev - experimental support for the 4 main dungeons (aka "remains") via the shrine list or map  <br/>
+#dev - (WIP) special event actors have custom textures  <br/>
 
 **Launcher** <br/>
 #55 - right after starting, support for WebGL2 is checked to avoid later errors, if unsupported a message is shown <br/>
@@ -30,7 +31,8 @@ The current released and prebuilt stable version is: **2.2.0**
 
 **Bug-Fixes** <br/>
 #dev - Actors are now correctly sorted when saved as a mubin <br/>
-#dev - Area actors are now sized correctly and half-transparent
+#dev - Area actors are now sized correctly and half-transparent  <br/>
+#dev - General system stability improvements to enhance the user's experience <br/>
 
 <hr/>
 
