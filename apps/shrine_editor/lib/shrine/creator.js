@@ -72,8 +72,15 @@ module.exports = class Shrine_Creator
      */
     async saveActors(typeName, shrineDir, shrineName)
     {
-        const actorPath = path.join(shrineDir, "Map", "CDungeon", shrineName, `${shrineName}_${typeName}.smubin`); 
+        const mapDir = shrineName.startsWith("Remains") ? "MainFieldDungeon" : "CDungeon";
+
+        const actorPath = path.join(shrineDir, "Map", mapDir, shrineName, `${shrineName}_${typeName}.smubin`); 
         const byaml = new BYAML.Creator();
+        
+        const byamlData = {...(typeName == "Dynamic" ? this.actorHandler.dataActorDyn : this.actorHandler.dataActorStatic)};
+        byamlData.Objs = byamlData.Objs.sort((a, b) => a.HashId.value - b.HashId.value);
+
+        this.actorHandler.dataActorDyn.Objs
         const actorBuffer = byaml.create(typeName == "Dynamic" ? this.actorHandler.dataActorDyn : this.actorHandler.dataActorStatic);
         const actorYaz = yaz0.encode(actorBuffer);
 

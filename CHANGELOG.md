@@ -1,29 +1,40 @@
 # Changelog
 
 This changelog contains the changes for Ice-Spear and all sub modules. <br/>
-The current released and prebuilt stable version is: **2.1.0**
+The current released and prebuilt stable version is: **2.2.0**
 
 <hr/>
 
-### WIP - Version 2.2.0 - "Convenience Update"
+### WIP - Version 2.2.0 - "'I never heard of rolling releases' Release"
 
 **Field + Shrine Editor** <br/>
 #54 - actor-search, use Ctrl+F to open a window to search for actors by name, IDs and params <br/>
-#53 - added history, use the controls at the top or CTRL+Z / CTRL+Y to undo/redo changes <br/>
+#53 - added history, use the controls at the top or CTRL+Z / CTRL+Y to undo/redo changes (slow in field-editor) <br/>
 #36 - actor-tools: the actor type (Dynamic/Static) can now be changed <br/>
 #36 - actor tools: added focus button that positions the camera near the actor and looks at it <br/>
 #36 - actor tools: added de-select button <br/>
 #36 - actors can now be selected with right and/or middle click (see global settings) <br/>
 #36 - added a button in the launcher to open the Wiki <br/>
-
-**Mubin-Logic Viewer** <br/>
-#dev - added very experimental mubin-logic viewer, right now it only views data
+#dev - Holding ALT while moving an actor snaps it to the grid (0.5 units by default) <br/>
+#dev - Clone / Add now generates a new HashId (by using the biggest one + 1) <br/>
+#dev - Cloning an actor will not put the new one in focus (allows for multi-click on that button) <br/>
+#dev - Adding new actors (buttons on the left side in shrine/field editor) <br/>
+#dev - Actor templates added (left side), allows easy creation of event systems like doors  <br/>
+#dev - experimental visualization of actor links in 3d-view (render-settings on the left, slow in field editor)  <br/>
+#dev - experimental support for the 4 main dungeons (aka "remains") via the shrine list or map  <br/>
+#dev - (WIP) some special event actors now have custom textures  <br/>
 
 **Launcher** <br/>
 #55 - right after starting, support for WebGL2 is checked to avoid later errors, if unsupported a message is shown <br/>
 
 **Model-Viewer** <br/>
 #11 - opening new BFRES file reloads the window instead on manually deleting old stuff (less RAM usage) <br/>
+
+**Misc. & Bug-Fixes** <br/>
+#dev - Actors are now correctly sorted when saved as a mubin <br/>
+#dev - Area actors are now sized correctly and half-transparent  <br/>
+#dev - General system stability improvements to enhance the user's experience <br/>
+#dev - Upgrade to Electron 5.0.1 <br/>
 
 <hr/>
 

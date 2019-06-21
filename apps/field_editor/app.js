@@ -14,6 +14,8 @@ const Notify      = requireGlobal("lib/notify/notify.js");
 const Filter      = requireGlobal("lib/filter.js");
 
 const Field_Editor  = require("./lib/field_editor.js");
+const ActorParams   = require('../../lib/mubin_editor/actor/params');
+const Actor_Templates = require('../../lib/mubin_editor/actor/template');
 const String_Table  = requireGlobal("lib/string_table/string_table.js");
 const extractField  = require("./lib/field_extractor");
 const extractStaticMubins = require("./lib/static_mubin_extractor");
@@ -57,6 +59,21 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-tool-packTitleBg").onclick = () => this.packTitleBg();
         this.node.querySelector(".data-tool-openTitleBgDir").onclick = () => {
             electron.shell.showItemInFolder(path.join(this.project.getPath(), "TitleBG.pack"));
+        };
+
+        this.node.querySelector(".data-tool-addActorStatic").onclick = async () => {
+            this.fieldEditor.actorHandler.addFromData(ActorParams.createTemplate("FldObj_HugeMazeTorchStand_A_01"), "Static");
+        };
+
+        this.node.querySelector(".data-tool-addActorDyn").onclick = async () => {
+            this.fieldEditor.actorHandler.addFromData(ActorParams.createTemplate("FldObj_HugeMazeTorchStand_A_01"), "Dynamic");
+        };
+
+        Actor_Templates.getHtmlSelect().then(html => this.node.querySelector(".data-tool-actorTemplate").innerHTML = html);
+
+        this.node.querySelector(".data-tool-addActorTemplate").onclick = async () => {
+            const templateName = this.node.querySelector(".data-tool-actorTemplate").value;
+            this.fieldEditor.actorHandler.addFromTemplate(templateName);
         };
     }
 

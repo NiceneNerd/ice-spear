@@ -63,7 +63,7 @@ module.exports = class Icon
         let index = 0;
         for(let entry of locations)
         {
-            if(entry.Icon && entry.Icon.value == "Dungeon")
+            if(entry.Icon && (entry.Icon.value == "Dungeon" || entry.Icon.value.includes("Remains")))
             {       
                 const pos = {
                     x: entry.Translate.X.value * iconPosScale,

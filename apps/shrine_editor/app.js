@@ -16,6 +16,8 @@ const Filter      = requireGlobal("lib/filter.js");
 const Binary_File_Loader = require("binary-file").Loader;
 const SARC          = require("sarc-lib");
 const Shrine_Editor = require("./lib/shrine_editor.js");
+const ActorParams   = require('../../lib/mubin_editor/actor/params');
+const Actor_Templates = require('../../lib/mubin_editor/actor/template');
 const String_Table  = requireGlobal("lib/string_table/string_table.js");
 const JSON_IPC      = require("./../../lib/json_ipc/json_ipc");
 
@@ -57,7 +59,7 @@ module.exports = class App extends App_Base
         this.node.querySelector(".data-tool-openBuildDir").onclick = () => {
             electron.shell.showItemInFolder(this.shrineEditor.getPackFilePath());
         };
-
+/*
         this.node.querySelector(".data-tool-openLogicEditor").onclick = async () => 
         {
             if(!this.jsonIpc)
@@ -76,6 +78,21 @@ module.exports = class App extends App_Base
             }
 
             this.windowHandler.open("logic_editor", {mapName: this.shrineName});
+        };
+*/
+        this.node.querySelector(".data-tool-addActorStatic").onclick = async () => {
+            this.shrineEditor.actorHandler.addFromData(ActorParams.createTemplate("FldObj_HugeMazeTorchStand_A_01"), "Static");
+        };
+
+        this.node.querySelector(".data-tool-addActorDyn").onclick = async () => {
+            this.shrineEditor.actorHandler.addFromData(ActorParams.createTemplate("FldObj_HugeMazeTorchStand_A_01"), "Dynamic");
+        };
+
+        Actor_Templates.getHtmlSelect().then(html => this.node.querySelector(".data-tool-actorTemplate").innerHTML = html);
+
+        this.node.querySelector(".data-tool-addActorTemplate").onclick = async () => {
+            const templateName = this.node.querySelector(".data-tool-actorTemplate").value;
+            this.shrineEditor.actorHandler.addFromTemplate(templateName);
         };
     }
 
@@ -113,10 +130,11 @@ module.exports = class App extends App_Base
             let fileName = shrineDirOrFile.split(/[\\/]+/).pop();
             this.shrineDir = path.join(this.project.getShrinePath("unpacked"), fileName + ".unpacked");
 
-            this.shrineName = fileName.match(/Dungeon[0-9]+/);
+            this.shrineName = fileName.match(/Dungeon[0-9]+/) || fileName.match(/Remains[A-Za-z]+/);
 
-            if(this.shrineName != null)
+            if(this.shrineName != null) {
                 this.shrineName = this.shrineName[0];
+            }
 
             const alreadyExtracted = await fs.pathExists(this.shrineDir);
 

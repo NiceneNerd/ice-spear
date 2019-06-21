@@ -1,6 +1,6 @@
 {
   "name": "ice-spear-editor",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "GPL-3.0",
   "author": "Max Bebök",
   "main": "main.js",
@@ -31,7 +31,7 @@
   "build": {
     "appId": "ice-spear-tools.ice-spear",
     "productName": "Ice-Spear",
-    "copyright": "©2018 Max Bebök",
+    "copyright": "©2019 Max Bebök",
     "npmRebuild": true,
     "win": {
       "target": "7z"
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "electron": "2.0.5",
+    "electron": "5.0.1",
     "electron-builder": "^20.22.0",
     "electron-mocha": "^5.0.0",
     "mocha": "^5.0.4"

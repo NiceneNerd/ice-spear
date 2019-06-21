@@ -28,7 +28,7 @@ module.exports = class Field_Editor extends Mubin_Editor
         this.titleBgHandler = titleBgHandler;
 
         this.loadActorData = true;
-        this.loadProdData  = true;
+        this.loadProdData  = false;
         this.loadMapMesh   = this.project.getConfig().getValue("fieldEditor.loadModel");
 
         this.fieldModelLoader = new Field_Model_Loader();
