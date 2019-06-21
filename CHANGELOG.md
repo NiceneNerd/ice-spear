@@ -17,7 +17,7 @@ The current released and prebuilt stable version is: **2.2.0**
 #36 - added a button in the launcher to open the Wiki <br/>
 #dev - Holding ALT while moving an actor snaps it to the grid (0.5 units by default) <br/>
 #dev - Clone / Add now generates a new HashId (by using the biggest one + 1) <br/>
-#dev - Cloning an actor will not put the new one in focus (allows for multi-click on that button) <br/>
+#dev - Cloning an actor will now put the new one in focus (allows for multi-click on the clone button) <br/>
 #dev - Adding new actors (buttons on the left side in shrine/field editor) <br/>
 #dev - Actor templates added (left side), allows easy creation of event systems like doors  <br/>
 #dev - experimental visualization of actor links in 3d-view (render-settings on the left, slow in field editor)  <br/>
