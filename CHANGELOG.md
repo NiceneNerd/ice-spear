@@ -5,7 +5,7 @@ The current released and prebuilt stable version is: **2.2.0**
 
 <hr/>
 
-### WIP - Version 2.2.0 - "'I never heard of rolling releases' Release"
+### Version 2.2.0 - "'I never heard of rolling releases' Release"
 
 **Field + Shrine Editor** <br/>
 #54 - actor-search, use Ctrl+F to open a window to search for actors by name, IDs and params <br/>
