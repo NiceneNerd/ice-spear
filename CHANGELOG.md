@@ -15,6 +15,7 @@ The current released and prebuilt stable version is: **2.2.0**
 #36 - actor tools: added de-select button <br/>
 #36 - actors can now be selected with right and/or middle click (see global settings) <br/>
 #36 - added a button in the launcher to open the Wiki <br/>
+#dev - Holding ALT while moving an actor snaps it to the grid (0.5 units by default) <br/>
 #dev - Clone / Add now generates a new HashId (by using the biggest one + 1) <br/>
 #dev - Cloning an actor will not put the new one in focus (allows for multi-click on that button) <br/>
 #dev - Adding new actors (buttons on the left side in shrine/field editor) <br/>
@@ -29,10 +30,11 @@ The current released and prebuilt stable version is: **2.2.0**
 **Model-Viewer** <br/>
 #11 - opening new BFRES file reloads the window instead on manually deleting old stuff (less RAM usage) <br/>
 
-**Bug-Fixes** <br/>
+**Misc. & Bug-Fixes** <br/>
 #dev - Actors are now correctly sorted when saved as a mubin <br/>
 #dev - Area actors are now sized correctly and half-transparent  <br/>
 #dev - General system stability improvements to enhance the user's experience <br/>
+#dev - Upgrade to Electron 5.0.1 <br/>
 
 <hr/>
 
