@@ -38,8 +38,6 @@ module.exports = class Shrine_Editor extends Mubin_Editor
     generateMubinPath(actorType)
     {
         const mapDir = this.mubinName.startsWith("Remains") ? "MainFieldDungeon" : "CDungeon";
-        console.log(this);
-        console.log(this.mubinDir, "Map", mapDir, this.mubinName, `${this.mubinName}_${actorType}.smubin`);
         return path.join(this.mubinDir, "Map", mapDir, this.mubinName, `${this.mubinName}_${actorType}.smubin`);
     }
 

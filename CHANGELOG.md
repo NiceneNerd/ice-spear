@@ -17,11 +17,11 @@ The current released and prebuilt stable version is: **2.2.0**
 #36 - added a button in the launcher to open the Wiki <br/>
 #dev - Clone / Add now generates a new HashId (by using the biggest one + 1) <br/>
 #dev - Cloning an actor will not put the new one in focus (allows for multi-click on that button) <br/>
-#dev - Adding actors (buttons on the left side in shrine/field editor) <br/>
-#dev - Actor templates added (left side), allow easy creation of event systems like doors  <br/>
-#dev - experimental visualization of actor links in 3d-view (render-settings on the left, very slow in field editor)  <br/>
+#dev - Adding new actors (buttons on the left side in shrine/field editor) <br/>
+#dev - Actor templates added (left side), allows easy creation of event systems like doors  <br/>
+#dev - experimental visualization of actor links in 3d-view (render-settings on the left, slow in field editor)  <br/>
 #dev - experimental support for the 4 main dungeons (aka "remains") via the shrine list or map  <br/>
-#dev - (WIP) special event actors have custom textures  <br/>
+#dev - (WIP) some special event actors now have custom textures  <br/>
 
 **Launcher** <br/>
 #55 - right after starting, support for WebGL2 is checked to avoid later errors, if unsupported a message is shown <br/>
