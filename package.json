@@ -1,6 +1,6 @@
 {
   "name": "ice-spear-editor",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "license": "GPL-3.0",
   "author": "Max Bebök",
   "main": "main.js",
@@ -49,6 +49,7 @@
     "binary-file": "gitlab:ice-spear-tools/binary-file",
     "byaml-lib": "gitlab:ice-spear-tools/byaml-lib",
     "crc32": "^0.2.2",
+    "crc-32": "^1.2.0",
     "cytoscape": "^3.2.15",
     "cytoscape-cose-bilkent": "^4.0.0",
     "dateformat": "^3.0.3",
