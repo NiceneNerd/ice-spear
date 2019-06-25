@@ -1,7 +1,21 @@
 # Changelog
 
 This changelog contains the changes for Ice-Spear and all sub modules. <br/>
-The current released and prebuilt stable version is: **2.2.0**
+The current released and prebuilt stable version is: **2.2.2**
+
+<hr/>
+
+### Version 2.2.2
+
+**Field + Shrine Editor** <br/>
+- Fixed MUBIN error with UTF8-Strings, be sure to start with fresh file if they got corrupted
+
+<hr/>
+
+### Version 2.2.1
+
+**Field Editor** <br/>
+- The global actor CRC32-hash can now be seen in the selected actor view
 
 <hr/>
 
