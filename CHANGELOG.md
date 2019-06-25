@@ -1,7 +1,7 @@
 # Changelog
 
 This changelog contains the changes for Ice-Spear and all sub modules. <br/>
-The current released and prebuilt stable version is: **2.2.0**
+The current released and prebuilt stable version is: **2.2.2**
 
 <hr/>
 
