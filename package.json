@@ -1,6 +1,6 @@
 {
   "name": "ice-spear-editor",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "license": "GPL-3.0",
   "author": "Max Bebök",
   "main": "main.js",
@@ -31,7 +31,7 @@
   "build": {
     "appId": "ice-spear-tools.ice-spear",
     "productName": "Ice-Spear",
-    "copyright": "©2019 Max Bebök",
+    "copyright": "©2020 Max Bebök",
     "npmRebuild": true,
     "win": {
       "target": "7z"

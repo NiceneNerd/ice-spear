@@ -5,6 +5,15 @@ The current released and prebuilt stable version is: **2.2.2**
 
 <hr/>
 
+### Version 2.3.0
+
+**Field + Editor** <br/>
+- Texture loading can now be disabled in the settings.<br/>This will increase loading times drastically and reduce RAM usage by several GB if active. <br/>
+   **Note**: you may need to clear the cache after changing this setting.
+  
+
+<hr/>
+
 ### Version 2.2.2
 
 **Field + Shrine Editor** <br/>
