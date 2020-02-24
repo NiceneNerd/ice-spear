@@ -9,8 +9,8 @@ The current released and prebuilt stable version is: **2.2.2**
 
 **Field + Editor** <br/>
 - Texture loading can now be disabled in the settings.<br/>This will increase loading times drastically and reduce RAM usage by several GB if active. <br/>
-   **Note**: you may need to clear the cache after changing this setting.
-  
+   **Note**: you may need to clear the cache after changing this setting. <br/>
+- Custom templates can now be loaded if they are placed in ".ice-spear/templates" in your home directory.
 
 <hr/>
 
