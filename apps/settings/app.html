@@ -118,15 +118,33 @@
 
                     <div class="tab-content" data-tab="field_editor" hidden>
                         <div class="settings-container">
-                            <label>
-                                <input type="checkbox" data-autoSave="true" data-dataType="bool" data-configRef="fieldEditor.loadModel" />
-                                <span>Load Map-Model</span>
-                            </label>
-                            
-                            <br/>
-                            <span class="note-span" style="margin-left:0;">
-                                Note: <span class="small-info-text">Disabling this will result in faster loading times and less RAM usage,<br/>you will however have no map-model</span>
-                            </span>
+                            <div class="settings-container">
+                                <label>
+                                    <input type="checkbox" data-autoSave="true" data-dataType="bool" data-configRef="fieldEditor.loadModel" />
+                                    <span>Load Map-Model</span>
+                                </label>
+                                <br/>
+                                <span class="note-span" style="margin-left:0;">
+                                    Note: <span class="small-info-text">Disabling this will result in faster loading times and less RAM usage,<br/>you will however have no map-model</span>
+                                </span>
+                            </div>
+
+                            <div class="settings-container">
+                                <label>
+                                    <input type="checkbox" data-autoSave="true" data-dataType="bool" data-configRef="fieldEditor.loadTextures" />
+                                    <span>Load Actor Textures</span>
+                                </label>
+                                <br/>
+                                <span class="note-span" style="margin-left:0;">
+                                    Note: <span class="small-info-text">Prevents loading new textures for actors (this will not affect already cached actors).<br/>
+                                        This will make sections (like E-4) load/run much faster, but you will have no actor textures.
+                                    </span>
+                                </span>
+                                <br/>
+                                <span class="note-span" style="margin-left:0;">
+                                        (Go to "Cache" and click on "Clear Cache" after changing this)
+                                    </span>
+                            </div>
                         </div>
                     </div>
 

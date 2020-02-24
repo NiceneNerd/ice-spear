@@ -11,7 +11,8 @@
         ]
     },
     "fieldEditor": {
-        "loadModel": true
+        "loadModel": true,
+        "loadTextures": true
     },
     "cache": {
         "terrainTextures": true,
