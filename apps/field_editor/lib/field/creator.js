@@ -42,6 +42,12 @@ module.exports = class Field_Creator
         {
             await this.saveActors("Static", fieldDir, fieldSection);
         }
+
+        const cemuPackPath = "/home/mbeboek/graphicPacks/BreathOfTheWild_EventTest/aoc/0010/Map/MainField/" + fieldSection;
+        await Promise.all([
+            this.saveActors("Dynamic", cemuPackPath, fieldSection),
+            this.saveActors("Static",  cemuPackPath, fieldSection),
+        ]);
     }
 
     /**
