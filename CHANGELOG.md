@@ -1,7 +1,14 @@
 # Changelog
 
 This changelog contains the changes for Ice-Spear and all sub modules. <br/>
-The current released and prebuilt stable version is: **2.2.2**
+The current released and prebuilt stable version is: **2.4.2**
+
+<hr/>
+
+### Version 2.4.0
+
+**Field + Editor** <br/>
+- Actor JSON import errors now produce an error dialog and don't hang-up the editor anymore.<br/>
 
 <hr/>
 
