@@ -298,8 +298,8 @@ builder-util@10.1.2, builder-util@~10.1.2:
     temp-file "^3.3.3"
 
 "byaml-lib@gitlab:ice-spear-tools/byaml-lib":
-  version "1.1.5"
-  resolved "https://gitlab.com/ice-spear-tools/byaml-lib/repository/archive.tar.gz?ref=1f975a0ef4920a9d4c3bf43004145165ce2b8a16"
+  version "1.1.6"
+  resolved "https://gitlab.com/ice-spear-tools/byaml-lib/repository/archive.tar.gz?ref=b1e2b942d54ce89e67ac1e48a5ce04b369a72675"
   dependencies:
     binary-file "gitlab:ice-spear-tools/binary-file"
 
