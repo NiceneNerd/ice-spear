@@ -20,6 +20,7 @@ const String_Table  = requireGlobal("lib/string_table/string_table.js");
 const extractField  = require("./lib/field_extractor");
 const extractStaticMubins = require("./lib/static_mubin_extractor");
 const TitleBG_Handler = require("./../../lib/titlebg_handler");
+const AocMainField_Handler = require("./../../../lib/aoc_handler");
 
 const App_Base = requireGlobal("apps/base.js");
 
@@ -29,8 +30,10 @@ module.exports = class App extends App_Base
     {
         super(window, args);
 
-        this.fieldGamePath = path.join(this.config.getValue("game.path"), "content", "Map", "MainField");
-        this.fieldStaticGamePath = path.join(this.config.getValue("game.path"), "content", "Physics", "StaticCompound", "MainField");
+        let startPath = this.config.getValue("game.dlcPath") || this.config.getValue("game.updatePath");
+        this.isAoc = !!this.config.getValue("game.dlcPath");
+        this.fieldGamePath = path.join(startPath, "content", "Map", "MainField");
+        this.fieldStaticGamePath = path.join(this.config.getValue("game.basePath"), "content", "Physics", "StaticCompound", "MainField");
 
         this.fieldDir = null;
         this.fieldSection = null;
@@ -56,7 +59,7 @@ module.exports = class App extends App_Base
             electron.shell.showItemInFolder(this.fieldEditor.getFieldFilePath());
         };
 
-        this.node.querySelector(".data-tool-packTitleBg").onclick = () => this.packTitleBg();
+        this.node.querySelector(".data-tool-packStatic").onclick = () => this.packStatic();
         this.node.querySelector(".data-tool-openTitleBgDir").onclick = () => {
             electron.shell.showItemInFolder(path.join(this.project.getPath(), "TitleBG.pack"));
         };
@@ -92,15 +95,15 @@ module.exports = class App extends App_Base
         Notify.success(`Field '${this.fieldSection}' saved`);
     }
 
-    async packTitleBg()
+    async packStatic()
     {
-        await this.loader.setStatus("Packing TitleBG");
+        await this.loader.setStatus("Packing static maps");
         await this.loader.show();
 
         await this.fieldEditor.titleBgHandler.pack();
 
         await this.loader.hide();
-        Notify.success(`TitleBG packed`);
+        Notify.success(`Static maps packed`);
     }
 
     async openField(fieldSection, fieldPos = undefined)
@@ -120,8 +123,8 @@ module.exports = class App extends App_Base
             const alreadyOpened = await fs.pathExists(this.fieldDir);
             await fs.ensureDir(this.fieldDir);
 
-            await this.loader.setStatus("Extracting TitleBG and Mubins");
-            await extractStaticMubins(this.config.getValue("game.path"), this.project.getPath(), this.fieldDir, this.fieldSection);
+            await this.loader.setStatus("Extracting Static Maps");
+            await extractStaticMubins(this.config.getValue("game.dlcPath") || this.config.getValue("game.basePath"), this.project.getPath(), this.fieldDir, this.fieldSection);
 
             if(!alreadyOpened)
             {
@@ -173,8 +176,12 @@ module.exports = class App extends App_Base
     {
         await super.run();
 
-        const titleBgHandler = new TitleBG_Handler(this.config.getValue("game.path"), this.project.getPath());
-        this.fieldEditor = new Field_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable, titleBgHandler);
+        let staticHandler;
+        if (this.isAoc)
+            new AocMainField_Handler(this.config.getValue("game.dlcPath"), this.project.getPath());
+        else
+            new TitleBG_Handler(this.config.getValue("game.updatePath"), this.project.getPath());
+        this.fieldEditor = new Field_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable, staticHandler);
 
         let fieldSection = this.args.section ? this.args.section : "J-8";
         let fieldPos = this.args.pos ? this.args.pos : undefined;

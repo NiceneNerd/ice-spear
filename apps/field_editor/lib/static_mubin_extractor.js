@@ -7,6 +7,7 @@
 const fs   = require('fs-extra');
 const path = require('path');
 const TitleBG_Handler = require("./../../../lib/titlebg_handler");
+const AocMainField_Handler = require("./../../../lib/aoc_handler");
 
 class Static_Mubin_Extractor
 {
@@ -31,10 +32,18 @@ class Static_Mubin_Extractor
         if(await fs.exists(targetFile))
             return;
 
-        const titleBgHandler = new TitleBG_Handler(this.gamePath, this.projectPath);
-        await titleBgHandler.extract();
-
-        const staticMubinPath = titleBgHandler.getStaticFieldMubin(this.fieldSection);
+        let staticMubinPath;
+        if (await fs.exists(path.join(this.gamePath, "Pack", "AocMainField.pack"))) {
+            const aocHandler = new AocMainField_Handler(this.gamePath, this.projectPath);
+            await aocHandler.extract();
+    
+            staticMubinPath = aocHandler.getStaticFieldMubin(this.fieldSection);
+        } else {
+            const titleBgHandler = new TitleBG_Handler(this.gamePath, this.projectPath);
+            await titleBgHandler.extract();
+    
+            staticMubinPath = titleBgHandler.getStaticFieldMubin(this.fieldSection);
+        }
 
         if(await fs.exists(staticMubinPath))
         {

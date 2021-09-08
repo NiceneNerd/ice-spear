@@ -165,7 +165,7 @@ module.exports = class App extends App_Base
         this.tabManager.init();
 
         // default path
-        let filePath = this.config.getValue("game.path") + "/content/Model/Animal_Goat.sbfres"; // TEST
+        let filePath = this.config.getValue("game.updatePath") + "/content/Model/Animal_Goat.sbfres"; // TEST
 
         // check if an argument was set
         if(this.args.file != null) {

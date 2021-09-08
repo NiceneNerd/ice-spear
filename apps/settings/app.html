@@ -72,16 +72,28 @@
                 </div>
                 <div class="pane" id="main-sidebar-right">
                     <div class="tab-content" data-tab="game">
-
+                        <h4>Game/ROM Directories <span class="small-info-text">(restart needed to take effect)</span></h4>
                         <div class="form-group drag-drop-dir">
-                            <label>Game/ROM directory <span class="small-info-text">(restart needed to take effect)</span></label>
+                            <label>Base Game</label>
                             <br/>
                             <button class="btn btn-large btn-default">Select</button>
-                            <input type="text" data-dataType="path" data-configRef="game.path" class="form-control" placeholder="Open or drag&drop a directory">
-                            <span class="note-span">
-                                Note: <span class="small-info-text">Read-Only, the editor will NOT write anything to the original ROM data.</span>
-                            </span>
+                            <input type="text" data-dataType="path" data-configRef="game.basePath" class="form-control" placeholder="Open or drag&drop a directory">
                         </div>
+                        <div class="form-group drag-drop-dir">
+                            <label>Update Files</label>
+                            <br/>
+                            <button class="btn btn-large btn-default">Select</button>
+                            <input type="text" data-dataType="path" data-configRef="game.updatePath" class="form-control" placeholder="Open or drag&drop a directory">
+                        </div>
+                        <div class="form-group drag-drop-dir">
+                            <label>DLC Files (optional)</label>
+                            <br/>
+                            <button class="btn btn-large btn-default">Select</button>
+                            <input type="text" data-dataType="path" data-configRef="game.aocPath" class="form-control" placeholder="Open or drag&drop a directory">
+                        </div>
+                        <span class="note-span">
+                            Note: <span class="small-info-text">Read-Only, the editor will NOT write anything to the original ROM data.</span>
+                        </span>
 
                     </div>
 
