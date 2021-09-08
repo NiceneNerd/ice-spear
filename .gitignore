@@ -2,6 +2,7 @@
 /config.json
 
 # Installed node packages
+package-lock.json
 node_modules/
 /db/
 
