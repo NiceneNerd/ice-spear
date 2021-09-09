@@ -20,7 +20,7 @@ const String_Table  = requireGlobal("lib/string_table/string_table.js");
 const extractField  = require("./lib/field_extractor");
 const extractStaticMubins = require("./lib/static_mubin_extractor");
 const TitleBG_Handler = require("./../../lib/titlebg_handler");
-const AocMainField_Handler = require("./../../../lib/aoc_handler");
+const AocMainField_Handler = require("./../../lib/aoc_handler");
 
 const App_Base = requireGlobal("apps/base.js");
 
@@ -30,8 +30,9 @@ module.exports = class App extends App_Base
     {
         super(window, args);
 
-        let startPath = this.config.getValue("game.dlcPath") || this.config.getValue("game.updatePath");
-        this.isAoc = !!this.config.getValue("game.dlcPath");
+        let startPath = this.config.getValue("game.aocPath") || this.config.getValue("game.updatePath");
+        console.log(this.config.getValue("game.aocPath"));
+        this.isAoc = this.config.getValue("game.aocPath") ? true : false;
         this.fieldGamePath = path.join(startPath, "content", "Map", "MainField");
         this.fieldStaticGamePath = path.join(this.config.getValue("game.basePath"), "content", "Physics", "StaticCompound", "MainField");
 
@@ -124,7 +125,7 @@ module.exports = class App extends App_Base
             await fs.ensureDir(this.fieldDir);
 
             await this.loader.setStatus("Extracting Static Maps");
-            await extractStaticMubins(this.config.getValue("game.dlcPath") || this.config.getValue("game.basePath"), this.project.getPath(), this.fieldDir, this.fieldSection);
+            await extractStaticMubins(this.config.getValue("game.aocPath") || this.config.getValue("game.basePath"), this.project.getPath(), this.fieldDir, this.fieldSection);
 
             if(!alreadyOpened)
             {
@@ -177,10 +178,13 @@ module.exports = class App extends App_Base
         await super.run();
 
         let staticHandler;
-        if (this.isAoc)
-            new AocMainField_Handler(this.config.getValue("game.dlcPath"), this.project.getPath());
-        else
+        console.log(this);
+        if (this.isAoc){
+            new AocMainField_Handler(this.config.getValue("game.aocPath"), this.project.getPath());
+            console.log("Aoc handler");}
+        else{
             new TitleBG_Handler(this.config.getValue("game.updatePath"), this.project.getPath());
+            console.log("TitleBG handler")}
         this.fieldEditor = new Field_Editor(this.node.querySelector(".shrine-canvas"), this.node, this.project, this.loader, this.stringTable, staticHandler);
 
         let fieldSection = this.args.section ? this.args.section : "J-8";

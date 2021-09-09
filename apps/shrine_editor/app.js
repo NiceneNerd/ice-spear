@@ -186,7 +186,7 @@ module.exports = class App extends App_Base
         // 099 = blessing
 
         this.shrineName = this.args.shrine ? this.args.shrine : "Dungeon000";
-        let shrinePath = path.join(this.config.getValue("game.path"), "content", "Pack", this.shrineName + ".pack");
+        let shrinePath = path.join(this.config.getValue("game.basePath"), "content", "Pack", this.shrineName + ".pack");
 
         this.openShrine(shrinePath);
     }    

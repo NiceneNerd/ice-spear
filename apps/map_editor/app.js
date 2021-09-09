@@ -23,7 +23,8 @@ module.exports = class App extends App_Base
 
         this.map = new World_Map(
             this.mapUi,
-            this.config.getValue("game.path"),
+            this.config.getValue("game.basePath"),
+            this.config.getValue("game.updatePath"),
             this.project.getCachePath(),
             this.loader
         );

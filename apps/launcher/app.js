@@ -141,7 +141,7 @@ module.exports = class App extends App_Base
     async scanShrineDir()
     {
         const shrineRegex = /^Dungeon[0-9]{3}\.pack$/;
-        let shrineDir = this.config.getValue("game.path") + "/content/Pack";
+        let shrineDir = this.config.getValue("game.basePath") + "/content/Pack";
         
         fs.readdir(shrineDir, (err, files) => 
         {
@@ -162,7 +162,7 @@ module.exports = class App extends App_Base
 
     async scanModelTextureDir()
     {
-        let modelDir = this.config.getValue("game.path") + "/content/Model";
+        let modelDir = this.config.getValue("game.updatePath") + "/content/Model";
 
         fs.readdir(modelDir, (err, files) => 
         {

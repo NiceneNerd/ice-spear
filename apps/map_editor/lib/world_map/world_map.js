@@ -23,10 +23,11 @@ const mapTilesY = 10;
 
 module.exports = class World_Map
 {
-    constructor(ui, gamePath, cachePath, loader)
+    constructor(ui, basePath, updatePath, cachePath, loader)
     {
         this.ui = ui;
-        this.gamePath = gamePath;
+        this.basePath = basePath;
+        this.updatePath = updatePath;
         this.cachePath = cachePath;
         this.loader = loader;
 
@@ -34,11 +35,11 @@ module.exports = class World_Map
         this.engine = new Ice_Engine(this.mapCanvas);
         this.engine.onUpdate(() => this._update());
 
-        const texBasePath = path.join(this.gamePath, "content", "UI", "MapTex", "MainField");
+        const texBasePath = path.join(this.basePath, "content", "UI", "MapTex", "MainField");
         this.textureHandler = new World_Map_Texture(texBasePath, this.cachePath, mapTilesX, mapTilesY, this.loader);
 
         this.camera = new Camera(this.engine);
-        this.locations = new Locations(this.gamePath, this.cachePath);
+        this.locations = new Locations(this.updatePath, this.cachePath);
         this.icons = new Icon(this.engine);
         this.marker = new Marker(this.engine);
 

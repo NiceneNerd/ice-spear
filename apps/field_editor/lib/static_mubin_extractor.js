@@ -33,7 +33,8 @@ class Static_Mubin_Extractor
             return;
 
         let staticMubinPath;
-        if (await fs.exists(path.join(this.gamePath, "Pack", "AocMainField.pack"))) {
+        console.log(this.gamePath);
+        if (await fs.exists(path.join(this.gamePath, "content", "0010", "Pack", "AocMainField.pack"))) {
             const aocHandler = new AocMainField_Handler(this.gamePath, this.projectPath);
             await aocHandler.extract();
     

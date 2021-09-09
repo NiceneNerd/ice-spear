@@ -27,7 +27,7 @@ describe('BYAML', function()
         {
             this.timeout(1000 * 5);
 
-            let byamlPath = config.getValue("game.path") + "/content/Actor/ActorInfo.product.sbyml";
+            let byamlPath = config.getValue("game.updatePath") + "/content/Actor/ActorInfo.product.sbyml";
             if(createAndCompare(byamlPath))
                 return true;
         });
