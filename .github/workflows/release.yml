@@ -1,0 +1,31 @@
+name: Upload Release
+
+on:
+  release:
+    types: [created]
+    
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Get version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: 13.4
+      - name: Build app
+        run: |
+          npm install
+          npm run pack
+      - name: Zip release
+        uses: TheDoctor0/zip-release@0.6.0
+        with:
+          filename: "ice-spear-${{ steps.get_version.outputs.VERSION }}.zip"
+          path: ./dist/win-unpacked
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "ice-spear-${{ steps.get_version.outputs.VERSION }}.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
