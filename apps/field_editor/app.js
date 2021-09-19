@@ -33,8 +33,8 @@ module.exports = class App extends App_Base
         let startPath = this.config.getValue("game.aocPath") || this.config.getValue("game.updatePath");
         console.log(this.config.getValue("game.aocPath"));
         this.isAoc = this.config.getValue("game.aocPath") ? true : false;
-        this.fieldGamePath = path.join(startPath, "content", "Map", "MainField");
-        this.fieldStaticGamePath = path.join(this.config.getValue("game.basePath"), "content", "Physics", "StaticCompound", "MainField");
+        this.fieldGamePath = path.join(startPath, "content", this.isAoc ? "0010" : null, "Map", "MainField");
+        this.fieldStaticGamePath = path.join(this.config.getValue("game.updatePath"), "content", "Physics", "StaticCompound", "MainField");
 
         this.fieldDir = null;
         this.fieldSection = null;

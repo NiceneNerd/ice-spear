@@ -168,10 +168,16 @@ module.exports = class App extends App_Base
         {
             if(files == null)return;
 
-            this.selectModel.innerHTML = files.reduce((modelsHtml, file) => {
-               // if(!file.includes(".Tex1") && !file.includes(".Tex2")) // @TODO make that an option
-                    return modelsHtml + `<option value="${modelDir + "/" + file}">${file}</option>`;
-            }, "");
+            let secondModelDir = this.config.getValue("game.basePath") + "/content/Model";
+
+            fs.readdir(secondModelDir, (err, files2) => {
+                if(files == null)return;
+
+                this.selectModel.innerHTML = files.concat(files2).reduce((modelsHtml, file) => {
+                    // if(!file.includes(".Tex1") && !file.includes(".Tex2")) // @TODO make that an option
+                         return modelsHtml + `<option value="${modelDir + "/" + file}">${file}</option>`;
+                 }, "");
+            });
         });
     }
 
