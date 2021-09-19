@@ -1,8 +1,8 @@
 /**
-* @copyright 2018 - Max Bebök
-* @author Max Bebök
-* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
-*/
+ * @copyright 2018 - Max Bebök
+ * @author Max Bebök
+ * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
+ */
 
 const App_Base = requireGlobal("./apps/base.js");
 const JSON_IPC = require("./../../lib/json_ipc/json_ipc");
@@ -28,10 +28,8 @@ EventTag
 SpotBgmTag
  */
 
-module.exports = class App extends App_Base
-{
-    constructor(window, args)
-    {
+module.exports = class App extends App_Base {
+    constructor(window, args) {
         super(window, args);
 
         this.graph = undefined;
@@ -40,16 +38,14 @@ module.exports = class App extends App_Base
         this._addActions();
     }
 
-    async load(data)
-    {
+    async load(data) {
         const actorsDyn = data.actorsDyn.Objs;
         const actorsStatic = data.actorsStatic.Objs;
 
         await this.graph.build(actorsDyn, actorsStatic);
     }
 
-    _addActions()
-    {
+    _addActions() {
         const saveLayoutBtn = this.node.querySelector(".data-tool-saveLayout");
         saveLayoutBtn.onclick = async () => {
             saveLayoutBtn.disabled = true;
@@ -58,8 +54,7 @@ module.exports = class App extends App_Base
         };
     }
 
-    async run()
-    {
+    async run() {
         await super.run();
 
         await this.loader.setStatus("Connecting to the Editor");
@@ -72,17 +67,19 @@ module.exports = class App extends App_Base
 
         this.jsonIpc = new JSON_IPC("logic-editor-" + this.mapName);
         await this.jsonIpc.createServer(async (name, type, data) => {
-            if(type == "actor-data")
-            {
+            if (type == "actor-data") {
                 await this.loader.setStatus("Process Data");
                 setTimeout(async () => {
                     this.load(data);
                     await this.loader.hide();
                 }, 50);
             }
-        });        
+        });
 
-        this.jsonIpc.send("shrine-editor-" + this.mapName, "logic-editor-ready", {a:7});
+        this.jsonIpc.send(
+            "shrine-editor-" + this.mapName,
+            "logic-editor-ready",
+            { a: 7 }
+        );
     }
 };
-

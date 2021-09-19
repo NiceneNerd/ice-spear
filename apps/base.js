@@ -1,39 +1,36 @@
 /**
-* @copyright 2018 - Max Bebök
-* @author Max Bebök
-* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
-*/
+ * @copyright 2018 - Max Bebök
+ * @author Max Bebök
+ * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
+ */
 
-const Theme_Manager = requireGlobal('lib/theme_manager.js');
+const Theme_Manager = requireGlobal("lib/theme_manager.js");
 const Loader = requireGlobal("lib/loader.js");
 const Window_Handler_Remote = requireGlobal("lib/window_handler_remote.js");
 const Main_Config = requireGlobal("lib/config/main_config.js");
 const Project_Manager = require("./../lib/project/manager.js");
 
-const electron = require('electron');
-const path     = require('path');
-const url      = require('url');
+const electron = require("electron");
+const path = require("path");
+const url = require("url");
 
-const {dialog} = electron.remote;
+const { dialog } = electron.remote;
 const BrowserWindow = electron.remote.BrowserWindow;
 
-module.exports = class App_Base
-{
-    constructor(window, args)
-    {
-        if(window == null)
-            throw "App: electron window is NULL!";
+module.exports = class App_Base {
+    constructor(window, args) {
+        if (window == null) throw "App: electron window is NULL!";
 
-        this.node         = document;
-        this.window       = window;
-        this.args         = args;
-        this.filePath     = "";
+        this.node = document;
+        this.window = window;
+        this.args = args;
+        this.filePath = "";
         this.themeManager = new Theme_Manager(this.node, "dark");
         this.creditWindow = null;
         this.windowHandler = new Window_Handler_Remote();
-        this.config       = new Main_Config();
-        
-        this.project      = new Project_Manager(this.config);
+        this.config = new Main_Config();
+
+        this.project = new Project_Manager(this.config);
 
         this.loader = new Loader(
             this.node.querySelector(".window"),
@@ -41,18 +38,14 @@ module.exports = class App_Base
         );
     }
 
-    clear()
-    {
-    }
+    clear() {}
 
     /**
      * opens a new Window with the credits
      * the file can be found in /credits.html
      */
-    openCredits()
-    {
-        if(this.creditWindow == null)
-        {
+    openCredits() {
+        if (this.creditWindow == null) {
             this.creditWindow = new BrowserWindow({
                 width: 880,
                 height: 935,
@@ -63,13 +56,15 @@ module.exports = class App_Base
             this.creditWindow.name = "main-window-credits";
 
             // and load the index.html of the app.
-            this.creditWindow.loadURL(url.format({
-                pathname: path.join(__BASE_PATH, 'credits.html'),
-                protocol: 'file:',
-                slashes: true
-            }));
+            this.creditWindow.loadURL(
+                url.format({
+                    pathname: path.join(__BASE_PATH, "credits.html"),
+                    protocol: "file:",
+                    slashes: true
+                })
+            );
 
-            this.creditWindow.on('closed', () => this.creditWindow = null);
+            this.creditWindow.on("closed", () => (this.creditWindow = null));
             this.creditWindow.setMenu(null);
         }
     }
@@ -77,8 +72,7 @@ module.exports = class App_Base
     /**
      * opens the settings app
      */
-    openSettings()
-    {
+    openSettings() {
         this.windowHandler.open("settings");
     }
 
@@ -87,11 +81,9 @@ module.exports = class App_Base
      * @param {Node} node current theme button pressed
      * @param {String} theme name of the theme
      */
-    setTheme(node, theme)
-    {
+    setTheme(node, theme) {
         let themeButtons = this.node.querySelectorAll(".btn-theme");
-        for(let btn of themeButtons)
-            btn.classList.remove("active");
+        for (let btn of themeButtons) btn.classList.remove("active");
 
         node.classList.add("active");
         this.themeManager.setTheme(theme);
@@ -100,15 +92,11 @@ module.exports = class App_Base
     /**
      * called to start the app
      */
-    async run()
-    {
-        document.addEventListener("keyup", (ev) => 
-        {
-            if(ev.key == "F5")
-                this.reload();
+    async run() {
+        document.addEventListener("keyup", ev => {
+            if (ev.key == "F5") this.reload();
 
-            if(ev.key == "F12")
-                this.window.webContents.openDevTools();
+            if (ev.key == "F12") this.window.webContents.openDevTools();
         });
 
         await this.project.openCurrent();
@@ -116,12 +104,10 @@ module.exports = class App_Base
 
     /**
      * enables or disables fullscreen
-     * @param {Bool} newState 
+     * @param {Bool} newState
      */
-    toggleFullscreen(newState = null)
-    {
-        if(newState === null)
-            newState = !this.window.isFullScreen();
+    toggleFullscreen(newState = null) {
+        if (newState === null) newState = !this.window.isFullScreen();
 
         this.window.setFullScreen(newState);
     }
@@ -129,11 +115,9 @@ module.exports = class App_Base
     /**
      * called when the user is trying to exit the app
      */
-    exit(force = false)
-    {
+    exit(force = false) {
         let answer = 0;
-        if(!force)
-        {
+        if (!force) {
             answer = dialog.showMessageBox({
                 type: "question",
                 title: "Exit Editor",
@@ -142,14 +126,13 @@ module.exports = class App_Base
             });
         }
 
-        if(answer == 0) // Cancel
-        {
+        if (answer == 0) {
+            // Cancel
             electron.remote.app.exit();
         }
     }
 
-    reload()
-    {
+    reload() {
         this.window.reload();
     }
 };

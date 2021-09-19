@@ -1,60 +1,85 @@
 /**
-* @copyright 2018 - Max Bebök
-* @author Max Bebök
-* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
-*/
+ * @copyright 2018 - Max Bebök
+ * @author Max Bebök
+ * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
+ */
 
-const fs   = require('fs-extra');
-const path = require('path');
+const fs = require("fs-extra");
+const path = require("path");
 const TitleBG_Handler = require("./../../../lib/titlebg_handler");
 const AocMainField_Handler = require("./../../../lib/aoc_handler");
 
-class Static_Mubin_Extractor
-{
+class Static_Mubin_Extractor {
     /**
      * @param {string} fieldProjectDir path to the field in the project
      * @param {string} fieldSection field section name
      */
-    constructor(gamePath, projectPath, fieldProjectDir, fieldSection)
-    {
+    constructor(gamePath, projectPath, fieldProjectDir, fieldSection) {
         this.gamePath = gamePath;
         this.projectPath = projectPath;
         this.fieldProjectDir = fieldProjectDir;
-        this.fieldSection    = fieldSection;
+        this.fieldSection = fieldSection;
     }
 
     /**
      * extracts and copies field data
      */
-    async extract()
-    {
-        const targetFile = path.join(this.fieldProjectDir, this.fieldSection + "_Static.smubin");
-        if(await fs.exists(targetFile))
-            return;
+    async extract() {
+        const targetFile = path.join(
+            this.fieldProjectDir,
+            this.fieldSection + "_Static.smubin"
+        );
+        if (await fs.exists(targetFile)) return;
 
         let staticMubinPath;
         console.log(this.gamePath);
-        if (await fs.exists(path.join(this.gamePath, "content", "0010", "Pack", "AocMainField.pack"))) {
-            const aocHandler = new AocMainField_Handler(this.gamePath, this.projectPath);
+        if (
+            await fs.exists(
+                path.join(
+                    this.gamePath,
+                    "content",
+                    "0010",
+                    "Pack",
+                    "AocMainField.pack"
+                )
+            )
+        ) {
+            const aocHandler = new AocMainField_Handler(
+                this.gamePath,
+                this.projectPath
+            );
             await aocHandler.extract();
-    
+
             staticMubinPath = aocHandler.getStaticFieldMubin(this.fieldSection);
         } else {
-            const titleBgHandler = new TitleBG_Handler(this.gamePath, this.projectPath);
+            const titleBgHandler = new TitleBG_Handler(
+                this.gamePath,
+                this.projectPath
+            );
             await titleBgHandler.extract();
-    
-            staticMubinPath = titleBgHandler.getStaticFieldMubin(this.fieldSection);
+
+            staticMubinPath = titleBgHandler.getStaticFieldMubin(
+                this.fieldSection
+            );
         }
 
-        if(await fs.exists(staticMubinPath))
-        {
+        if (await fs.exists(staticMubinPath)) {
             await fs.copyFile(staticMubinPath, targetFile);
         }
     }
 }
 
-module.exports = async (gamePath, projectPath, fieldProjectDir, fieldSection) => 
-{
-    const extractor = new Static_Mubin_Extractor(gamePath, projectPath, fieldProjectDir, fieldSection);
+module.exports = async (
+    gamePath,
+    projectPath,
+    fieldProjectDir,
+    fieldSection
+) => {
+    const extractor = new Static_Mubin_Extractor(
+        gamePath,
+        projectPath,
+        fieldProjectDir,
+        fieldSection
+    );
     return await extractor.extract();
 };

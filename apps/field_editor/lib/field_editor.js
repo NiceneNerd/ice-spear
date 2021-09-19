@@ -1,8 +1,8 @@
 /**
-* @copyright 2018 - Max Bebök
-* @author Max Bebök
-* @license GNU-GPLv3 - see the "LICENSE" file in the root directory
-*/
+ * @copyright 2018 - Max Bebök
+ * @author Max Bebök
+ * @license GNU-GPLv3 - see the "LICENSE" file in the root directory
+ */
 
 const path = require("path");
 
@@ -12,51 +12,69 @@ const Field_Creator = require("./field/creator");
 const Terrain = require("./../../../lib/terrain/terrain");
 const Section_Helper = require("./../../../lib/terrain/section_helper");
 
-module.exports = class Field_Editor extends Mubin_Editor
-{
+module.exports = class Field_Editor extends Mubin_Editor {
     /**
-     * @param {Node} canvasNode 
+     * @param {Node} canvasNode
      * @param {Node} uiNode
      * @param {Project_Manager} project
      * @param {Loader} loader
      * @param {stringTable} stringTable optional string table object
      */
-    constructor(canvasNode, uiNode, project, loader, stringTable, titleBgHandler)
-    {
+    constructor(
+        canvasNode,
+        uiNode,
+        project,
+        loader,
+        stringTable,
+        titleBgHandler
+    ) {
         super(canvasNode, uiNode, project, loader, stringTable);
 
         this.titleBgHandler = titleBgHandler;
 
         this.loadActorData = true;
-        this.loadProdData  = false;
-        this.loadMapMesh   = this.project.getConfig().getValue("fieldEditor.loadModel");
+        this.loadProdData = false;
+        this.loadMapMesh = this.project
+            .getConfig()
+            .getValue("fieldEditor.loadModel");
 
         this.fieldModelLoader = new Field_Model_Loader();
-        this.fieldCreator = new Field_Creator(this.actorHandler, this.project, this.titleBgHandler);
+        this.fieldCreator = new Field_Creator(
+            this.actorHandler,
+            this.project,
+            this.titleBgHandler
+        );
 
-        this.terrain = new Terrain(project, this.getRenderer().renderer.context, this.loader);
+        this.terrain = new Terrain(
+            project,
+            this.getRenderer().renderer.context,
+            this.loader
+        );
     }
 
     /**
      * maps the actory type to the actual mubin location, this will differ between shrines and the main-field
-     * @param {string} actorType 
+     * @param {string} actorType
      */
-    generateMubinPath(actorType)
-    {
-        return path.join(this.mubinDir, `${this.mubinName}_${actorType}.smubin`);
+    generateMubinPath(actorType) {
+        return path.join(
+            this.mubinDir,
+            `${this.mubinName}_${actorType}.smubin`
+        );
     }
 
     /**
      * maps the prod type to the actual prod location, this will differ between shrines and the main-field
      * @param {string} prodNum
-     * @returns {string|undefined} 
+     * @returns {string|undefined}
      */
-    generateProdPath(prodNum)
-    {
+    generateProdPath(prodNum) {
         const prodPrefixes = ["00", "01", "10", "11"];
-        if(prodNum < prodPrefixes.length)
-        {
-            return path.join(this.mubinDir, `${this.mubinName}.${prodPrefixes[prodNum]}_Clustering.sblwp`);
+        if (prodNum < prodPrefixes.length) {
+            return path.join(
+                this.mubinDir,
+                `${this.mubinName}.${prodPrefixes[prodNum]}_Clustering.sblwp`
+            );
         }
         return undefined;
     }
@@ -64,18 +82,19 @@ module.exports = class Field_Editor extends Mubin_Editor
     /**
      * loads the map model (field or shrine)
      */
-    async loadMapModel()
-    {
-        if(this.loadMapMesh)
-        {
+    async loadMapModel() {
+        if (this.loadMapMesh) {
             this.fieldModelLoader.loader = this.loader;
-            const fieldMeshArray = await this.fieldModelLoader.load(this.mubinDir, this.mubinName, this.terrain);
+            const fieldMeshArray = await this.fieldModelLoader.load(
+                this.mubinDir,
+                this.mubinName,
+                this.terrain
+            );
 
-            for(const mesh of fieldMeshArray)
+            for (const mesh of fieldMeshArray)
                 this.mubinRenderer.setTerrainModel(mesh);
         }
     }
-
 
     /**
      * Load a field and it's models, textures, actors and other stuff
@@ -83,12 +102,11 @@ module.exports = class Field_Editor extends Mubin_Editor
      * @param {string} name name of the field
      * @param {Tuple<number,number>|undefined} fieldPos
      */
-    async load(directory, name, fieldPos = undefined)
-    {
+    async load(directory, name, fieldPos = undefined) {
         console.time("Editor-Load");
         await super.load(directory, name);
         console.timeEnd("Editor-Load");
-        
+
         // jump the camera to the mid-point
         const cam = this.getRenderer().camera;
         const midPos = Section_Helper.getSectionMidpoint(name);
@@ -97,8 +115,7 @@ module.exports = class Field_Editor extends Mubin_Editor
         cam.position.y = midPos.y;
         cam.position.z = midPos.z;
 
-        if(fieldPos)
-        {
+        if (fieldPos) {
             cam.position.x = fieldPos[0];
             cam.position.z = fieldPos[1];
         }
@@ -108,8 +125,7 @@ module.exports = class Field_Editor extends Mubin_Editor
      * returns the project field path
      * @returns {string}
      */
-    getFieldFilePath()
-    {
+    getFieldFilePath() {
         return path.join(this.mubinDir, this.mubinName);
     }
 
@@ -117,8 +133,7 @@ module.exports = class Field_Editor extends Mubin_Editor
      * saves all field related data
      * @param {bool} rebuild if true, it rebuilds the .pack file
      */
-    async save()
-    {
+    async save() {
         return await this.fieldCreator.save(this.mubinDir, this.mubinName);
     }
-}
+};
