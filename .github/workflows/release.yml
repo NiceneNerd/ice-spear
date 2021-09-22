@@ -21,7 +21,7 @@ jobs:
           node-version: 13.4
       - name: Build app
         run: |
-          nom install
+          npm install
           npm run pack
       - name: Zip release
         uses: TheDoctor0/zip-release@0.6.0
