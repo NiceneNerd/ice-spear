@@ -15,9 +15,10 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: 13.4
+      - name: Install Node modules
+        uses: bahmutov/npm-install@v1.6.0
       - name: Build app
         run: |
-          npm install
           npm run pack
       - name: Zip release
         uses: TheDoctor0/zip-release@0.6.0
