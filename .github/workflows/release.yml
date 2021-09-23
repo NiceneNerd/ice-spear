@@ -21,9 +21,9 @@ jobs:
           node-version: 13.4
           cache: yarn
       - name: NPM or Yarn install with caching
-        # You may pin to the exact commit or the version.
-        # uses: bahmutov/npm-install@44b9e76df0949f3df6616b334af42e055ce24831
         uses: bahmutov/npm-install@v1.6.0
+        with:
+          useLockFile: false
       - name: Build app
         run: |
           npm run pack
