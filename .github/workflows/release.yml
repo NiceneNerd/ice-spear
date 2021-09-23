@@ -8,6 +8,10 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          ref: beta
       - name: Get version
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
@@ -15,10 +19,18 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: 13.4
+          cache: yarn
+      - name: Setup Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.8
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.3
       - name: Build app
         run: |
+          npm install -g node-gyp@6.0.1
           npm install
-          npm run pack
+          npm run pack  
       - name: Zip release
         uses: TheDoctor0/zip-release@0.6.0
         with:
