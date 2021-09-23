@@ -26,12 +26,10 @@ jobs:
           python-version: 3.8
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.0.3
-      - name: NPM or Yarn install with caching
-        uses: bahmutov/npm-install@v1.6.0
-        with:
-          useLockFile: false
       - name: Build app
         run: |
+          npm install -g node-gyp@latest
+          npm install
           npm run pack
       - name: Zip release
         uses: TheDoctor0/zip-release@0.6.0
