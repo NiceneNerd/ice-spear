@@ -19,9 +19,13 @@ jobs:
         uses: actions/setup-node@v2.4.0
         with:
           node-version: 13.4
+          cache: yarn
+      - name: NPM or Yarn install with caching
+        # You may pin to the exact commit or the version.
+        # uses: bahmutov/npm-install@44b9e76df0949f3df6616b334af42e055ce24831
+        uses: bahmutov/npm-install@v1.6.0
       - name: Build app
         run: |
-          npm install
           npm run pack
       - name: Zip release
         uses: TheDoctor0/zip-release@0.6.0
