@@ -14,7 +14,7 @@ jobs:
           ref: beta
       - name: Get version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:10})
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.4.0
         with:
@@ -33,10 +33,10 @@ jobs:
       - name: Zip release
         uses: TheDoctor0/zip-release@0.6.0
         with:
-          filename: "ice-spear-${{ steps.get_version.outputs.VERSION }}.zip"
+          filename: "ice-spear-$RELEASE_VERSION.zip"
           path: ./dist/win-unpacked
       - name: Upload Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "ice-spear-${{ steps.get_version.outputs.VERSION }}.zip"
+          artifacts: "ice-spear-$RELEASE_VERSION.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
