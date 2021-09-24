@@ -33,10 +33,11 @@ jobs:
       - name: Zip release
         uses: TheDoctor0/zip-release@0.6.0
         with:
-          filename: "ice-spear-$RELEASE_VERSION.zip"
+          filename: "ice-spear-windows.zip"
           path: ./dist/win-unpacked
-      - name: Upload Release
-        uses: ncipollo/release-action@v1
+      - name: Upload release
+        uses: svenstaro/upload-release-action@2.2.1
         with:
-          artifacts: "ice-spear-$RELEASE_VERSION.zip"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ice-spear-windows.zip
+          tag: ${{ github.ref }}
