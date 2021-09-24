@@ -18,8 +18,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.4.0
         with:
-          node-version: 13.4
-          cache: yarn
+          node-version: 14
       - name: Setup Python
         uses: actions/setup-python@v2.2.2
         with:
@@ -28,8 +27,8 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.3
       - name: Build app
         run: |
-          npm install -g node-gyp@6.0.1
-          npm install
+          npm i electron-builder@latest
+          npm i
           npm run pack  
       - name: Zip release
         uses: TheDoctor0/zip-release@0.6.0
