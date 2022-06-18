@@ -61,9 +61,13 @@ module.exports = class Field_Creator {
         await fs.writeFile(actorPath, actorYaz);
 
         if (typeName == "Static") {
-            const titleStaticPath =
-                this.titleBgHandler.getStaticFieldMubin(fieldSection);
-            await fs.writeFile(titleStaticPath, actorYaz);
+            try {
+                const titleStaticPath =
+                    this.titleBgHandler.getStaticFieldMubin(fieldSection);
+                await fs.writeFile(titleStaticPath, actorYaz);
+            } catch (e) {
+                console.error("Exception thrown", e.stack);
+            }
         }
     }
 };
