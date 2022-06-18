@@ -15,6 +15,7 @@ https://gitlab.com/ice-spear-tools/issue-tracker/issues
   - Then run `nvm use 14.19.3`
   - Next, either open a new CMD in the location you wish to clone Ice-Spear to, or cd to that location.
   - To clone Ice-spear (if you haven't already) run `git clone https://github.com/NiceneNerd/ice-spear.git -b beta` (in the folder above the root build folder, git will create the root folder named ice-spear). This step requires git to be installed.
+  - Before building, `cd` into the root directory (the folder named `ice-spear` if you cloned)
   - Next run `yarn`, if errors occur in relation to gyp, follow [this stack overflow answer](https://stackoverflow.com/a/71523704) to fix it and run `yarn` once more.
 
 ### License
